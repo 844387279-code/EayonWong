@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -34,6 +34,10 @@ test("server-renders the portfolio homepage", async () => {
   assert.match(html, /代表项目/);
   assert.match(html, /PEPA 品牌兴趣电商经营/);
   assert.match(html, /酒水品牌冷启动与爆品增长/);
+  assert.match(html, /个人账号“客家小子”视频作品/);
+  assert.match(html, /\/videos\/kjx\/183-set-1\.mp4/);
+  assert.match(html, /\/videos\/kjx\/183-set-2\.mp4/);
+  assert.match(html, /\/videos\/kjx\/183-set-3\.mp4/);
   assert.match(html, /13424243016/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
 });
@@ -48,4 +52,12 @@ test("removes starter preview scaffolding from source", async () => {
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
   assert.doesNotMatch(layout, /Starter Project|codex-preview|_sites-preview/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+});
+
+test("includes the kejiaxiaozi video assets", async () => {
+  await Promise.all([
+    access(new URL("../public/videos/kjx/183-set-1.mp4", import.meta.url)),
+    access(new URL("../public/videos/kjx/183-set-2.mp4", import.meta.url)),
+    access(new URL("../public/videos/kjx/183-set-3.mp4", import.meta.url)),
+  ]);
 });
