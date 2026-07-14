@@ -1,257 +1,442 @@
-const highlights = [
-  { value: "8年+", label: "抖音电商实操经验" },
-  { value: "1亿+", label: "酒水项目年度 GMV" },
-  { value: "16人", label: "跨职能团队管理" },
-  { value: "64.71%", label: "近期品牌 GSV 增长" },
-];
+"use client";
 
-const cases = [
-  {
-    name: "PEPA 品牌兴趣电商经营",
-    tag: "母婴个护 / 全盘操盘",
-    metric: "GSV 170w -> 280w+",
-    details:
-      "负责品牌兴趣电商经营策略，统筹自播、短视频、达人种草、商城与活动节点，推动 ROI 从 1.89 提升至 2.3。",
-  },
-  {
-    name: "酒水品牌冷启动与爆品增长",
-    tag: "酒水 / 代运营",
-    metric: "年度 GMV 1亿+",
-    details:
-      "主导新号 7 天冷启动，首周 GMV 50万+，首月 GMV 100万+，后续单月最高 GMV 1000万，进入酒水爆款榜单 TOP 5。",
-  },
-  {
-    name: "高客单 3C 数码增长体系",
-    tag: "3C 数码 / 抖音 + 视频号",
-    metric: "全年销售额 1000万+",
-    details:
-      "从 0 搭建内容、直播、BD 与投放团队，围绕客单价约 1199 元的开放式耳机建立内容种草和直播收割模型。",
-  },
-  {
-    name: "隔壁刘奶奶内容话题策划",
-    tag: "乳制品 / 内容运营",
-    metric: "话题播放 1亿+",
-    details:
-      "输出达人 brief、脚本方向与短视频切片策略，带动账号粉丝增长与销售转化，单月曝光量达 2亿+。",
-  },
-];
+import {
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Clapperboard,
+  FileText,
+  Globe2,
+  Image,
+  Languages,
+  Mail,
+  Play,
+  Sparkles,
+} from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const capabilities = [
-  "品牌自播与直播间诊断",
-  "短视频内容策略与素材测试",
-  "达人种草与星图协同",
-  "千川 / DOU+ / 随心推投放",
-  "货盘设计与客单价提升",
-  "商城运营与节点活动规划",
-  "团队搭建、培训与绩效机制",
-  "数据复盘与经营分析",
-];
+const HERO_VIDEO_URL =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4";
 
-const timeline = [
-  {
-    period: "2025.10 - 至今",
-    company: "深圳三多堂科技有限公司",
-    role: "兴趣电商运营总监",
-  },
-  {
-    period: "2024.04 - 2025.09",
-    company: "深圳青丛生物科技有限公司",
-    role: "内容运营",
-  },
-  {
-    period: "2022.08 - 2024.02",
-    company: "深圳市一刻未来科技有限公司",
-    role: "抖音运营总监",
-  },
-  {
-    period: "2020.07 - 2022.07",
-    company: "广东微牛电子商务有限公司",
-    role: "直播运营",
-  },
-  {
-    period: "2025.03 - 至今",
-    company: "客家米粉工厂",
-    role: "自主创业项目",
-  },
-];
+type Locale = "zh" | "en";
 
-const kejiaVideos = [
-  {
-    title: "183 套装短视频 01",
-    src: "/videos/kjx/183-set-1.mp4",
-    note: "客家小子账号内容成片",
+const copy = {
+  zh: {
+    brand: "Yiyang Huang",
+    role: "影像 / 视觉 / 创意作品集",
+    nav: [
+      { label: "首页", href: "#home" },
+      { label: "项目经历", href: "#projects" },
+      { label: "个人作品", href: "#works" },
+      { label: "个人履历", href: "#resume" },
+    ],
+    langLabel: "EN",
+    heroKicker: "Portfolio 2026",
+    heroTitle: "用影像、图片和叙事，把想法变成可感知的作品。",
+    heroBody:
+      "这里会集中展示我的个人项目、视频作品、摄影图像和履历。当前是第一版网站架构，内容会随着后续素材逐步更新。",
+    heroCta: "查看作品",
+    heroSecondary: "项目经历",
+    reelLabel: "主页视频背景",
+    reelMeta: "Showreel / Short film / Visual study",
+    stats: [
+      ["12+", "待整理作品"],
+      ["04", "核心栏目"],
+      ["ZH/EN", "双语切换"],
+    ],
+    projectsTitle: "项目经历",
+    projectsIntro: "先用清晰的条目承载项目背景、我的角色、产出形式和后续可补充链接。",
+    projects: [
+      {
+        year: "2026",
+        title: "沉浸式短片项目",
+        role: "导演 / 剪辑 / 视觉统筹",
+        body: "以视频为主的叙事项目区域，后续可加入预告片、幕后照、项目说明和合作名单。",
+      },
+      {
+        year: "2025",
+        title: "品牌视觉内容",
+        role: "影像策划 / 摄影 / 后期",
+        body: "适合展示商业拍摄、活动纪录、社交媒体视觉资产，以及成片效果对比。",
+      },
+      {
+        year: "2024",
+        title: "个人视觉实验",
+        role: "创意概念 / 影像实验",
+        body: "用于收纳风格探索、影像练习、图像系列和正在发展的长期主题。",
+      },
+    ],
+    worksTitle: "个人作品",
+    worksIntro: "视频和图片作品会以可筛选的网格呈现；现在先建立视觉节奏和信息层级。",
+    works: [
+      ["Video", "城市夜行", "短片 / 01:42"],
+      ["Image", "光线练习", "摄影系列 / 12张"],
+      ["Video", "人物切片", "纪录片段 / 03:18"],
+      ["Image", "静物与空间", "图像研究 / 8张"],
+      ["Video", "动态海报", "Motion / 00:24"],
+      ["Image", "色彩档案", "视觉实验 / 16张"],
+    ],
+    resumeTitle: "个人履历",
+    resumeIntro: "这一栏会放教育经历、工作经历、奖项、技能和联系方式，方便访客快速了解你。",
+    resumeItems: [
+      ["教育背景", "填写学校、专业、交换项目或相关课程。"],
+      ["工作 / 实习", "填写团队、职位、负责内容与代表项目。"],
+      ["技能工具", "剪辑、调色、摄影、设计、动效、策划等。"],
+      ["奖项 / 展映", "填写展映、奖项、发表、合作机构或媒体报道。"],
+    ],
+    contactTitle: "准备替换成真实内容",
+    contactBody: "下一步可以把首页视频、作品图片、项目文案和履历信息逐一换成你的真实素材。",
+    contactCta: "联系我",
   },
-  {
-    title: "183 套装短视频 02",
-    src: "/videos/kjx/183-set-2.mp4",
-    note: "产品卖点表达与场景展示",
+  en: {
+    brand: "Yiyang Huang",
+    role: "Film / Visual / Creative Portfolio",
+    nav: [
+      { label: "Home", href: "#home" },
+      { label: "Projects", href: "#projects" },
+      { label: "Works", href: "#works" },
+      { label: "Resume", href: "#resume" },
+    ],
+    langLabel: "中",
+    heroKicker: "Portfolio 2026",
+    heroTitle: "Turning ideas into felt experiences through video, images, and narrative.",
+    heroBody:
+      "A home for my personal projects, video work, photography, and resume. This first version sets up the structure so real materials can be added piece by piece.",
+    heroCta: "View works",
+    heroSecondary: "Projects",
+    reelLabel: "Homepage video background",
+    reelMeta: "Showreel / Short film / Visual study",
+    stats: [
+      ["12+", "Works to curate"],
+      ["04", "Core sections"],
+      ["ZH/EN", "Language switch"],
+    ],
+    projectsTitle: "Project Experience",
+    projectsIntro: "A clear structure for project context, your role, deliverables, and future links.",
+    projects: [
+      {
+        year: "2026",
+        title: "Immersive Short Film",
+        role: "Director / Editor / Visual Lead",
+        body: "A video-led narrative project area for trailers, stills, notes, credits, and process material.",
+      },
+      {
+        year: "2025",
+        title: "Brand Visual Content",
+        role: "Creative Planning / Photography / Post",
+        body: "For commercial shoots, event documentation, social visuals, and before-after presentation.",
+      },
+      {
+        year: "2024",
+        title: "Personal Visual Studies",
+        role: "Concept / Moving Image Experiment",
+        body: "A home for style tests, visual exercises, image series, and developing long-term themes.",
+      },
+    ],
+    worksTitle: "Selected Works",
+    worksIntro: "Video and image pieces will live in a scannable grid. For now, the page establishes rhythm and hierarchy.",
+    works: [
+      ["Video", "Night Walks", "Short film / 01:42"],
+      ["Image", "Light Study", "Photo series / 12 images"],
+      ["Video", "Portrait Cuts", "Documentary fragment / 03:18"],
+      ["Image", "Objects and Rooms", "Image study / 8 images"],
+      ["Video", "Motion Poster", "Motion / 00:24"],
+      ["Image", "Color Archive", "Visual experiment / 16 images"],
+    ],
+    resumeTitle: "Resume",
+    resumeIntro: "A compact area for education, experience, awards, skills, and contact details.",
+    resumeItems: [
+      ["Education", "Add school, major, exchange programs, or relevant coursework."],
+      ["Work / Internship", "Add teams, roles, responsibilities, and representative projects."],
+      ["Skills", "Editing, color, photography, design, motion, planning, and more."],
+      ["Awards / Screenings", "Add screenings, awards, publications, partners, or press."],
+    ],
+    contactTitle: "Ready for your real materials",
+    contactBody: "Next, we can replace the video, images, project copy, and resume entries with your actual content.",
+    contactCta: "Contact",
   },
-  {
-    title: "183 套装短视频 03",
-    src: "/videos/kjx/183-set-3.mp4",
-    note: "短视频内容素材沉淀",
-  },
-];
+} as const;
 
 export default function Home() {
+  const [locale, setLocale] = useState<Locale>("zh");
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const fadingOutRef = useRef(false);
+  const restartTimeoutRef = useRef<number | null>(null);
+  const t = copy[locale];
+
+  const cancelFade = useCallback(() => {
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  }, []);
+
+  const fadeVideoTo = useCallback(
+    (targetOpacity: number) => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      cancelFade();
+
+      const duration = 520;
+      const startTime = performance.now();
+      const startOpacity = Number.parseFloat(video.style.opacity || "0");
+
+      const animate = (now: number) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        video.style.opacity = String(startOpacity + (targetOpacity - startOpacity) * progress);
+
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(animate);
+          return;
+        }
+
+        video.style.opacity = String(targetOpacity);
+        animationFrameRef.current = null;
+      };
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    },
+    [cancelFade],
+  );
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.style.opacity = "0";
+
+    const handleLoadedData = () => {
+      fadingOutRef.current = false;
+      void video.play();
+      fadeVideoTo(1);
+    };
+
+    const handleTimeUpdate = () => {
+      if (!video.duration || Number.isNaN(video.duration)) return;
+
+      if (video.duration - video.currentTime <= 0.55 && !fadingOutRef.current) {
+        fadingOutRef.current = true;
+        fadeVideoTo(0);
+      }
+    };
+
+    const handleEnded = () => {
+      cancelFade();
+      video.style.opacity = "0";
+
+      if (restartTimeoutRef.current !== null) {
+        window.clearTimeout(restartTimeoutRef.current);
+      }
+
+      restartTimeoutRef.current = window.setTimeout(() => {
+        video.currentTime = 0;
+        fadingOutRef.current = false;
+        void video.play();
+        fadeVideoTo(1);
+      }, 120);
+    };
+
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      cancelFade();
+      if (restartTimeoutRef.current !== null) {
+        window.clearTimeout(restartTimeoutRef.current);
+      }
+      video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, [cancelFade, fadeVideoTo]);
+
+  const workIcons = useMemo(() => ({ Video: Clapperboard, Image }), []);
+
   return (
-    <main>
-      <section className="hero" id="top">
-        <nav className="nav" aria-label="作品集导航">
-          <a className="brand" href="#top" aria-label="回到首页">
-            黄伊阳
-          </a>
-          <div className="navLinks">
-            <a href="#cases">项目</a>
-            <a href="#method">能力</a>
-            <a href="#experience">经历</a>
-            <a href="#works">视频</a>
-            <a href="#contact">联系</a>
+    <main className="min-h-screen bg-[#090909] text-[#f7f1e8]">
+      <section id="home" className="hero-shell relative flex min-h-screen flex-col overflow-hidden">
+        <video
+          ref={videoRef}
+          className="absolute inset-0 h-full w-full object-cover"
+          src={HERO_VIDEO_URL}
+          muted
+          autoPlay
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,6,6,0.88),rgba(6,6,6,0.48)_48%,rgba(6,6,6,0.72))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(67,210,190,0.18),transparent_34%),radial-gradient(circle_at_30%_75%,rgba(238,105,83,0.2),transparent_30%)]" />
+
+        <nav className="relative z-20 px-4 py-4 sm:px-6 lg:px-8">
+          <div className="glass-bar mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-5">
+            <a href="#home" className="flex min-w-0 items-center gap-3" aria-label={t.brand}>
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#f7f1e8] text-[#111]">
+                <Sparkles size={18} aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-semibold text-white">{t.brand}</span>
+                <span className="hidden text-xs text-white/58 sm:block">{t.role}</span>
+              </span>
+            </a>
+
+            <div className="hidden items-center gap-1 md:flex">
+              {t.nav.map((item) => (
+                <a key={item.href} href={item.href} className="nav-link">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            <button
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/18 px-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/10"
+              type="button"
+              onClick={() => setLocale(locale === "zh" ? "en" : "zh")}
+              aria-label="Switch language"
+            >
+              <Languages size={16} aria-hidden="true" />
+              {t.langLabel}
+            </button>
           </div>
         </nav>
 
-        <div className="heroGrid">
-          <div className="heroCopy">
-            <p className="eyebrow">兴趣电商运营总监 / 资深运营 8 年</p>
-            <h1>把内容、货盘、投放和团队拧成可增长的经营系统。</h1>
-            <p className="lead">
-              我专注抖音、视频号、快手等兴趣电商场景，擅长从 0-1
-              搭建品牌自播、达人种草、短视频内容、千川投放和商城运营闭环。
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-5 pb-8 pt-16 sm:px-8 lg:px-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+            <div className="max-w-4xl">
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/18 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#94f0dc]">
+                <Play size={13} aria-hidden="true" />
+                {t.heroKicker}
+              </p>
+              <h1 className="hero-title text-balance text-5xl font-medium leading-[0.95] text-white sm:text-6xl lg:text-7xl">
+                {t.heroTitle}
+              </h1>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">{t.heroBody}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a className="primary-action" href="#works">
+                  {t.heroCta}
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </a>
+                <a className="secondary-action" href="#projects">
+                  {t.heroSecondary}
+                </a>
+              </div>
+            </div>
+
+            <aside className="glass-panel p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-semibold text-white">{t.reelLabel}</p>
+                  <p className="mt-1 text-xs leading-5 text-white/55">{t.reelMeta}</p>
+                </div>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#43d2be] text-[#08211e]">
+                  <Clapperboard size={18} aria-hidden="true" />
+                </span>
+              </div>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                {t.stats.map(([value, label]) => (
+                  <div key={label} className="stat-cell">
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="content-band bg-[#f7f1e8] text-[#151515]">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              <BriefcaseBusiness size={15} aria-hidden="true" />
+              01
             </p>
-            <div className="heroActions">
-              <a className="primaryAction" href="#cases">
-                查看代表项目
-              </a>
-              <a className="secondaryAction" href="#contact">
-                合作沟通
-              </a>
-            </div>
+            <h2>{t.projectsTitle}</h2>
           </div>
+          <p>{t.projectsIntro}</p>
+        </div>
 
-          <div className="growthBoard" aria-label="核心增长指标看板">
-            <div className="boardHeader">
-              <span>Growth Portfolio</span>
-              <strong>GMV / ROI / Team</strong>
-            </div>
-            <div className="chartBars" aria-hidden="true">
-              <span style={{ height: "42%" }} />
-              <span style={{ height: "78%" }} />
-              <span style={{ height: "58%" }} />
-              <span style={{ height: "92%" }} />
-              <span style={{ height: "68%" }} />
-            </div>
-            <div className="boardMetric">
-              <span>近期品牌增长</span>
-              <strong>+64.71%</strong>
-            </div>
-            <div className="boardPills">
-              <span>直播诊断</span>
-              <span>内容种草</span>
-              <span>投放优化</span>
-            </div>
+        <div className="project-list">
+          {t.projects.map((project) => (
+            <article key={project.title} className="project-row">
+              <span>{project.year}</span>
+              <div>
+                <h3>{project.title}</h3>
+                <p className="project-role">{project.role}</p>
+              </div>
+              <p>{project.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="works" className="content-band bg-[#101312] text-[#f7f1e8]">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow text-[#94f0dc]">
+              <Clapperboard size={15} aria-hidden="true" />
+              02
+            </p>
+            <h2>{t.worksTitle}</h2>
           </div>
+          <p className="text-white/62">{t.worksIntro}</p>
         </div>
 
-        <div className="highlightGrid">
-          {highlights.map((item) => (
-            <div className="highlight" key={item.label}>
-              <strong>{item.value}</strong>
-              <span>{item.label}</span>
-            </div>
-          ))}
+        <div className="work-grid">
+          {t.works.map(([type, title, meta], index) => {
+            const Icon = workIcons[type as keyof typeof workIcons];
+
+            return (
+              <article key={title} className="work-tile">
+                <div className={`work-visual work-visual-${index + 1}`}>
+                  <span>
+                    <Icon size={18} aria-hidden="true" />
+                    {type}
+                  </span>
+                </div>
+                <div className="work-copy">
+                  <h3>{title}</h3>
+                  <p>{meta}</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <section className="section intro">
-        <div>
-          <p className="sectionLabel">Portfolio Structure</p>
-          <h2>首版架构先围绕“能证明增长能力”的内容展开。</h2>
+      <section id="resume" className="content-band bg-[#f7f1e8] text-[#151515]">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">
+              <FileText size={15} aria-hidden="true" />
+              03
+            </p>
+            <h2>{t.resumeTitle}</h2>
+          </div>
+          <p>{t.resumeIntro}</p>
         </div>
-        <p>
-          后续可以继续加入真实直播间截图、短视频作品、达人合作案例、账号数据看板、摄影作品和个人账号内容，让这个网站逐步从简历型页面升级成完整个人品牌站。
-        </p>
-      </section>
 
-      <section className="section" id="cases">
-        <div className="sectionHead">
-          <p className="sectionLabel">Selected Work</p>
-          <h2>代表项目</h2>
-        </div>
-        <div className="caseGrid">
-          {cases.map((item) => (
-            <article className="caseCard" key={item.name}>
-              <p>{item.tag}</p>
-              <h3>{item.name}</h3>
-              <strong>{item.metric}</strong>
-              <span>{item.details}</span>
+        <div className="resume-grid">
+          {t.resumeItems.map(([title, body]) => (
+            <article key={title} className="resume-item">
+              <h3>{title}</h3>
+              <p>{body}</p>
             </article>
           ))}
         </div>
-      </section>
 
-      <section className="methodSection" id="method">
-        <div className="methodCopy">
-          <p className="sectionLabel">Operating Method</p>
-          <h2>我的操盘方法</h2>
-          <p>
-            先判断品类、客单价和决策链路，再匹配内容打法、直播承接、投放模型和组织节奏。增长不是单点技巧，而是每周复盘、持续测试和跨团队协同的结果。
-          </p>
-        </div>
-        <div className="capabilityGrid">
-          {capabilities.map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="experience">
-        <div className="sectionHead">
-          <p className="sectionLabel">Experience</p>
-          <h2>经历路径</h2>
-        </div>
-        <div className="timeline">
-          {timeline.map((item) => (
-            <article className="timelineItem" key={`${item.company}-${item.role}`}>
-              <time>{item.period}</time>
-              <div>
-                <h3>{item.role}</h3>
-                <p>{item.company}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="worksPreview" id="works">
-        <div>
-          <p className="sectionLabel">Personal Account</p>
-          <h2>个人账号“客家小子”视频作品</h2>
-          <p className="worksIntro">
-            围绕客家米粉工厂项目沉淀的短视频成片，用于展示店铺定位、内容选题、产品表达和商业转化能力。
-          </p>
-        </div>
-        <div className="videoGrid">
-          {kejiaVideos.map((video) => (
-            <article className="videoCard" key={video.src}>
-              <video controls preload="metadata" playsInline>
-                <source src={video.src} type="video/mp4" />
-                你的浏览器暂不支持视频播放。
-              </video>
-              <div>
-                <h3>{video.title}</h3>
-                <p>{video.note}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="contact" id="contact">
-        <p className="sectionLabel">Contact</p>
-        <h2>深圳 / 兴趣电商运营总监</h2>
-        <div className="contactLinks">
-          <a href="tel:13424243016">13424243016</a>
-          <a href="mailto:844387279@qq.com">844387279@qq.com</a>
+        <div className="contact-strip">
+          <div>
+            <h2>{t.contactTitle}</h2>
+            <p>{t.contactBody}</p>
+          </div>
+          <a href="mailto:hello@example.com" className="primary-action dark">
+            <Mail size={18} aria-hidden="true" />
+            {t.contactCta}
+          </a>
         </div>
       </section>
     </main>
