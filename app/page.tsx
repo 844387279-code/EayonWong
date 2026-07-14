@@ -9,7 +9,6 @@ import {
   Image,
   Languages,
   Mail,
-  Play,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -28,7 +27,6 @@ const copy = {
       { label: "个人履历", href: "#resume" },
     ],
     langLabel: "EN",
-    heroKicker: "E-commerce Portfolio",
     heroTitle: "兴趣电商全域操盘手",
     heroBody:
       "8年抖音、3年视频号、1年快手电商经验，覆盖品牌自播、达人种草、短视频内容、千川投放、商城运营和团队管理。",
@@ -95,7 +93,6 @@ const copy = {
       { label: "Resume", href: "#resume" },
     ],
     langLabel: "中",
-    heroKicker: "E-commerce Portfolio",
     heroTitle: "Full-funnel interest e-commerce operator",
     heroBody:
       "8 years of Douyin e-commerce, 3 years of WeChat Channels, and 1 year of Kuaishou experience across brand livestreaming, creator seeding, short video content, Qianchuan ads, store operations, and team management.",
@@ -311,10 +308,6 @@ export default function Home() {
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-5 pb-8 pt-16 sm:px-8 lg:px-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
             <div className="max-w-4xl">
-              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/18 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#94f0dc]">
-                <Play size={13} aria-hidden="true" />
-                {t.heroKicker}
-              </p>
               <h1 className="hero-title text-balance text-5xl font-medium leading-[0.95] text-white sm:text-6xl lg:text-7xl">
                 {t.heroTitle}
               </h1>
