@@ -319,6 +319,64 @@ a {
   max-width: 42rem;
 }
 
+.contact-methods {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wechat-card,
+.contact-lines {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.wechat-card {
+  justify-items: center;
+}
+
+.wechat-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.qr-placeholder {
+  display: grid;
+  width: 6.5rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid rgba(21, 21, 21, 0.22);
+  background: #f7f1e8;
+}
+
+.qr-placeholder span,
+.qr-placeholder strong {
+  display: block;
+  line-height: 1;
+}
+
+.qr-placeholder span {
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.qr-placeholder strong {
+  font-size: 1.45rem;
+}
+
+.contact-lines a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  background: #151515;
+  color: #f7f1e8;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+}
+
 @media (min-width: 860px) {
   .section-heading {
     grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1fr);
@@ -351,6 +409,11 @@ a {
   }
 
   .contact-strip {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contact-methods {
     align-items: flex-start;
     flex-direction: column;
   }

@@ -20,7 +20,7 @@ type Locale = "zh" | "en";
 const copy = {
   zh: {
     brand: "黄伊阳",
-    role: "兴趣电商运营总监 / 资深运营8年",
+    role: "兴趣电商资深运营",
     nav: [
       { label: "首页", href: "#home" },
       { label: "项目经历", href: "#projects" },
@@ -29,13 +29,13 @@ const copy = {
     ],
     langLabel: "EN",
     heroKicker: "E-commerce Portfolio",
-    heroTitle: "把内容、货盘、投放和团队拧成可增长的兴趣电商系统。",
+    heroTitle: "兴趣电商全域操盘手",
     heroBody:
       "8年抖音、3年视频号、1年快手电商经验，覆盖品牌自播、达人种草、短视频内容、千川投放、商城运营和团队管理。",
     heroCta: "查看作品",
     heroSecondary: "项目经历",
-    reelLabel: "兴趣电商运营作品集",
-    reelMeta: "Douyin / WeChat Channels / Kuaishou",
+    reelLabel: "兴趣电商作品集",
+    reelMeta: "抖音、快手、视频号多平台运营经验",
     stats: [
       ["8年", "抖音电商经验"],
       ["1亿+", "酒水项目年度GMV"],
@@ -81,13 +81,13 @@ const copy = {
       ["核心能力", "品牌自播、达人种草、短视频内容、千川投放、商城运营、货盘设计、数据复盘与团队管理。"],
       ["资格与标签", "驾驶证C1；国家地理摄影师；图虫网签约摄影师；期望城市深圳，求职意向兴趣电商运营总监。"],
     ],
-    contactTitle: "更多作品素材待补充",
-    contactBody: "下一步可以继续补充客家小子账号视频、置顶图片作品、BOSS直聘APP/微信小程序展示和项目数据截图。",
-    contactCta: "联系我",
+    contactTitle: "联系我",
+    contactBody: "欢迎通过微信、邮箱或电话沟通兴趣电商运营、品牌增长与项目合作。",
+    contactCta: "发送邮件",
   },
   en: {
     brand: "Yiyang Huang",
-    role: "Interest E-commerce Operations Director / 8 Years Senior Operator",
+    role: "Senior Interest E-commerce Operator",
     nav: [
       { label: "Home", href: "#home" },
       { label: "Projects", href: "#projects" },
@@ -96,13 +96,13 @@ const copy = {
     ],
     langLabel: "中",
     heroKicker: "E-commerce Portfolio",
-    heroTitle: "Building scalable interest e-commerce systems across content, products, media buying, and teams.",
+    heroTitle: "Full-funnel interest e-commerce operator",
     heroBody:
       "8 years of Douyin e-commerce, 3 years of WeChat Channels, and 1 year of Kuaishou experience across brand livestreaming, creator seeding, short video content, Qianchuan ads, store operations, and team management.",
     heroCta: "View works",
     heroSecondary: "Projects",
-    reelLabel: "Interest e-commerce portfolio",
-    reelMeta: "Douyin / WeChat Channels / Kuaishou",
+    reelLabel: "Interest e-commerce works",
+    reelMeta: "Multi-platform operations across Douyin, Kuaishou, and WeChat Channels",
     stats: [
       ["8 yrs", "Douyin e-commerce"],
       ["100M+", "Annual GMV in liquor projects"],
@@ -148,9 +148,9 @@ const copy = {
       ["Core Skills", "Brand livestreaming, creator seeding, short video content, Qianchuan ads, store operations, product planning, data review, and team management."],
       ["Certificates", "C1 driving license; National Geographic photographer; contracted photographer on Tuchong; target city: Shenzhen."],
     ],
-    contactTitle: "More work materials to add",
-    contactBody: "Next, we can add Kejia Xiaozi videos, pinned image works, BOSS Zhipin APP / WeChat mini program showcases, and project data screenshots.",
-    contactCta: "Contact",
+    contactTitle: "Contact",
+    contactBody: "Reach out via WeChat, email, or phone for interest e-commerce operations, brand growth, and project collaboration.",
+    contactCta: "Email me",
   },
 } as const;
 
@@ -439,10 +439,22 @@ export default function Home() {
             <h2>{t.contactTitle}</h2>
             <p>{t.contactBody}</p>
           </div>
-          <a href="mailto:844387279@qq.com" className="primary-action dark">
-            <Mail size={18} aria-hidden="true" />
-            {t.contactCta}
-          </a>
+          <div className="contact-methods">
+            <div className="wechat-card" aria-label="微信二维码">
+              <div className="qr-placeholder">
+                <span>微信</span>
+                <strong>QR</strong>
+              </div>
+              <p>微信二维码待上传</p>
+            </div>
+            <div className="contact-lines">
+              <a href="mailto:844387279@qq.com">
+                <Mail size={18} aria-hidden="true" />
+                844387279@qq.com
+              </a>
+              <a href="tel:13424243016">13424243016</a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
