@@ -445,7 +445,8 @@ a {
   padding: 0 clamp(1.25rem, 3vw, 3rem);
 }
 
-.timelineNotes article {
+.timelineNotes article,
+.timelineNoteCard {
   min-height: 12rem;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -663,7 +664,8 @@ a {
   line-height: 0.96;
 }
 
-.contactInner > p:not(.signal) {
+.contactInner > p:not(.signal),
+.contactInner .border-glow-inner > p:not(.signal) {
   max-width: 56rem;
   color: var(--muted);
   font-size: 1.25rem;

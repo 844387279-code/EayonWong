@@ -16,6 +16,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import BorderGlow from "./components/BorderGlow";
 import CircularGallery from "./components/CircularGallery";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
@@ -272,24 +273,24 @@ export default function Home() {
         </div>
 
         <div className="profileGrid">
-          <div className="portraitCard">
+          <BorderGlow className="portraitCard" animated={false}>
             <img src="/images/avatar.jpg" alt={t.brand} />
             <div>
               <strong>{t.brand}</strong>
               <span>{t.role}</span>
             </div>
-          </div>
+          </BorderGlow>
 
-          <div className="profileCopy">
+          <BorderGlow className="profileCopy" animated={false}>
             <p>{t.profileBody}</p>
             <div className="tagCloud">
               {t.profileTags.map((tag) => (
                 <span key={tag}>{tag}</span>
               ))}
             </div>
-          </div>
+          </BorderGlow>
 
-          <div className="contactPanel">
+          <BorderGlow className="contactPanel" animated={false}>
             <a href="tel:13424243016">
               <Phone size={18} aria-hidden="true" />
               {t.contact[0]}
@@ -302,15 +303,15 @@ export default function Home() {
               <UserRound size={18} aria-hidden="true" />
               {t.contact[2]}
             </span>
-          </div>
+          </BorderGlow>
         </div>
 
         <div className="metricGrid">
           {t.metrics.map(([value, label]) => (
-            <div className="metricCard" key={label}>
+            <BorderGlow className="metricCard" key={label} animated={false}>
               <strong>{value}</strong>
               <span>{label}</span>
-            </div>
+            </BorderGlow>
           ))}
         </div>
       </section>
@@ -334,11 +335,11 @@ export default function Home() {
         </div>
         <div className="timelineNotes">
           {t.timeline.map(([year, title, body]) => (
-            <article key={`${year}-${title}`}>
+            <BorderGlow className="timelineNoteCard" key={`${year}-${title}`} animated={false}>
               <strong>{year}</strong>
               <h3>{title}</h3>
               <p>{body}</p>
-            </article>
+            </BorderGlow>
           ))}
         </div>
       </section>
@@ -352,7 +353,7 @@ export default function Home() {
 
         <div className="projectGrid">
           {t.projects.map((project, index) => (
-            <article className="projectCard" key={project.title}>
+            <BorderGlow className="projectCard" key={project.title} animated={false}>
               <div className={`projectVisual visual${index + 1}`}>
                 <span>{project.visual}</span>
               </div>
@@ -362,7 +363,7 @@ export default function Home() {
                 <strong>{project.result}</strong>
                 <span>{project.body}</span>
               </div>
-            </article>
+            </BorderGlow>
           ))}
         </div>
       </section>
@@ -378,18 +379,18 @@ export default function Home() {
           {t.works.map(([title, body], index) => {
             const Icon = workIcons[index];
             return (
-              <article className="abilityCard" key={title}>
+              <BorderGlow className="abilityCard" key={title} animated={false}>
                 <Icon size={24} aria-hidden="true" />
                 <h3>{title}</h3>
                 <p>{body}</p>
-              </article>
+              </BorderGlow>
             );
           })}
         </div>
       </section>
 
       <section className="contactPage" id="contact">
-        <div className="contactInner">
+        <BorderGlow className="contactInner" animated={false}>
           <p className="signal">
             <ScanLine size={16} aria-hidden="true" />
             Contact
@@ -408,7 +409,7 @@ export default function Home() {
               <a href="mailto:844387279@qq.com">844387279@qq.com</a>
             </div>
           </div>
-        </div>
+        </BorderGlow>
       </section>
     </main>
   );
