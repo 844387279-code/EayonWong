@@ -10,7 +10,6 @@ import {
   Languages,
   Mail,
   Play,
-  Sparkles,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -278,9 +277,11 @@ export default function Home() {
         <nav className="relative z-20 px-4 py-4 sm:px-6 lg:px-8">
           <div className="glass-bar mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-5">
             <a href="#home" className="flex min-w-0 items-center gap-3" aria-label={t.brand}>
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#f7f1e8] text-[#111]">
-                <Sparkles size={18} aria-hidden="true" />
-              </span>
+              <img
+                className="h-9 w-9 shrink-0 rounded-full border border-white/25 object-cover"
+                src="/images/avatar.jpg"
+                alt={t.brand}
+              />
               <span className="min-w-0">
                 <span className="block truncate text-sm font-semibold text-white">{t.brand}</span>
                 <span className="hidden text-xs text-white/58 sm:block">{t.role}</span>
