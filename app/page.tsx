@@ -16,6 +16,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import CircularGallery from "./components/CircularGallery";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
 
@@ -200,6 +201,10 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
+  const timelineGalleryItems = t.timeline.map(([year, title]) => ({
+    image: year === "NOW" ? "/images/avatar.jpg" : "/og.png",
+    text: `${year} ${title}`,
+  }));
 
   useEffect(() => {
     const video = videoRef.current;
@@ -316,18 +321,25 @@ export default function Home() {
           <h2>{t.timelineTitle}</h2>
           <p>{t.timelineLead}</p>
         </div>
-        <div className="timelineViewport" aria-label={t.timelineTitle}>
-          <div className="timelineTrack">
-            {t.timeline.map(([year, title, body]) => (
-              <article className="timelineCard" key={`${year}-${title}`}>
-                <strong>{year}</strong>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className="timelineGalleryShell">
+          <CircularGallery
+            items={timelineGalleryItems}
+            bend={2.2}
+            textColor="#eef5f2"
+            borderRadius={0.045}
+            scrollEase={0.035}
+            scrollSpeed={2.2}
+            font="bold 28px Inter"
+          />
+        </div>
+        <div className="timelineNotes">
+          {t.timeline.map(([year, title, body]) => (
+            <article key={`${year}-${title}`}>
+              <strong>{year}</strong>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
         </div>
       </section>
 
