@@ -49,6 +49,16 @@ const copy = {
       ["16人", "跨职能团队管理"],
     ],
     profileTags: ["抖音电商", "视频号", "快手", "千川投放", "达人种草", "AI辅助运营"],
+    timelineTitle: "年份经历",
+    timelineLead: "用横向滚动方式呈现从设计教育、直播运营、兴趣电商操盘到AI辅助运营的成长路径。",
+    timeline: [
+      ["2013-2015", "动漫设计与制作", "广东省技师学院，全日制学习，建立视觉表达和内容审美基础。"],
+      ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
+      ["2022-2024", "3C品牌抖音运营", "从0搭建抖音与视频号运营体系，全年销售额1000万+。"],
+      ["2024-2025", "内容运营升级", "参与隔壁刘奶奶话题策划，累计播放量1亿+，推动内容与商业转化联动。"],
+      ["2025-至今", "兴趣电商运营总监", "操盘PEPA品牌，GSV从170万稳定到280万+，综合ROI提升至2.3。"],
+      ["NOW", "AI辅助运营", "用AI工具辅助选题、脚本、素材变体、数据复盘与经营决策。"],
+    ],
     projectsTitle: "项目经历",
     projectsLead: "用大卡片先搭好项目陈列方式，后续可替换为真实截图、视频封面、后台数据图和案例复盘。",
     projects: [
@@ -122,6 +132,16 @@ const copy = {
       ["16", "Team members"],
     ],
     profileTags: ["Douyin", "WeChat Channels", "Kuaishou", "Qianchuan Ads", "Creator Seeding", "AI Ops"],
+    timelineTitle: "Timeline",
+    timelineLead: "A horizontal career path from visual design education to livestream operations, interest e-commerce, and AI-assisted operations.",
+    timeline: [
+      ["2013-2015", "Animation Design", "Full-time study at Guangdong Technician College, building a foundation in visual expression."],
+      ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
+      ["2022-2024", "3C Douyin Operations", "Built Douyin and WeChat Channels operations from scratch; annual sales exceeded RMB 10M."],
+      ["2024-2025", "Content Operations", "Worked on Gebiliunainai topic planning with 100M+ cumulative views and commercial conversion."],
+      ["2025-Present", "Operations Director", "Led PEPA operations, growing GSV from RMB 1.7M to 2.8M+ and ROI to 2.3."],
+      ["NOW", "AI-assisted Ops", "Apply AI tools to topics, scripts, creative variants, data review, and operating decisions."],
+    ],
     projectsTitle: "Project Experience",
     projectsLead: "Large cards establish the project gallery. Later we can replace these with real screenshots, covers, dashboards, and case studies.",
     projects: [
@@ -290,9 +310,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="timelineSection" id="timeline">
+        <div className="sectionHead wide timelineHead">
+          <span>02 / Timeline</span>
+          <h2>{t.timelineTitle}</h2>
+          <p>{t.timelineLead}</p>
+        </div>
+        <div className="timelineViewport" aria-label={t.timelineTitle}>
+          <div className="timelineTrack">
+            {t.timeline.map(([year, title, body]) => (
+              <article className="timelineCard" key={`${year}-${title}`}>
+                <strong>{year}</strong>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section" id="projects">
         <div className="sectionHead wide">
-          <span>02 / Projects</span>
+          <span>03 / Projects</span>
           <h2>{t.projectsTitle}</h2>
           <p>{t.projectsLead}</p>
         </div>
@@ -316,7 +357,7 @@ export default function Home() {
 
       <section className="section worksSection" id="works">
         <div className="sectionHead wide">
-          <span>03 / Works</span>
+          <span>04 / Works</span>
           <h2>{t.worksTitle}</h2>
           <p>{t.worksLead}</p>
         </div>

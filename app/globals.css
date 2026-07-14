@@ -415,6 +415,86 @@ a {
   font-weight: 700;
 }
 
+.timelineSection {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, #050607, #070909),
+    radial-gradient(circle at 70% 30%, rgba(66, 216, 196, 0.09), transparent 34rem);
+  padding: clamp(5rem, 8vw, 8rem) 0;
+}
+
+.timelineHead {
+  padding-inline: clamp(1.25rem, 3vw, 3rem);
+}
+
+.timelineViewport {
+  max-width: var(--max);
+  margin: 0 auto;
+  overflow-x: auto;
+  padding: 1rem clamp(1.25rem, 3vw, 3rem) 2rem;
+  scrollbar-color: rgba(66, 216, 196, 0.55) rgba(255, 255, 255, 0.08);
+  scrollbar-width: thin;
+}
+
+.timelineViewport::-webkit-scrollbar {
+  height: 0.65rem;
+}
+
+.timelineViewport::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.timelineViewport::-webkit-scrollbar-thumb {
+  background: rgba(66, 216, 196, 0.55);
+}
+
+.timelineTrack {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  padding-right: 15vw;
+}
+
+.timelineCard {
+  display: grid;
+  width: min(78vw, 42rem);
+  min-height: 30rem;
+  grid-template-rows: 1fr auto;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 38%),
+    rgba(14, 18, 20, 0.76);
+  padding: clamp(1.25rem, 2vw, 2rem);
+}
+
+.timelineCard strong {
+  align-self: start;
+  color: rgba(238, 245, 242, 0.12);
+  font-size: clamp(5.5rem, 10vw, 10rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: 0;
+}
+
+.timelineCard h3 {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(2rem, 3vw, 3.6rem);
+  line-height: 1;
+}
+
+.timelineCard p {
+  max-width: 34rem;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
 .projectGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
