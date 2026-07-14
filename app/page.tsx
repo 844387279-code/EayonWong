@@ -18,7 +18,6 @@ import {
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import BorderGlow from "./components/BorderGlow";
-import CircularGallery from "./components/CircularGallery";
 import SoftAurora from "./components/SoftAurora";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
@@ -37,9 +36,9 @@ const copy = {
       ["联系", "#contact"],
     ],
     lang: "EN",
-    heroTitle: "兴趣电商资深运营，正在把 AI 变成增长工具。",
+    heroTitle: "兴趣电商资深运营",
     heroText:
-      "11年工作经验，8年抖音电商、3年视频号、1年快手经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
+      "8年抖音电商 / 3年微信小店运营 / 1年快手电商经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
     heroPrimary: "查看项目",
     heroSecondary: "联系沟通",
     profileTitle: "个人履历",
@@ -105,8 +104,8 @@ const copy = {
       ["投放与素材测试", "使用千川、DOU+、小店随心推、种草通、星图热推等工具做预算和素材优化。"],
       ["团队协同机制", "建立主播、内容、BD、品牌等岗位职责、培训机制、绩效指标和复盘节奏。"],
     ],
-    contactTitle: "让内容、数据、AI和团队共同为增长服务。",
-    contactLead: "欢迎沟通兴趣电商运营、品牌增长、AI辅助运营工作流与项目合作。",
+    contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
+    contactLead: "联系我，一起把内容、数据和 AI 变成增长系统。",
     qr: "微信二维码待上传",
   },
   en: {
@@ -120,9 +119,9 @@ const copy = {
       ["Contact", "#contact"],
     ],
     lang: "中",
-    heroTitle: "Senior interest e-commerce operator turning AI into a growth tool.",
+    heroTitle: "Senior Interest E-commerce Operator",
     heroText:
-      "11 years of work experience, including 8 years in Douyin e-commerce, 3 years in WeChat Channels, and 1 year in Kuaishou. I connect brand livestreaming, creator seeding, short video content, paid traffic, store operations, team management, and AI-assisted workflows.",
+      "8 years in Douyin e-commerce / 3 years in WeChat Shop operations / 1 year in Kuaishou e-commerce. I connect brand livestreaming, creator seeding, short video content, paid traffic, store operations, team management, and AI-assisted workflows.",
     heroPrimary: "View projects",
     heroSecondary: "Contact",
     profileTitle: "Profile",
@@ -188,8 +187,8 @@ const copy = {
       ["Ads and Creative Testing", "Optimize budgets, targeting, creative assets, and plans across Qianchuan, DOU+, and related tools."],
       ["Team Collaboration", "Set up roles, training, performance indicators, and review rhythms across host, content, BD, and brand teams."],
     ],
-    contactTitle: "Let content, data, AI, and teams work together for growth.",
-    contactLead: "Open to conversations about interest e-commerce, brand growth, AI-assisted operations, and project collaboration.",
+    contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
+    contactLead: "Let content, data, and AI become a stronger growth system.",
     qr: "WeChat QR to upload",
   },
 } as const;
@@ -206,10 +205,7 @@ export default function Home() {
   const [introDone, setIntroDone] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
-  const timelineGalleryItems = t.timeline.map(([year, title]) => ({
-    image: year === "NOW" ? "/images/avatar.jpg" : "/og.png",
-    text: `${year} ${title}`,
-  }));
+  const timelineImages = ["/images/avatar.jpg", "/og.png", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg"];
 
   useEffect(() => {
     let progress = 50;
@@ -377,25 +373,17 @@ export default function Home() {
           <h2>{t.timelineTitle}</h2>
           <p>{t.timelineLead}</p>
         </div>
-        <div className="timelineGalleryShell">
-          <CircularGallery
-            items={timelineGalleryItems}
-            bend={2.2}
-            textColor="#eef5f2"
-            borderRadius={0.045}
-            scrollEase={0.035}
-            scrollSpeed={2.2}
-            font="bold 28px Inter"
-          />
-        </div>
-        <div className="timelineNotes">
-          {t.timeline.map(([year, title, body]) => (
-            <BorderGlow className="timelineNoteCard" key={`${year}-${title}`} animated={false}>
-              <strong>{year}</strong>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </BorderGlow>
-          ))}
+        <div className="careerScroller" aria-label={t.timelineTitle}>
+          <div className="careerTrack">
+            {t.timeline.map(([year, title, body], index) => (
+              <article className="careerCard" key={`${year}-${title}`}>
+                <strong>{year}</strong>
+                <img src={timelineImages[index]} alt={title} />
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -451,17 +439,24 @@ export default function Home() {
             Contact
           </p>
           <h2>{t.contactTitle}</h2>
-          <p>{t.contactLead}</p>
 
           <div className="finalContact">
-            <div className="qrBox">
-              <span>WeChat</span>
-              <strong>QR</strong>
-              <small>{t.qr}</small>
-            </div>
             <div className="finalLinks">
-              <a href="tel:13424243016">13424243016</a>
-              <a href="mailto:844387279@qq.com">844387279@qq.com</a>
+              <a href="tel:13424243016">
+                <span>{locale === "zh" ? "手机" : "Phone"}</span>
+                <strong>13424243016</strong>
+              </a>
+              <a href="mailto:844387279@qq.com">
+                <span>{locale === "zh" ? "邮箱" : "Email"}</span>
+                <strong>844387279@qq.com</strong>
+              </a>
+              <a href="#contact">
+                <span>{locale === "zh" ? "微信号" : "WeChat"}</span>
+                <strong>Eayon-Wong</strong>
+              </a>
+            </div>
+            <div className="qrBox">
+              <img src="/images/wechat-qr.jpg" alt={locale === "zh" ? "微信二维码" : "WeChat QR code"} />
             </div>
           </div>
         </BorderGlow>
