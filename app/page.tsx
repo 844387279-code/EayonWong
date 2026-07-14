@@ -15,9 +15,11 @@ import {
   UserRound,
   Workflow,
 } from "lucide-react";
+import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import BorderGlow from "./components/BorderGlow";
 import CircularGallery from "./components/CircularGallery";
+import SoftAurora from "./components/SoftAurora";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
 
@@ -108,7 +110,7 @@ const copy = {
     qr: "微信二维码待上传",
   },
   en: {
-    brand: "Yiyang Huang",
+    brand: "Eayon Wong",
     role: "Senior Interest E-commerce Operator",
     nav: [
       ["Home", "#home"],
@@ -200,12 +202,34 @@ function playQuietly(video: HTMLVideoElement) {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
+  const [loadProgress, setLoadProgress] = useState(50);
+  const [introDone, setIntroDone] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
   const timelineGalleryItems = t.timeline.map(([year, title]) => ({
     image: year === "NOW" ? "/images/avatar.jpg" : "/og.png",
     text: `${year} ${title}`,
   }));
+
+  useEffect(() => {
+    let progress = 50;
+    let doneTimer: ReturnType<typeof window.setTimeout> | undefined;
+
+    const progressTimer = window.setInterval(() => {
+      progress = Math.min(100, progress + (progress < 86 ? 7 : 5));
+      setLoadProgress(progress);
+
+      if (progress >= 100) {
+        window.clearInterval(progressTimer);
+        doneTimer = window.setTimeout(() => setIntroDone(true), 260);
+      }
+    }, 22);
+
+    return () => {
+      window.clearInterval(progressTimer);
+      if (doneTimer) window.clearTimeout(doneTimer);
+    };
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -219,7 +243,38 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <>
+      <div
+        className={`introLoader${introDone ? " introLoaderDone" : ""}`}
+        role="status"
+        aria-label="页面载入进度"
+        style={{ "--intro-progress": `${loadProgress}%` } as CSSProperties}
+      >
+        <div className="introAurora" aria-hidden="true">
+          <SoftAurora
+            speed={0.45}
+            scale={1.45}
+            brightness={0.78}
+            color1="#eef5f2"
+            color2="#42d8c4"
+            noiseFrequency={2.4}
+            noiseAmplitude={1}
+            bandHeight={0.5}
+            bandSpread={0.9}
+            octaveDecay={0.12}
+            layerOffset={0.08}
+            colorSpeed={0.7}
+            enableMouseInteraction={false}
+            mouseInfluence={0}
+          />
+        </div>
+        <div className="introLoaderInner">
+          <span className="introLoaderLabel">Loading Portfolio</span>
+          <strong>{loadProgress}%</strong>
+        </div>
+      </div>
+
+      <main>
       <section className="hero" id="home">
         <video ref={videoRef} className="heroVideo" src={HERO_VIDEO_URL} muted autoPlay loop playsInline preload="auto" />
         <div className="heroShade" />
@@ -411,6 +466,7 @@ export default function Home() {
           </div>
         </BorderGlow>
       </section>
-    </main>
+      </main>
+    </>
   );
 }
