@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  ArrowUpRight,
-  Bot,
   BrainCircuit,
   Clapperboard,
   DatabaseZap,
@@ -14,6 +12,7 @@ import {
   Target,
   UserRound,
   Workflow,
+  X,
 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -21,6 +20,10 @@ import BorderGlow from "./components/BorderGlow";
 import SoftAurora from "./components/SoftAurora";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
+const featuredVideos = Array.from({ length: 12 }, (_, index) => ({
+  title: `${index + 1}`,
+  src: ["/videos/kjx/183-set-1.mp4", "/videos/kjx/183-set-2.mp4", "/videos/kjx/183-set-3.mp4", "/videos/home/hero.mp4"][index % 4],
+}));
 
 type Locale = "zh" | "en";
 
@@ -203,6 +206,7 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const [loadProgress, setLoadProgress] = useState(50);
   const [introDone, setIntroDone] = useState(false);
+  const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
   const timelineImages = ["/images/avatar.jpg", "/og.png", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg"];
@@ -236,6 +240,32 @@ export default function Home() {
     play();
 
     return () => video.removeEventListener("loadeddata", play);
+  }, []);
+
+  useEffect(() => {
+    const revealTargets = document.querySelectorAll(
+      ".heroInner, .sectionHead, .profileGrid, .metricCard, .projectCard, .abilityCard, .contactInner",
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    revealTargets.forEach((target, index) => {
+      target.classList.add("reveal");
+      (target as HTMLElement).style.setProperty("--reveal-delay", `${Math.min(index % 6, 5) * 55}ms`);
+      observer.observe(target);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -299,23 +329,29 @@ export default function Home() {
         </nav>
 
         <div className="heroInner">
-          <p className="signal">
-            <Bot size={16} aria-hidden="true" />
-            AI-augmented commerce operator
-          </p>
           <h1>{t.heroTitle}</h1>
-          <p className="heroText">{t.heroText}</p>
-          <div className="heroActions">
-            <a className="solidButton" href="#projects">
-              {t.heroPrimary}
-              <ArrowUpRight size={18} aria-hidden="true" />
-            </a>
-            <a className="ghostButton" href="#contact">
-              {t.heroSecondary}
-            </a>
-          </div>
+          <p className="heroText">{locale === "zh" ? "8年抖音电商 / 3年微信小店" : "8 years Douyin / 3 years WeChat Shop"}</p>
+        </div>
+
+        <div className="featuredVideoRail" aria-label="代表作视频">
+          {[...featuredVideos, ...featuredVideos].map((video, index) => (
+            <button className="featuredVideoCard" type="button" key={`${video.title}-${index}`} onClick={() => setActiveVideo(video)}>
+              <strong>{video.title}</strong>
+            </button>
+          ))}
         </div>
       </section>
+
+      {activeVideo ? (
+        <div className="videoModal" role="dialog" aria-modal="true" aria-label={activeVideo.title}>
+          <button className="videoModalClose" type="button" onClick={() => setActiveVideo(null)} aria-label="关闭视频">
+            <X size={28} aria-hidden="true" />
+          </button>
+          <div className="videoModalFrame">
+            <video src={activeVideo.src} controls autoPlay playsInline />
+          </div>
+        </div>
+      ) : null}
 
       <section className="section profileSection" id="profile">
         <div className="sectionHead">
