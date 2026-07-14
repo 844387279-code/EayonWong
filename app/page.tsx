@@ -2,15 +2,20 @@
 
 import {
   ArrowUpRight,
-  BriefcaseBusiness,
+  Bot,
+  BrainCircuit,
   Clapperboard,
-  FileText,
-  Globe2,
-  Image,
+  DatabaseZap,
   Languages,
   Mail,
+  Phone,
+  ScanLine,
+  Store,
+  Target,
+  UserRound,
+  Workflow,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
 
@@ -21,431 +26,333 @@ const copy = {
     brand: "黄伊阳",
     role: "兴趣电商资深运营",
     nav: [
-      { label: "首页", href: "#home" },
-      { label: "项目经历", href: "#projects" },
-      { label: "个人作品", href: "#works" },
-      { label: "个人履历", href: "#resume" },
+      ["首页", "#home"],
+      ["个人履历", "#profile"],
+      ["项目经历", "#projects"],
+      ["个人作品", "#works"],
+      ["联系", "#contact"],
     ],
-    langLabel: "EN",
-    heroTitle: "兴趣电商全域操盘手",
-    heroBody:
-      "8年抖音、3年视频号、1年快手电商经验，覆盖品牌自播、达人种草、短视频内容、千川投放、商城运营和团队管理。",
-    heroCta: "查看作品",
-    heroSecondary: "项目经历",
-    reelLabel: "兴趣电商作品集",
-    reelMeta: "抖音、快手、视频号多平台运营经验",
-    stats: [
-      ["8年", "抖音电商经验"],
+    lang: "EN",
+    heroTitle: "兴趣电商资深运营，正在把 AI 变成增长工具。",
+    heroText:
+      "11年工作经验，8年抖音电商、3年视频号、1年快手经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
+    heroPrimary: "查看项目",
+    heroSecondary: "联系沟通",
+    profileTitle: "个人履历",
+    profileBody:
+      "我更像一个经营型运营：既能拆GMV、ROI、货盘和人群，也能落到直播间脚本、素材生产、投放模型和团队执行。现在重点补强AI工具能力，用自动化、内容生成和数据分析提高运营效率。",
+    contact: ["13424243016", "844387279@qq.com", "深圳"],
+    metrics: [
+      ["11年", "总工作经验"],
       ["1亿+", "酒水项目年度GMV"],
+      ["64.71%", "PEPA品牌GSV增长"],
       ["16人", "跨职能团队管理"],
     ],
+    profileTags: ["抖音电商", "视频号", "快手", "千川投放", "达人种草", "AI辅助运营"],
     projectsTitle: "项目经历",
-    projectsIntro: "先填入简历中可以确定的代表项目，后续再补充真实视频、图片、数据截图和案例详情。",
+    projectsLead: "用大卡片先搭好项目陈列方式，后续可替换为真实截图、视频封面、后台数据图和案例复盘。",
     projects: [
       {
-        year: "2025-至今",
-        title: "PEPA品牌兴趣电商运营",
-        role: "兴趣电商运营总监 / 深圳三多堂科技有限公司",
-        body: "全权操盘品牌兴趣电商，统筹抖音自播、短视频内容、达人种草、商城运营与平台活动，带领16人团队将GSV从170万稳定到280万+，综合ROI从1.89提升至2.3。",
+        title: "PEPA品牌兴趣电商",
+        meta: "2025-至今 / 兴趣电商运营总监",
+        result: "GSV 170万 → 280万+，ROI 1.89 → 2.3",
+        body: "统筹抖音自播、短视频、达人种草、商城运营和节点活动，管理品牌、直播、内容、BD等16人团队。",
+        visual: "GSV +64.71%",
       },
       {
-        year: "2022-2024",
         title: "开放式耳机3C项目",
-        role: "抖音运营总监 / 深圳市一刻未来科技有限公司",
-        body: "从0搭建抖音及视频号运营体系，统筹直播、短视频、BD团队，单月销售额130万+，全年销售额1000万+，客单价约1199元。",
+        meta: "2022-2024 / 抖音运营总监",
+        result: "年销售额1000万+，客单价约1199元",
+        body: "从0搭建抖音及视频号运营体系，形成内容生产、直播转化、投放复盘和达人种草闭环。",
+        visual: "3C / AOV 1199",
       },
       {
-        year: "2020-2022",
         title: "酒水品牌直播冷启动",
-        role: "直播运营 / 广东微牛电子商务有限公司",
-        body: "代运营国台、百年糊涂、钓鱼台、金沙古酒等酒水品牌，主导新号7天冷启动，首周GMV 50万+，年度GMV超1亿，进入酒水爆款榜单TOP 5。",
+        meta: "2020-2022 / 直播运营",
+        result: "年度GMV超1亿，酒水爆款榜TOP 5",
+        body: "代运营国台、百年糊涂、钓鱼台、金沙古酒等品牌，完成冷启动、排品、投放、主播培训与复盘。",
+        visual: "GMV 100M+",
+      },
+      {
+        title: "客家米粉工厂",
+        meta: "2025-至今 / 自主创业项目",
+        result: "年销售额400万+，单月峰值100万+",
+        body: "负责店铺定位、内容选题、直播/短视频运营、货盘设计和商业变现，沉淀个人账号内容资产。",
+        visual: "Founder Project",
       },
     ],
     worksTitle: "个人作品",
-    worksIntro: "先以简历中的作品和项目类型占位，后续可替换为真实视频、图片、账号截图与作品链接。",
+    worksLead: "这里先展示我的能力模块，后续可以接入真实作品卡、AI工作流截图、短视频案例和数据面板。",
     works: [
-      ["Video", "客家小子账号内容", "客家米粉工厂 / 短视频作品"],
-      ["Image", "客家米粉工厂置顶作品", "个人账号 / 图文与视频素材"],
-      ["Video", "PEPA品牌短视频内容", "母婴品牌 / 内容运营"],
-      ["Image", "隔壁刘奶奶话题策划", "累计播放量1亿+"],
-      ["Video", "酒水直播投流素材", "直播间引流 / 脚本与剪辑"],
-      ["Image", "兴趣电商经营看板", "GMV / GSV / ROI复盘"],
+      ["AI内容工作流", "用AI辅助选题、脚本、标题、卖点拆解和批量素材变体，提高短视频内容迭代速度。"],
+      ["数据复盘系统", "围绕GMV、GSV、ROI、CTR、CVR、停留、互动等指标搭建复盘逻辑和经营看板。"],
+      ["直播间增长模型", "从人货场、话术、排品、投放和复购设计直播间诊断与增长方案。"],
+      ["达人种草策略", "输出达人brief、脚本建议、内容方向与效果追踪，联动自然流和付费流量。"],
+      ["投放与素材测试", "使用千川、DOU+、小店随心推、种草通、星图热推等工具做预算和素材优化。"],
+      ["团队协同机制", "建立主播、内容、BD、品牌等岗位职责、培训机制、绩效指标和复盘节奏。"],
     ],
-    resumeTitle: "个人履历",
-    resumeIntro: "根据简历先填入教育经历、工作经历、核心能力和资格信息，后续可继续精修表达。",
-    resumeItems: [
-      ["教育背景", "深圳大学视觉传达艺术设计本科；广东开放大学电子商务大专；广东省技师学院动漫设计与制作。"],
-      ["工作经历", "深圳三多堂科技、深圳青丛生物科技、深圳市一刻未来科技、广东微牛电子商务；累计11年工作经验。"],
-      ["核心能力", "品牌自播、达人种草、短视频内容、千川投放、商城运营、货盘设计、数据复盘与团队管理。"],
-      ["资格与标签", "驾驶证C1；国家地理摄影师；图虫网签约摄影师；期望城市深圳，求职意向兴趣电商运营总监。"],
-    ],
-    contactTitle: "联系我",
-    contactBody: "欢迎通过微信、邮箱或电话沟通兴趣电商运营、品牌增长与项目合作。",
-    contactCta: "发送邮件",
+    contactTitle: "让内容、数据、AI和团队共同为增长服务。",
+    contactLead: "欢迎沟通兴趣电商运营、品牌增长、AI辅助运营工作流与项目合作。",
+    qr: "微信二维码待上传",
   },
   en: {
     brand: "Yiyang Huang",
     role: "Senior Interest E-commerce Operator",
     nav: [
-      { label: "Home", href: "#home" },
-      { label: "Projects", href: "#projects" },
-      { label: "Works", href: "#works" },
-      { label: "Resume", href: "#resume" },
+      ["Home", "#home"],
+      ["Profile", "#profile"],
+      ["Projects", "#projects"],
+      ["Works", "#works"],
+      ["Contact", "#contact"],
     ],
-    langLabel: "中",
-    heroTitle: "Full-funnel interest e-commerce operator",
-    heroBody:
-      "8 years of Douyin e-commerce, 3 years of WeChat Channels, and 1 year of Kuaishou experience across brand livestreaming, creator seeding, short video content, Qianchuan ads, store operations, and team management.",
-    heroCta: "View works",
-    heroSecondary: "Projects",
-    reelLabel: "Interest e-commerce works",
-    reelMeta: "Multi-platform operations across Douyin, Kuaishou, and WeChat Channels",
-    stats: [
-      ["8 yrs", "Douyin e-commerce"],
-      ["100M+", "Annual GMV in liquor projects"],
-      ["16", "Cross-functional team members"],
+    lang: "中",
+    heroTitle: "Senior interest e-commerce operator turning AI into a growth tool.",
+    heroText:
+      "11 years of work experience, including 8 years in Douyin e-commerce, 3 years in WeChat Channels, and 1 year in Kuaishou. I connect brand livestreaming, creator seeding, short video content, paid traffic, store operations, team management, and AI-assisted workflows.",
+    heroPrimary: "View projects",
+    heroSecondary: "Contact",
+    profileTitle: "Profile",
+    profileBody:
+      "I operate as a business-minded growth operator: breaking down GMV, ROI, product structure, and audience strategy while staying close to livestream scripts, content production, ad models, and team execution. My current focus is applying AI tools to content, analysis, and decisions.",
+    contact: ["13424243016", "844387279@qq.com", "Shenzhen"],
+    metrics: [
+      ["11 yrs", "Work experience"],
+      ["100M+", "Annual liquor GMV"],
+      ["64.71%", "PEPA GSV growth"],
+      ["16", "Team members"],
     ],
+    profileTags: ["Douyin", "WeChat Channels", "Kuaishou", "Qianchuan Ads", "Creator Seeding", "AI Ops"],
     projectsTitle: "Project Experience",
-    projectsIntro: "Representative resume projects are filled in first; videos, images, screenshots, and deeper case details can be added later.",
+    projectsLead: "Large cards establish the project gallery. Later we can replace these with real screenshots, covers, dashboards, and case studies.",
     projects: [
       {
-        year: "2025-Present",
-        title: "PEPA Interest E-commerce Operations",
-        role: "Operations Director / Shenzhen Sanduotang Technology",
-        body: "Led brand interest e-commerce operations across Douyin livestreaming, short videos, creator seeding, store operations, and campaign planning. Managed a 16-person team, growing GSV from RMB 1.7M to 2.8M+ and improving ROI from 1.89 to 2.3.",
+        title: "PEPA Interest E-commerce",
+        meta: "2025-Present / Operations Director",
+        result: "GSV RMB 1.7M → 2.8M+, ROI 1.89 → 2.3",
+        body: "Led Douyin livestreaming, short videos, creator seeding, store operations, campaigns, and a 16-person cross-functional team.",
+        visual: "GSV +64.71%",
       },
       {
-        year: "2022-2024",
         title: "Open-ear Headphone 3C Project",
-        role: "Douyin Operations Director / Shenzhen Yike Future Technology",
-        body: "Built Douyin and WeChat Channels operations from scratch, leading livestreaming, short video, and BD teams. Achieved RMB 1.3M+ monthly sales and RMB 10M+ annual sales with an average order value around RMB 1,199.",
+        meta: "2022-2024 / Douyin Operations Director",
+        result: "RMB 10M+ annual sales, AOV around RMB 1,199",
+        body: "Built Douyin and WeChat Channels operations from scratch, connecting content, livestream conversion, ads, and creators.",
+        visual: "3C / AOV 1199",
       },
       {
-        year: "2020-2022",
         title: "Liquor Brand Livestream Launches",
-        role: "Livestream Operations / Guangdong Weiniu E-commerce",
-        body: "Operated livestream accounts for Guotai, Bainian Hututu, Diaoyutai, Jinsha Gujiu, and other liquor brands. Led 7-day cold starts, achieving RMB 500K+ first-week GMV and RMB 100M+ annual GMV with products entering the platform TOP 5 list.",
+        meta: "2020-2022 / Livestream Operations",
+        result: "RMB 100M+ annual GMV, TOP 5 liquor product list",
+        body: "Operated brands including Guotai, Bainian Hututu, Diaoyutai, and Jinsha Gujiu across launch, product planning, ads, training, and review.",
+        visual: "GMV 100M+",
+      },
+      {
+        title: "Kejia Rice Noodle Factory",
+        meta: "2025-Present / Founder Project",
+        result: "RMB 4M+ annual sales, RMB 1M+ monthly peak",
+        body: "Owned positioning, content planning, livestream and short video operations, product structure, and commercial conversion.",
+        visual: "Founder Project",
       },
     ],
-    worksTitle: "Selected Works",
-    worksIntro: "Resume-backed work placeholders are filled in first, ready to be replaced with real videos, images, account screenshots, and links.",
+    worksTitle: "Selected Capabilities",
+    worksLead: "Capability cards first; later we can plug in real work cards, AI workflow screenshots, video cases, and dashboards.",
     works: [
-      ["Video", "Kejia Xiaozi Account Content", "Kejia Rice Noodle Factory / Short videos"],
-      ["Image", "Pinned Kejia Rice Noodle Works", "Personal account / Image and video assets"],
-      ["Video", "PEPA Brand Short Videos", "Mother and baby brand / Content operations"],
-      ["Image", "Gebiliunainai Topic Planning", "100M+ cumulative views"],
-      ["Video", "Liquor Livestream Ad Creatives", "Traffic acquisition / Scripts and edits"],
-      ["Image", "E-commerce Performance Dashboard", "GMV / GSV / ROI reviews"],
+      ["AI Content Workflow", "Use AI for topics, scripts, titles, selling points, and content variants to accelerate iteration."],
+      ["Data Review System", "Build review logic around GMV, GSV, ROI, CTR, CVR, retention, engagement, and operating dashboards."],
+      ["Livestream Growth Model", "Diagnose and improve livestream rooms through people, products, scenes, scripts, pricing, ads, and retention."],
+      ["Creator Seeding Strategy", "Create briefs, script suggestions, creative directions, and performance tracking across creators."],
+      ["Ads and Creative Testing", "Optimize budgets, targeting, creative assets, and plans across Qianchuan, DOU+, and related tools."],
+      ["Team Collaboration", "Set up roles, training, performance indicators, and review rhythms across host, content, BD, and brand teams."],
     ],
-    resumeTitle: "Resume",
-    resumeIntro: "Education, work experience, core strengths, and qualifications are filled in from the resume and can be refined later.",
-    resumeItems: [
-      ["Education", "Shenzhen University, Visual Communication Art Design; Guangdong Open University, E-commerce; Guangdong Technician College, Animation Design and Production."],
-      ["Experience", "Shenzhen Sanduotang Technology, Shenzhen Qingcong Biotechnology, Shenzhen Yike Future Technology, and Guangdong Weiniu E-commerce; 11 years of total work experience."],
-      ["Core Skills", "Brand livestreaming, creator seeding, short video content, Qianchuan ads, store operations, product planning, data review, and team management."],
-      ["Certificates", "C1 driving license; National Geographic photographer; contracted photographer on Tuchong; target city: Shenzhen."],
-    ],
-    contactTitle: "Contact",
-    contactBody: "Reach out via WeChat, email, or phone for interest e-commerce operations, brand growth, and project collaboration.",
-    contactCta: "Email me",
+    contactTitle: "Let content, data, AI, and teams work together for growth.",
+    contactLead: "Open to conversations about interest e-commerce, brand growth, AI-assisted operations, and project collaboration.",
+    qr: "WeChat QR to upload",
   },
 } as const;
 
+const workIcons = [BrainCircuit, DatabaseZap, Store, Target, Clapperboard, Workflow];
+
 function playQuietly(video: HTMLVideoElement) {
-  void video.play().catch(() => {
-    // Some browsers pause background media to save power; the static poster frame still carries the hero.
-  });
+  void video.play().catch(() => {});
 }
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const fadingOutRef = useRef(false);
-  const restartTimeoutRef = useRef<number | null>(null);
   const t = copy[locale];
-
-  const cancelFade = useCallback(() => {
-    if (animationFrameRef.current !== null) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-  }, []);
-
-  const fadeVideoTo = useCallback(
-    (targetOpacity: number) => {
-      const video = videoRef.current;
-      if (!video) return;
-
-      cancelFade();
-
-      const duration = 520;
-      const startTime = performance.now();
-      const startOpacity = Number.parseFloat(video.style.opacity || "0");
-
-      const animate = (now: number) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        video.style.opacity = String(startOpacity + (targetOpacity - startOpacity) * progress);
-
-        if (progress < 1) {
-          animationFrameRef.current = requestAnimationFrame(animate);
-          return;
-        }
-
-        video.style.opacity = String(targetOpacity);
-        animationFrameRef.current = null;
-      };
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    },
-    [cancelFade],
-  );
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.style.opacity = "0";
+    const play = () => playQuietly(video);
+    video.addEventListener("loadeddata", play);
+    play();
 
-    const handleLoadedData = () => {
-      fadingOutRef.current = false;
-      playQuietly(video);
-      fadeVideoTo(1);
-    };
-
-    const handleTimeUpdate = () => {
-      if (!video.duration || Number.isNaN(video.duration)) return;
-
-      if (video.duration - video.currentTime <= 0.55 && !fadingOutRef.current) {
-        fadingOutRef.current = true;
-        fadeVideoTo(0);
-      }
-    };
-
-    const handleEnded = () => {
-      cancelFade();
-      video.style.opacity = "0";
-
-      if (restartTimeoutRef.current !== null) {
-        window.clearTimeout(restartTimeoutRef.current);
-      }
-
-      restartTimeoutRef.current = window.setTimeout(() => {
-        video.currentTime = 0;
-        fadingOutRef.current = false;
-        playQuietly(video);
-        fadeVideoTo(1);
-      }, 120);
-    };
-
-    video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    video.addEventListener("ended", handleEnded);
-
-    return () => {
-      cancelFade();
-      if (restartTimeoutRef.current !== null) {
-        window.clearTimeout(restartTimeoutRef.current);
-      }
-      video.removeEventListener("loadeddata", handleLoadedData);
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-      video.removeEventListener("ended", handleEnded);
-    };
-  }, [cancelFade, fadeVideoTo]);
-
-  const workIcons = useMemo(() => ({ Video: Clapperboard, Image }), []);
+    return () => video.removeEventListener("loadeddata", play);
+  }, []);
 
   return (
-    <main className="min-h-screen bg-[#090909] text-[#f7f1e8]">
-      <section id="home" className="hero-shell relative flex min-h-screen flex-col overflow-hidden">
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          src={HERO_VIDEO_URL}
-          muted
-          autoPlay
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,6,6,0.88),rgba(6,6,6,0.48)_48%,rgba(6,6,6,0.72))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(67,210,190,0.18),transparent_34%),radial-gradient(circle_at_30%_75%,rgba(238,105,83,0.2),transparent_30%)]" />
+    <main>
+      <section className="hero" id="home">
+        <video ref={videoRef} className="heroVideo" src={HERO_VIDEO_URL} muted autoPlay loop playsInline preload="auto" />
+        <div className="heroShade" />
 
-        <nav className="relative z-20 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="glass-bar mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-5">
-            <a href="#home" className="flex min-w-0 items-center gap-3" aria-label={t.brand}>
-              <img
-                className="h-9 w-9 shrink-0 rounded-full border border-white/25 object-cover"
-                src="/images/avatar.jpg"
-                alt={t.brand}
-              />
-              <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-white">{t.brand}</span>
-                <span className="hidden text-xs text-white/58 sm:block">{t.role}</span>
-              </span>
-            </a>
+        <nav className="topNav" aria-label="主导航">
+          <a className="identity" href="#home" aria-label={t.brand}>
+            <img src="/images/avatar.jpg" alt={t.brand} />
+            <span>
+              <strong>{t.brand}</strong>
+              <small>{t.role}</small>
+            </span>
+          </a>
 
-            <div className="hidden items-center gap-1 md:flex">
-              {t.nav.map((item) => (
-                <a key={item.href} href={item.href} className="nav-link">
-                  {item.label}
-                </a>
-              ))}
-            </div>
-
-            <button
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/18 px-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/10"
-              type="button"
-              onClick={() => setLocale(locale === "zh" ? "en" : "zh")}
-              aria-label="Switch language"
-            >
-              <Languages size={16} aria-hidden="true" />
-              {t.langLabel}
-            </button>
+          <div className="navLinks">
+            {t.nav.map(([label, href]) => (
+              <a href={href} key={href}>
+                {label}
+              </a>
+            ))}
           </div>
+
+          <button className="langButton" type="button" onClick={() => setLocale(locale === "zh" ? "en" : "zh")}>
+            <Languages size={17} aria-hidden="true" />
+            {t.lang}
+          </button>
         </nav>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-5 pb-8 pt-16 sm:px-8 lg:px-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-            <div className="max-w-4xl">
-              <h1 className="hero-title text-balance text-5xl font-medium leading-[0.95] text-white sm:text-6xl lg:text-7xl">
-                {t.heroTitle}
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">{t.heroBody}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a className="primary-action" href="#works">
-                  {t.heroCta}
-                  <ArrowUpRight size={18} aria-hidden="true" />
-                </a>
-                <a className="secondary-action" href="#projects">
-                  {t.heroSecondary}
-                </a>
-              </div>
-            </div>
-
-            <aside className="glass-panel p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-white">{t.reelLabel}</p>
-                  <p className="mt-1 text-xs leading-5 text-white/55">{t.reelMeta}</p>
-                </div>
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#43d2be] text-[#08211e]">
-                  <Clapperboard size={18} aria-hidden="true" />
-                </span>
-              </div>
-              <div className="mt-6 grid grid-cols-3 gap-3">
-                {t.stats.map(([value, label]) => (
-                  <div key={label} className="stat-cell">
-                    <strong>{value}</strong>
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </aside>
+        <div className="heroInner">
+          <p className="signal">
+            <Bot size={16} aria-hidden="true" />
+            AI-augmented commerce operator
+          </p>
+          <h1>{t.heroTitle}</h1>
+          <p className="heroText">{t.heroText}</p>
+          <div className="heroActions">
+            <a className="solidButton" href="#projects">
+              {t.heroPrimary}
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+            <a className="ghostButton" href="#contact">
+              {t.heroSecondary}
+            </a>
           </div>
         </div>
       </section>
 
-      <section id="projects" className="content-band bg-[#f7f1e8] text-[#151515]">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              <BriefcaseBusiness size={15} aria-hidden="true" />
-              01
-            </p>
-            <h2>{t.projectsTitle}</h2>
-          </div>
-          <p>{t.projectsIntro}</p>
+      <section className="section profileSection" id="profile">
+        <div className="sectionHead">
+          <span>01 / Profile</span>
+          <h2>{t.profileTitle}</h2>
         </div>
 
-        <div className="project-list">
-          {t.projects.map((project) => (
-            <article key={project.title} className="project-row">
-              <span>{project.year}</span>
-              <div>
-                <h3>{project.title}</h3>
-                <p className="project-role">{project.role}</p>
+        <div className="profileGrid">
+          <div className="portraitCard">
+            <img src="/images/avatar.jpg" alt={t.brand} />
+            <div>
+              <strong>{t.brand}</strong>
+              <span>{t.role}</span>
+            </div>
+          </div>
+
+          <div className="profileCopy">
+            <p>{t.profileBody}</p>
+            <div className="tagCloud">
+              {t.profileTags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="contactPanel">
+            <a href="tel:13424243016">
+              <Phone size={18} aria-hidden="true" />
+              {t.contact[0]}
+            </a>
+            <a href="mailto:844387279@qq.com">
+              <Mail size={18} aria-hidden="true" />
+              {t.contact[1]}
+            </a>
+            <span>
+              <UserRound size={18} aria-hidden="true" />
+              {t.contact[2]}
+            </span>
+          </div>
+        </div>
+
+        <div className="metricGrid">
+          {t.metrics.map(([value, label]) => (
+            <div className="metricCard" key={label}>
+              <strong>{value}</strong>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" id="projects">
+        <div className="sectionHead wide">
+          <span>02 / Projects</span>
+          <h2>{t.projectsTitle}</h2>
+          <p>{t.projectsLead}</p>
+        </div>
+
+        <div className="projectGrid">
+          {t.projects.map((project, index) => (
+            <article className="projectCard" key={project.title}>
+              <div className={`projectVisual visual${index + 1}`}>
+                <span>{project.visual}</span>
               </div>
-              <p>{project.body}</p>
+              <div className="projectContent">
+                <p>{project.meta}</p>
+                <h3>{project.title}</h3>
+                <strong>{project.result}</strong>
+                <span>{project.body}</span>
+              </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section id="works" className="content-band bg-[#101312] text-[#f7f1e8]">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow text-[#94f0dc]">
-              <Clapperboard size={15} aria-hidden="true" />
-              02
-            </p>
-            <h2>{t.worksTitle}</h2>
-          </div>
-          <p className="text-white/62">{t.worksIntro}</p>
+      <section className="section worksSection" id="works">
+        <div className="sectionHead wide">
+          <span>03 / Works</span>
+          <h2>{t.worksTitle}</h2>
+          <p>{t.worksLead}</p>
         </div>
 
-        <div className="work-grid">
-          {t.works.map(([type, title, meta], index) => {
-            const Icon = workIcons[type as keyof typeof workIcons];
-
+        <div className="worksGrid">
+          {t.works.map(([title, body], index) => {
+            const Icon = workIcons[index];
             return (
-              <article key={title} className="work-tile">
-                <div className={`work-visual work-visual-${index + 1}`}>
-                  <span>
-                    <Icon size={18} aria-hidden="true" />
-                    {type}
-                  </span>
-                </div>
-                <div className="work-copy">
-                  <h3>{title}</h3>
-                  <p>{meta}</p>
-                </div>
+              <article className="abilityCard" key={title}>
+                <Icon size={24} aria-hidden="true" />
+                <h3>{title}</h3>
+                <p>{body}</p>
               </article>
             );
           })}
         </div>
       </section>
 
-      <section id="resume" className="content-band bg-[#f7f1e8] text-[#151515]">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">
-              <FileText size={15} aria-hidden="true" />
-              03
-            </p>
-            <h2>{t.resumeTitle}</h2>
-          </div>
-          <p>{t.resumeIntro}</p>
-        </div>
+      <section className="contactPage" id="contact">
+        <div className="contactInner">
+          <p className="signal">
+            <ScanLine size={16} aria-hidden="true" />
+            Contact
+          </p>
+          <h2>{t.contactTitle}</h2>
+          <p>{t.contactLead}</p>
 
-        <div className="resume-grid">
-          {t.resumeItems.map(([title, body]) => (
-            <article key={title} className="resume-item">
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </article>
-          ))}
-        </div>
-
-        <div className="contact-strip">
-          <div>
-            <h2>{t.contactTitle}</h2>
-            <p>{t.contactBody}</p>
-          </div>
-          <div className="contact-methods">
-            <div className="wechat-card" aria-label="微信二维码">
-              <div className="qr-placeholder">
-                <span>微信</span>
-                <strong>QR</strong>
-              </div>
-              <p>微信二维码待上传</p>
+          <div className="finalContact">
+            <div className="qrBox">
+              <span>WeChat</span>
+              <strong>QR</strong>
+              <small>{t.qr}</small>
             </div>
-            <div className="contact-lines">
-              <a href="mailto:844387279@qq.com">
-                <Mail size={18} aria-hidden="true" />
-                844387279@qq.com
-              </a>
+            <div className="finalLinks">
               <a href="tel:13424243016">13424243016</a>
+              <a href="mailto:844387279@qq.com">844387279@qq.com</a>
             </div>
           </div>
         </div>
