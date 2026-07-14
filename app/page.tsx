@@ -156,6 +156,12 @@ const copy = {
   },
 } as const;
 
+function playQuietly(video: HTMLVideoElement) {
+  void video.play().catch(() => {
+    // Some browsers pause background media to save power; the static poster frame still carries the hero.
+  });
+}
+
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -208,7 +214,7 @@ export default function Home() {
 
     const handleLoadedData = () => {
       fadingOutRef.current = false;
-      void video.play();
+      playQuietly(video);
       fadeVideoTo(1);
     };
 
@@ -232,7 +238,7 @@ export default function Home() {
       restartTimeoutRef.current = window.setTimeout(() => {
         video.currentTime = 0;
         fadingOutRef.current = false;
-        void video.play();
+        playQuietly(video);
         fadeVideoTo(1);
       }, 120);
     };
