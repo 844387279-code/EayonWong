@@ -30,15 +30,17 @@ test("server-renders the portfolio homepage", async () => {
 
   const html = await response.text();
   assert.match(html, /黄伊阳/);
-  assert.match(html, /兴趣电商运营作品集/);
-  assert.match(html, /代表项目/);
-  assert.match(html, /PEPA 品牌兴趣电商经营/);
-  assert.match(html, /酒水品牌冷启动与爆品增长/);
-  assert.match(html, /个人账号“客家小子”视频作品/);
-  assert.match(html, /\/videos\/kjx\/183-set-1\.mp4/);
-  assert.match(html, /\/videos\/kjx\/183-set-2\.mp4/);
-  assert.match(html, /\/videos\/kjx\/183-set-3\.mp4/);
+  assert.match(html, /个人简介/);
+  assert.match(html, /个人技能/);
+  assert.match(html, /项目经历/);
+  assert.match(html, /取得联系/);
+  assert.match(html, /炫迈妹子/);
+  assert.match(html, /宁小雪/);
+  assert.match(html, /PEPA品牌兴趣电商/);
+  assert.match(html, /AI内容工作流/);
+  assert.match(html, /\/images\/timeline\/2026-ai-ops\.svg/);
   assert.match(html, /13424243016/);
+  assert.doesNotMatch(html, /青衫渡/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
 });
 
@@ -54,10 +56,19 @@ test("removes starter preview scaffolding from source", async () => {
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
 
-test("includes the kejiaxiaozi video assets", async () => {
+test("includes the featured video assets", async () => {
   await Promise.all([
-    access(new URL("../public/videos/kjx/183-set-1.mp4", import.meta.url)),
-    access(new URL("../public/videos/kjx/183-set-2.mp4", import.meta.url)),
-    access(new URL("../public/videos/kjx/183-set-3.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/01-xuanmai.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/02-rouwanzi.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/03-muyan.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/04-yinmumu.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/05-boerbao.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/06-linamumu.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/07-xiaoshiyi.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/08-duobao.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/09-xueqiu.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/10-qiuqiu.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/11-xiaohui.mp4", import.meta.url)),
+    access(new URL("../public/videos/featured/12-ningxiaoxue.mp4", import.meta.url)),
   ]);
 });

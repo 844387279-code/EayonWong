@@ -173,7 +173,7 @@ a {
   width: 100%;
   height: calc(100% + 50px);
   object-fit: cover;
-  object-position: center calc(50% - 60px);
+  object-position: center calc(50% - 70px);
   opacity: 0.9;
   filter: brightness(1.12) contrast(1.08) saturate(1.06);
 }
@@ -309,18 +309,20 @@ a {
 .hero h1 {
   max-width: none;
   margin: 0;
-  color: var(--accent);
+  color: var(--text);
   font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  font-size: clamp(1.8rem, 3.15vw, 3.72rem);
-  font-weight: 780;
-  line-height: 0.94;
+  font-size: clamp(1.72rem, 2.82vw, 3.18rem);
+  font-weight: 560;
+  line-height: 1.02;
   letter-spacing: 0;
   white-space: nowrap;
 }
 
 .heroShinyTitle {
+  color: rgba(238, 245, 242, 0.96);
+  font-weight: 560;
   letter-spacing: 0;
-  text-shadow: 0 0 2.2rem rgba(238, 245, 242, 0.16);
+  text-shadow: 0 0 2.2rem rgba(238, 245, 242, 0.13);
 }
 
 .heroText {
@@ -765,6 +767,7 @@ a {
 }
 
 .timelineSection {
+  scroll-margin-top: 7.5rem;
   overflow: hidden;
   border-top: 1px solid var(--line);
   background:
