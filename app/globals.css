@@ -840,7 +840,16 @@ a {
   position: relative;
   width: min(76vw, 36rem);
   flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: inherit;
   padding-top: 3.2rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.careerCard.isStatic {
+  cursor: default;
 }
 
 .careerCard strong {
@@ -863,10 +872,21 @@ a {
   object-fit: cover;
   transform: rotate(-1.5deg);
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.34);
+  transition: filter 180ms ease, transform 180ms ease;
 }
 
 .careerCard:nth-child(even) img {
   transform: rotate(1.3deg);
+}
+
+.careerCard.isInteractive:hover img,
+.careerCard.isInteractive:focus-visible img {
+  filter: brightness(1.05);
+  transform: translateY(-0.35rem) rotate(0deg);
+}
+
+.careerCard:focus-visible {
+  outline: none;
 }
 
 .careerCard h3 {
@@ -882,6 +902,140 @@ a {
   color: var(--muted);
   font-size: 1rem;
   line-height: 1.75;
+}
+
+.timelineModalFrame {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+  width: min(76rem, 92vw);
+  max-height: 90vh;
+  overflow: hidden;
+  border: 1px solid rgba(238, 245, 242, 0.16);
+  border-radius: 18px;
+  background: rgba(8, 12, 14, 0.82);
+  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(22px);
+}
+
+.timelineModalFrameSingle {
+  display: block;
+  width: min(78rem, 94vw);
+}
+
+.timelineModalFrameSingle.is-portrait {
+  width: min(38rem, 92vw);
+}
+
+.timelineModalFrameSingle.is-landscape {
+  width: min(92rem, 96vw);
+}
+
+.timelineModalFrameSingle.is-square {
+  width: min(62rem, 92vw);
+}
+
+.timelineSingleStage {
+  position: relative;
+  display: grid;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: 88vh;
+  place-items: center;
+  overflow: hidden;
+  background: rgba(3, 7, 10, 0.82);
+}
+
+.timelineModalFrameSingle.is-portrait .timelineSingleStage {
+  aspect-ratio: 9 / 16;
+  height: min(88vh, 54rem);
+  max-width: calc(min(88vh, 54rem) * 0.5625);
+  margin: 0 auto;
+}
+
+.timelineModalFrameSingle.is-square .timelineSingleStage {
+  aspect-ratio: 1;
+  height: min(82vh, 52rem);
+  max-width: min(82vh, 52rem);
+  margin: 0 auto;
+}
+
+.timelineSingleStage img,
+.timelineSingleStage video {
+  width: 100%;
+  height: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  background: #000;
+}
+
+.timelineSingleStage video {
+  display: block;
+}
+
+.timelineNavButton {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: 3.2rem;
+  height: 3.2rem;
+  place-items: center;
+  border: 1px solid rgba(238, 245, 242, 0.22);
+  border-radius: 999px;
+  background: rgba(238, 245, 242, 0.92);
+  color: #06100f;
+  cursor: pointer;
+  box-shadow: 0 0.8rem 2.2rem rgba(0, 0, 0, 0.36);
+  transform: translateY(-50%);
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.timelineNavButton:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.04);
+}
+
+.timelineNavButtonPrev {
+  left: 1rem;
+}
+
+.timelineNavButtonNext {
+  right: 1rem;
+}
+
+.timelineModalCopy {
+  align-self: center;
+  padding: clamp(1.6rem, 4vw, 3rem);
+}
+
+.timelineModalCount {
+  display: inline-block;
+  margin-bottom: 0.85rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.timelineModalFrame strong {
+  color: var(--accent);
+  font-size: clamp(3.2rem, 7vw, 7rem);
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.timelineModalFrame h3 {
+  margin: 1.1rem 0 0;
+  color: var(--text);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+}
+
+.timelineModalFrame p {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
 }
 
 .projectGrid {
@@ -1242,5 +1396,22 @@ a {
 
   .careerCard strong {
     font-size: clamp(4rem, 18vw, 6rem);
+  }
+
+  .timelineModalFrameSingle {
+    grid-template-columns: 1fr;
+  }
+
+  .timelineSingleStage {
+    min-height: 58vh;
+  }
+
+  .timelineModalCopy {
+    padding: 1.2rem;
+  }
+
+  .timelineNavButton {
+    width: 2.7rem;
+    height: 2.7rem;
   }
 }

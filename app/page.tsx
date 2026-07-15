@@ -2,6 +2,8 @@
 
 import {
   BrainCircuit,
+  ChevronLeft,
+  ChevronRight,
   Clapperboard,
   DatabaseZap,
   Languages,
@@ -21,6 +23,16 @@ import TextType from "./components/TextType";
 import TiltedCard from "./components/TiltedCard";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
+type TimelineMediaItem = {
+  type: "image" | "video";
+  src: string;
+  title: string;
+};
+
+type TimelineMedia = {
+  items: TimelineMediaItem[];
+};
+
 const featuredVideos = [
   { title: "@炫迈妹子", src: "/videos/featured/01-xuanmai.mp4", thumb: "/images/featured-thumbs/01-xuanmai.jpg" },
   { title: "@一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4", thumb: "/images/featured-thumbs/02-rouwanzi.jpg" },
@@ -103,9 +115,8 @@ const copy = {
     timelineTitle: "年份经历",
     timelineLead: "",
     timeline: [
-      ["2013-2015", "动漫设计与制作", "广东省技师学院，全日制学习，建立视觉表达和内容审美基础。"],
       ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
-      ["2019", "IP运营", "围绕垂类IP做内容定位、粉丝互动和商业转化尝试，建立账号运营方法。"],
+      ["2019", "名酒中国行", "百年糊涂&名酒中国行纪录片"],
       ["2020", "深大教育", "在深大教育相关业务中接触课程产品、用户转化和私域运营链路。"],
       ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
       ["2022-2024", "3C品牌抖音运营", "从0搭建抖音与视频号运营体系，全年销售额1000万+。"],
@@ -193,9 +204,8 @@ const copy = {
     timelineTitle: "Timeline",
     timelineLead: "",
     timeline: [
-      ["2013-2015", "Animation Design", "Full-time study at Guangdong Technician College, building a foundation in visual expression."],
       ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
-      ["2019", "IP Operations", "Worked on vertical IP positioning, audience engagement, and commercial conversion experiments."],
+      ["2019", "Famous Wine China Tour", "Bainian Hutu & Famous Wine China Tour documentary."],
       ["2020", "Shenzhen University Education", "Explored course products, user conversion, and private traffic operations."],
       ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
       ["2022-2024", "3C Douyin Operations", "Built Douyin and WeChat Channels operations from scratch; annual sales exceeded RMB 10M."],
@@ -251,6 +261,43 @@ const copy = {
 
 const workIcons = [BrainCircuit, DatabaseZap, Store, Target, Clapperboard, Workflow];
 
+const timelineMediaByYear: Record<string, TimelineMedia> = {
+  "2018": {
+    items: [
+      { type: "image", src: "/timeline-media/2018/weijunrong.jpg", title: "摄影作品" },
+      { type: "image", src: "/timeline-media/2018/fengjing.jpg", title: "风景摄影" },
+      { type: "image", src: "/timeline-media/2018/fangdichan.jpg", title: "地产摄影" },
+      { type: "image", src: "/timeline-media/2018/meishi-01.jpg", title: "美食摄影" },
+      { type: "image", src: "/timeline-media/2018/meishi-02.jpg", title: "美食摄影" },
+      { type: "image", src: "/timeline-media/2018/jishi.jpg", title: "纪实摄影" },
+    ],
+  },
+  "2019": {
+    items: [{ type: "video", src: "/timeline-media/2019/mingjiu-china-tour.mp4", title: "名酒中国行" }],
+  },
+  "2022": {
+    items: Array.from({ length: 8 }, (_, index) => ({
+      type: "video" as const,
+      src: `/timeline-media/2022/guotai-${String(index + 1).padStart(2, "0")}.mp4`,
+      title: `国台酒直播运营 ${index + 1}`,
+    })),
+  },
+  "2024": {
+    items: Array.from({ length: 11 }, (_, index) => ({
+      type: "video" as const,
+      src: `/timeline-media/2024/xtour-${String(index + 1).padStart(2, "0")}.mp4`,
+      title: `Xtour 短视频 ${index + 1}`,
+    })),
+  },
+  "2025": {
+    items: Array.from({ length: 8 }, (_, index) => ({
+      type: "video" as const,
+      src: `/timeline-media/2025/gebiliunainai-${String(index + 1).padStart(2, "0")}.mp4`,
+      title: `隔壁刘奶奶 ${index + 1}`,
+    })),
+  },
+};
+
 function playQuietly(video: HTMLVideoElement) {
   void video.play().catch(() => {});
 }
@@ -266,10 +313,19 @@ export default function Home() {
   const [introDone, setIntroDone] = useState(false);
   const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
   const [videoHover, setVideoHover] = useState<{ title: string; x: number; y: number } | null>(null);
+  const [activeTimeline, setActiveTimeline] = useState<{
+    year: string;
+    title: string;
+    body: string;
+    image: string;
+    media: TimelineMedia;
+  } | null>(null);
+  const [activeTimelineIndex, setActiveTimelineIndex] = useState(0);
+  const [timelineMediaShape, setTimelineMediaShape] = useState<"portrait" | "landscape" | "square">("portrait");
+  const [timelineHover, setTimelineHover] = useState<{ x: number; y: number } | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
   const timelineImages = [
-    "/images/timeline/2015-design.svg",
     "/images/timeline/2018-short-video.svg",
     "/images/timeline/2019-ip.svg",
     "/images/timeline/2020-education.svg",
@@ -278,6 +334,22 @@ export default function Home() {
     "/images/timeline/2025-content.svg",
     "/images/timeline/2026-ai-ops.svg",
   ];
+  const activeTimelineItem = activeTimeline?.media.items[activeTimelineIndex];
+  const activeTimelineCount = activeTimeline?.media.items.length ?? 0;
+
+  const shiftTimelineItem = (step: number) => {
+    if (!activeTimelineCount) return;
+    setActiveTimelineIndex((current) => (current + step + activeTimelineCount) % activeTimelineCount);
+  };
+
+  const updateTimelineMediaShape = (width: number, height: number) => {
+    if (!width || !height) return;
+    if (Math.abs(width - height) < Math.max(width, height) * 0.08) {
+      setTimelineMediaShape("square");
+      return;
+    }
+    setTimelineMediaShape(width > height ? "landscape" : "portrait");
+  };
 
   useEffect(() => {
     let progress = 50;
@@ -309,6 +381,10 @@ export default function Home() {
 
     return () => video.removeEventListener("loadeddata", play);
   }, []);
+
+  useEffect(() => {
+    setTimelineMediaShape("portrait");
+  }, [activeTimelineItem?.src]);
 
   useEffect(() => {
     const revealTargets = document.querySelectorAll(
@@ -545,17 +621,83 @@ export default function Home() {
         </div>
         <div className="careerScroller" aria-label={t.timelineTitle}>
           <div className="careerTrack">
-            {t.timeline.map(([year, title, body], index) => (
-              <article className="careerCard" key={`${year}-${title}-${index}`}>
-                <strong>{displayTimelineYear(year)}</strong>
-                <img src={timelineImages[index % timelineImages.length]} alt={title} />
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
+            {t.timeline.map(([year, title, body], index) => {
+              const image = timelineImages[index % timelineImages.length];
+              const displayYear = displayTimelineYear(year);
+              const media = timelineMediaByYear[displayYear];
+              const canPreview = Boolean(media?.items.length);
+              return (
+                <button
+                  className={`careerCard ${canPreview ? "isInteractive" : "isStatic"}`}
+                  type="button"
+                  key={`${year}-${title}-${index}`}
+                  onClick={() => {
+                    if (media) {
+                      setActiveTimelineIndex(0);
+                      setActiveTimeline({ year: displayYear, title, body, image, media });
+                    }
+                  }}
+                  onMouseMove={(event) => {
+                    if (canPreview) setTimelineHover({ x: event.clientX, y: event.clientY });
+                  }}
+                  onMouseLeave={() => setTimelineHover(null)}
+                  onFocus={() => setTimelineHover(null)}
+                  aria-label={canPreview ? `${locale === "zh" ? "查看" : "View"} ${title}` : title}
+                >
+                  <strong>{displayYear}</strong>
+                  <img src={image} alt={title} />
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </button>
+              );
+            })}
           </div>
         </div>
+        {timelineHover ? (
+          <div className="featuredVideoTooltip" style={{ "--tooltip-x": `${timelineHover.x}px`, "--tooltip-y": `${timelineHover.y}px` } as CSSProperties}>
+            {locale === "zh" ? "点击查看" : "Click to view"}
+          </div>
+        ) : null}
       </section>
+
+      {activeTimeline && activeTimelineItem ? (
+        <div className="videoModal" role="dialog" aria-modal="true" aria-label={activeTimeline.title}>
+          <button className="videoModalClose" type="button" onClick={() => setActiveTimeline(null)} aria-label={locale === "zh" ? "关闭预览" : "Close preview"}>
+            <X size={28} aria-hidden="true" />
+          </button>
+          <div className={`timelineModalFrame timelineModalFrameSingle is-${timelineMediaShape}`}>
+            <div className="timelineSingleStage">
+              {activeTimelineItem.type === "video" ? (
+                <video
+                  key={activeTimelineItem.src}
+                  src={activeTimelineItem.src}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  onLoadedMetadata={(event) => updateTimelineMediaShape(event.currentTarget.videoWidth, event.currentTarget.videoHeight)}
+                />
+              ) : (
+                <img
+                  key={activeTimelineItem.src}
+                  src={activeTimelineItem.src}
+                  alt={activeTimelineItem.title}
+                  onLoad={(event) => updateTimelineMediaShape(event.currentTarget.naturalWidth, event.currentTarget.naturalHeight)}
+                />
+              )}
+              {activeTimelineCount > 1 ? (
+                <>
+                  <button className="timelineNavButton timelineNavButtonPrev" type="button" onClick={() => shiftTimelineItem(-1)} aria-label={locale === "zh" ? "上一个" : "Previous"}>
+                    <ChevronLeft size={30} aria-hidden="true" />
+                  </button>
+                  <button className="timelineNavButton timelineNavButtonNext" type="button" onClick={() => shiftTimelineItem(1)} aria-label={locale === "zh" ? "下一个" : "Next"}>
+                    <ChevronRight size={30} aria-hidden="true" />
+                  </button>
+                </>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <section className="section worksSection" id="works">
         <div className="sectionHead wide">
