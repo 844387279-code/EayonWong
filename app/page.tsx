@@ -5,25 +5,54 @@ import {
   Clapperboard,
   DatabaseZap,
   Languages,
-  Mail,
-  Phone,
   ScanLine,
   Store,
   Target,
-  UserRound,
   Workflow,
   X,
 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import BorderGlow from "./components/BorderGlow";
+import LogoLoop from "./components/LogoLoop";
+import ShinyText from "./components/ShinyText";
 import SoftAurora from "./components/SoftAurora";
+import TiltedCard from "./components/TiltedCard";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
 const featuredVideos = Array.from({ length: 12 }, (_, index) => ({
   title: `${index + 1}`,
   src: ["/videos/kjx/183-set-1.mp4", "/videos/kjx/183-set-2.mp4", "/videos/kjx/183-set-3.mp4", "/videos/home/hero.mp4"][index % 4],
 }));
+const partnerBrands = [
+  { title: "a2奶粉", src: "/images/partners/transparent/a2.png" },
+  { title: "隔壁刘奶奶", src: "/images/partners/transparent/gebiliunainai.png" },
+  { title: "荷兰乳牛", src: "/images/partners/transparent/holland-dairy.png" },
+  { title: "卡士", src: "/images/partners/transparent/classykiss.png" },
+  { title: "卡乐比", src: "/images/partners/transparent/calbee.png" },
+  { title: "bebebus", src: "/images/partners/transparent/bebebus.png" },
+  { title: "皮帕熊", src: "/images/partners/transparent/pepa.png" },
+  { title: "青衫渡", src: "/images/partners/transparent/qingshandu.png" },
+  { title: "穗丰", src: "/images/partners/transparent/suifeng.png" },
+  { title: "国台酒", src: "/images/partners/transparent/guotai.png" },
+  { title: "百年糊涂", src: "/images/partners/transparent/bainianhututu.png" },
+  { title: "钓鱼台", src: "/images/partners/transparent/diaoyutai.png" },
+  { title: "金沙古酒", src: "/images/partners/transparent/jinshagujiu.png" },
+  { title: "图虫创意", src: "/images/partners/transparent/tuchong.png" },
+  { title: "National Geographic", src: "/images/partners/transparent/national-geographic.png" },
+].map((brand) => {
+  const mark = <span className="partnerLogoFallback">{brand.title}</span>;
+  return {
+    node: (
+      <span className="partnerLogoMark">
+        {brand.src ? <img src={brand.src} alt={brand.title} loading="lazy" decoding="async" onError={(event) => event.currentTarget.classList.add("logoLoadFailed")} /> : null}
+        {mark}
+      </span>
+    ),
+    title: brand.title,
+    ariaLabel: brand.title,
+  };
+});
 
 type Locale = "zh" | "en";
 
@@ -39,7 +68,7 @@ const copy = {
       ["联系", "#contact"],
     ],
     lang: "EN",
-    heroTitle: "兴趣电商资深运营",
+    heroTitle: "AI正在改变世界",
     heroText:
       "8年抖音电商 / 3年微信小店运营 / 1年快手电商经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
     heroPrimary: "查看项目",
@@ -55,18 +84,26 @@ const copy = {
       ["16人", "跨职能团队管理"],
     ],
     profileTags: ["抖音电商", "视频号", "快手", "千川投放", "达人种草", "AI辅助运营"],
+    profileMilestones: [
+      ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
+      ["2019", "IP运营", "围绕垂类IP做内容定位、粉丝互动和商业转化尝试，建立账号运营方法。"],
+      ["2020", "深大教育", "在深大教育相关业务中接触课程产品、用户转化和私域运营链路。"],
+      ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
+    ],
     timelineTitle: "年份经历",
-    timelineLead: "用横向滚动方式呈现从设计教育、直播运营、兴趣电商操盘到AI辅助运营的成长路径。",
+    timelineLead: "",
     timeline: [
       ["2013-2015", "动漫设计与制作", "广东省技师学院，全日制学习，建立视觉表达和内容审美基础。"],
+      ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
+      ["2019", "IP运营", "围绕垂类IP做内容定位、粉丝互动和商业转化尝试，建立账号运营方法。"],
+      ["2020", "深大教育", "在深大教育相关业务中接触课程产品、用户转化和私域运营链路。"],
       ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
       ["2022-2024", "3C品牌抖音运营", "从0搭建抖音与视频号运营体系，全年销售额1000万+。"],
       ["2024-2025", "内容运营升级", "参与隔壁刘奶奶话题策划，累计播放量1亿+，推动内容与商业转化联动。"],
-      ["2025-至今", "兴趣电商运营总监", "操盘PEPA品牌，GSV从170万稳定到280万+，综合ROI提升至2.3。"],
-      ["NOW", "AI辅助运营", "用AI工具辅助选题、脚本、素材变体、数据复盘与经营决策。"],
+      ["2025-2026", "兴趣电商运营总监", "操盘PEPA品牌，GSV从170万稳定到280万+，综合ROI提升至2.3，并将AI工具融入运营决策。"],
     ],
     projectsTitle: "项目经历",
-    projectsLead: "用大卡片先搭好项目陈列方式，后续可替换为真实截图、视频封面、后台数据图和案例复盘。",
+    projectsLead: "",
     projects: [
       {
         title: "PEPA品牌兴趣电商",
@@ -98,7 +135,7 @@ const copy = {
       },
     ],
     worksTitle: "个人作品",
-    worksLead: "这里先展示我的能力模块，后续可以接入真实作品卡、AI工作流截图、短视频案例和数据面板。",
+    worksLead: "",
     works: [
       ["AI内容工作流", "用AI辅助选题、脚本、标题、卖点拆解和批量素材变体，提高短视频内容迭代速度。"],
       ["数据复盘系统", "围绕GMV、GSV、ROI、CTR、CVR、停留、互动等指标搭建复盘逻辑和经营看板。"],
@@ -122,7 +159,7 @@ const copy = {
       ["Contact", "#contact"],
     ],
     lang: "中",
-    heroTitle: "Senior Interest E-commerce Operator",
+    heroTitle: "AI is changing the world",
     heroText:
       "8 years in Douyin e-commerce / 3 years in WeChat Shop operations / 1 year in Kuaishou e-commerce. I connect brand livestreaming, creator seeding, short video content, paid traffic, store operations, team management, and AI-assisted workflows.",
     heroPrimary: "View projects",
@@ -138,18 +175,26 @@ const copy = {
       ["16", "Team members"],
     ],
     profileTags: ["Douyin", "WeChat Channels", "Kuaishou", "Qianchuan Ads", "Creator Seeding", "AI Ops"],
+    profileMilestones: [
+      ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
+      ["2019", "IP Operations", "Worked on vertical IP positioning, audience engagement, and commercial conversion experiments."],
+      ["2020", "Shenzhen University Education", "Explored course products, user conversion, and private traffic operations."],
+      ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
+    ],
     timelineTitle: "Timeline",
-    timelineLead: "A horizontal career path from visual design education to livestream operations, interest e-commerce, and AI-assisted operations.",
+    timelineLead: "",
     timeline: [
       ["2013-2015", "Animation Design", "Full-time study at Guangdong Technician College, building a foundation in visual expression."],
+      ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
+      ["2019", "IP Operations", "Worked on vertical IP positioning, audience engagement, and commercial conversion experiments."],
+      ["2020", "Shenzhen University Education", "Explored course products, user conversion, and private traffic operations."],
       ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
       ["2022-2024", "3C Douyin Operations", "Built Douyin and WeChat Channels operations from scratch; annual sales exceeded RMB 10M."],
       ["2024-2025", "Content Operations", "Worked on Gebiliunainai topic planning with 100M+ cumulative views and commercial conversion."],
-      ["2025-Present", "Operations Director", "Led PEPA operations, growing GSV from RMB 1.7M to 2.8M+ and ROI to 2.3."],
-      ["NOW", "AI-assisted Ops", "Apply AI tools to topics, scripts, creative variants, data review, and operating decisions."],
+      ["2025-2026", "Operations Director", "Led PEPA operations, growing GSV from RMB 1.7M to 2.8M+, improving ROI to 2.3, and integrating AI into decisions."],
     ],
     projectsTitle: "Project Experience",
-    projectsLead: "Large cards establish the project gallery. Later we can replace these with real screenshots, covers, dashboards, and case studies.",
+    projectsLead: "",
     projects: [
       {
         title: "PEPA Interest E-commerce",
@@ -181,7 +226,7 @@ const copy = {
       },
     ],
     worksTitle: "Selected Capabilities",
-    worksLead: "Capability cards first; later we can plug in real work cards, AI workflow screenshots, video cases, and dashboards.",
+    worksLead: "",
     works: [
       ["AI Content Workflow", "Use AI for topics, scripts, titles, selling points, and content variants to accelerate iteration."],
       ["Data Review System", "Build review logic around GMV, GSV, ROI, CTR, CVR, retention, engagement, and operating dashboards."],
@@ -202,6 +247,11 @@ function playQuietly(video: HTMLVideoElement) {
   void video.play().catch(() => {});
 }
 
+function displayTimelineYear(year: string) {
+  if (year.includes("-")) return year.split("-").at(-1) ?? year;
+  return year;
+}
+
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const [loadProgress, setLoadProgress] = useState(50);
@@ -209,7 +259,7 @@ export default function Home() {
   const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
-  const timelineImages = ["/images/avatar.jpg", "/og.png", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg"];
+  const timelineImages = ["/images/avatar.jpg", "/og.png", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg"];
 
   useEffect(() => {
     let progress = 50;
@@ -244,7 +294,7 @@ export default function Home() {
 
   useEffect(() => {
     const revealTargets = document.querySelectorAll(
-      ".heroInner, .sectionHead, .profileGrid, .metricCard, .projectCard, .abilityCard, .contactInner",
+      ".heroInner, .sectionHead, .profileGrid, .projectCard, .abilityCard",
     );
 
     const observer = new IntersectionObserver(
@@ -329,8 +379,19 @@ export default function Home() {
         </nav>
 
         <div className="heroInner">
-          <h1>{t.heroTitle}</h1>
-          <p className="heroText">{locale === "zh" ? "8年抖音电商 / 3年微信小店" : "8 years Douyin / 3 years WeChat Shop"}</p>
+          <h1>
+            <ShinyText text={t.heroTitle} speed={2.6} color="#eef5f2" shineColor="#ffffff" spread={115} className="heroShinyTitle" />
+          </h1>
+          <p className="heroText">
+            <ShinyText
+              text={locale === "zh" ? "你也在悄悄改变" : "You are changing quietly too"}
+              speed={3}
+              delay={0.2}
+              color="rgba(238, 245, 242, 0.62)"
+              shineColor="#ffffff"
+              spread={115}
+            />
+          </p>
         </div>
 
         <div className="featuredVideoRail" aria-label="代表作视频">
@@ -355,66 +416,95 @@ export default function Home() {
 
       <section className="section profileSection" id="profile">
         <div className="sectionHead">
-          <span>01 / Profile</span>
-          <h2>{t.profileTitle}</h2>
+          <span>{locale === "zh" ? "01/个人履历" : "01/Profile"}</span>
+          <h2 className="srOnly">{t.profileTitle}</h2>
         </div>
 
         <div className="profileGrid">
           <BorderGlow className="portraitCard" animated={false}>
-            <img src="/images/avatar.jpg" alt={t.brand} />
-            <div>
-              <strong>{t.brand}</strong>
-              <span>{t.role}</span>
-            </div>
+            <TiltedCard
+              imageSrc="/images/avatar.jpg"
+              hoverImageSrc="/images/life-photo.jpg"
+              altText={t.brand}
+              captionText={t.brand}
+              containerHeight="100%"
+              containerWidth="100%"
+              imageHeight="100%"
+              imageWidth="100%"
+              rotateAmplitude={7}
+              scaleOnHover={1.035}
+              showTooltip={false}
+              hoverLabel={locale === "zh" ? "生活照" : "Life Photo"}
+              className="portraitTilt"
+            />
           </BorderGlow>
 
-          <BorderGlow className="profileCopy" animated={false}>
-            <p>{t.profileBody}</p>
-            <div className="tagCloud">
-              {t.profileTags.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          </BorderGlow>
-
-          <BorderGlow className="contactPanel" animated={false}>
-            <a href="tel:13424243016">
-              <Phone size={18} aria-hidden="true" />
-              {t.contact[0]}
-            </a>
-            <a href="mailto:844387279@qq.com">
-              <Mail size={18} aria-hidden="true" />
-              {t.contact[1]}
-            </a>
-            <span>
-              <UserRound size={18} aria-hidden="true" />
-              {t.contact[2]}
-            </span>
-          </BorderGlow>
+          <TiltedCard containerHeight="auto" containerWidth="100%" imageHeight="auto" imageWidth="100%" rotateAmplitude={5} scaleOnHover={1.025} className="contentTilt">
+            <BorderGlow className="profileCopy" animated={false}>
+              <span className="profileEyebrow">{locale === "zh" ? "关于我" : "ABOUT ME"}</span>
+              <h3>{locale === "zh" ? "您好，" : "Hello,"}</h3>
+              <p>{t.profileBody}</p>
+              <div className="profileInfoGrid">
+                <span>
+                  <small>{locale === "zh" ? "当前方向" : "Focus"}</small>
+                  <strong>{t.role}</strong>
+                </span>
+                <span>
+                  <small>{locale === "zh" ? "所在城市" : "Location"}</small>
+                  <strong>{t.contact[2]}</strong>
+                </span>
+                <a href="tel:13424243016">
+                  <small>{locale === "zh" ? "手机" : "Phone"}</small>
+                  <strong>{t.contact[0]}</strong>
+                </a>
+                <a href="mailto:844387279@qq.com">
+                  <small>{locale === "zh" ? "邮箱" : "Email"}</small>
+                  <strong>{t.contact[1]}</strong>
+                </a>
+              </div>
+              <div className="tagCloud">
+                {t.profileTags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </BorderGlow>
+          </TiltedCard>
         </div>
 
         <div className="metricGrid">
           {t.metrics.map(([value, label]) => (
-            <BorderGlow className="metricCard" key={label} animated={false}>
-              <strong>{value}</strong>
-              <span>{label}</span>
-            </BorderGlow>
+            <TiltedCard containerHeight="auto" containerWidth="100%" imageHeight="auto" imageWidth="100%" rotateAmplitude={7} scaleOnHover={1.04} className="metricTilt" key={label}>
+              <BorderGlow className="metricCard noGlow" animated={false}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </BorderGlow>
+            </TiltedCard>
+          ))}
+        </div>
+
+        <div className="profilePath">
+          {t.profileMilestones.map(([year, title, body]) => (
+            <article key={`${year}-${title}`}>
+              <strong>{year}</strong>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
           ))}
         </div>
       </section>
 
       <section className="timelineSection" id="timeline">
         <div className="sectionHead wide timelineHead">
-          <span>02 / Timeline</span>
-          <h2>{t.timelineTitle}</h2>
-          <p>{t.timelineLead}</p>
+          <span>{locale === "zh" ? "02/年份总结" : "02/Timeline"}</span>
+          <h2 className="srOnly">{t.timelineTitle}</h2>
+          {t.timelineLead ? <p>{t.timelineLead}</p> : null}
         </div>
         <div className="careerScroller" aria-label={t.timelineTitle}>
           <div className="careerTrack">
-            {t.timeline.map(([year, title, body], index) => (
-              <article className="careerCard" key={`${year}-${title}`}>
-                <strong>{year}</strong>
-                <img src={timelineImages[index]} alt={title} />
+            {[...t.timeline, ...t.timeline].map(([year, title, body], index) => (
+              <article className="careerCard" key={`${year}-${title}-${index}`}>
+                <strong>{displayTimelineYear(year)}</strong>
+                <img src={timelineImages[index % timelineImages.length]} alt={title} />
                 <h3>{title}</h3>
                 <p>{body}</p>
               </article>
@@ -425,9 +515,9 @@ export default function Home() {
 
       <section className="section" id="projects">
         <div className="sectionHead wide">
-          <span>03 / Projects</span>
-          <h2>{t.projectsTitle}</h2>
-          <p>{t.projectsLead}</p>
+          <span>{locale === "zh" ? "03/项目经历" : "03/Projects"}</span>
+          <h2 className="srOnly">{t.projectsTitle}</h2>
+          {t.projectsLead ? <p>{t.projectsLead}</p> : null}
         </div>
 
         <div className="projectGrid">
@@ -449,9 +539,9 @@ export default function Home() {
 
       <section className="section worksSection" id="works">
         <div className="sectionHead wide">
-          <span>04 / Works</span>
-          <h2>{t.worksTitle}</h2>
-          <p>{t.worksLead}</p>
+          <span>{locale === "zh" ? "04/个人作品" : "04/Works"}</span>
+          <h2 className="srOnly">{t.worksTitle}</h2>
+          {t.worksLead ? <p>{t.worksLead}</p> : null}
         </div>
 
         <div className="worksGrid">
@@ -469,7 +559,7 @@ export default function Home() {
       </section>
 
       <section className="contactPage" id="contact">
-        <BorderGlow className="contactInner" animated={false}>
+        <BorderGlow className="contactInner noGlow" animated={false}>
           <p className="signal">
             <ScanLine size={16} aria-hidden="true" />
             Contact
@@ -496,6 +586,21 @@ export default function Home() {
             </div>
           </div>
         </BorderGlow>
+      </section>
+
+      <section className="partnerLogoSection" aria-label={locale === "zh" ? "历史合作品牌" : "Brand partners"}>
+        <LogoLoop
+          logos={partnerBrands}
+          speed={66}
+          direction="left"
+          logoHeight={64}
+          gap={28}
+          hoverSpeed={18}
+          scaleOnHover
+          fadeOut
+          fadeOutColor="#050607"
+          ariaLabel={locale === "zh" ? "历史合作品牌 Logo" : "Brand partner logos"}
+        />
       </section>
       </main>
     </>

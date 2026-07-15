@@ -50,6 +50,15 @@ a {
   text-decoration: none;
 }
 
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -155,7 +164,7 @@ a {
   width: 100%;
   height: calc(100% + 50px);
   object-fit: cover;
-  object-position: center calc(50% - 50px);
+  object-position: center calc(50% - 60px);
   opacity: 0.9;
   filter: brightness(1.12) contrast(1.08) saturate(1.06);
 }
@@ -169,6 +178,7 @@ a {
 }
 
 .topNav {
+  --specular-bg: rgba(28, 33, 34, 0.72);
   position: fixed;
   top: 1rem;
   left: clamp(1.25rem, 3vw, 3rem);
@@ -288,13 +298,20 @@ a {
 }
 
 .hero h1 {
-  max-width: 9ch;
+  max-width: none;
   margin: 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: clamp(2.8rem, 5vw, 5.8rem);
-  font-weight: 900;
-  line-height: 0.95;
+  color: var(--accent);
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: clamp(1.8rem, 3.15vw, 3.72rem);
+  font-weight: 780;
+  line-height: 0.94;
   letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.heroShinyTitle {
+  letter-spacing: 0;
+  text-shadow: 0 0 2.2rem rgba(238, 245, 242, 0.16);
 }
 
 .heroText {
@@ -302,7 +319,7 @@ a {
   margin: 0.9rem 0 0;
   color: rgba(238, 245, 242, 0.7);
   font-size: clamp(0.95rem, 1.2vw, 1.12rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1.55;
 }
 
@@ -492,8 +509,9 @@ a {
 
 .sectionHead span {
   color: var(--accent);
-  font-size: 0.8rem;
+  font-size: clamp(1.15rem, 1.85vw, 1.95rem);
   font-weight: 900;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
@@ -515,8 +533,10 @@ a {
 
 .profileGrid {
   display: grid;
-  grid-template-columns: 25rem minmax(24rem, 1fr) 24rem;
-  gap: 1rem;
+  grid-template-columns: minmax(20rem, 0.75fr) minmax(28rem, 1.25fr);
+  align-items: stretch;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  perspective: 1200px;
 }
 
 .portraitCard,
@@ -534,55 +554,96 @@ a {
 
 .portraitCard {
   overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(66, 216, 196, 0.12), transparent 18rem),
+    rgba(14, 27, 31, 0.72);
 }
 
-.portraitCard img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+.portraitCard .border-glow-inner {
+  min-height: 32rem;
 }
 
-.portraitCard div {
-  padding: 1.2rem;
+.portraitTilt .tilted-card-inner {
+  border: 1px solid rgba(238, 245, 242, 0.14);
+  border-radius: 8px;
+  box-shadow: 0 2.5rem 7rem rgba(0, 0, 0, 0.28);
 }
 
-.portraitCard strong,
-.portraitCard span {
-  display: block;
-}
-
-.portraitCard strong {
-  font-size: 1.3rem;
-}
-
-.portraitCard span {
-  margin-top: 0.35rem;
-  color: var(--muted);
+.portraitTilt:hover .tilted-card-inner {
+  border-color: rgba(66, 216, 196, 0.78);
+  box-shadow: 0 2.5rem 7rem rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(66, 216, 196, 0.42), 0 0 3rem rgba(66, 216, 196, 0.2);
 }
 
 .profileCopy {
-  padding: clamp(1.4rem, 2vw, 2.2rem);
+  height: 100%;
+  padding: clamp(1.6rem, 3vw, 3rem);
+  background:
+    linear-gradient(135deg, rgba(66, 216, 196, 0.1), transparent 42%),
+    linear-gradient(160deg, rgba(21, 51, 62, 0.78), rgba(11, 19, 23, 0.82));
+}
+
+.profileEyebrow {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.profileCopy h3 {
+  margin: 0.65rem 0 0;
+  font-size: clamp(2.3rem, 4vw, 4.6rem);
+  line-height: 1;
 }
 
 .profileCopy p {
-  margin: 0;
+  margin: 1rem 0 0;
   color: rgba(238, 245, 242, 0.78);
-  font-size: clamp(1.12rem, 1.5vw, 1.48rem);
-  line-height: 1.9;
+  font-size: clamp(1rem, 1.2vw, 1.16rem);
+  line-height: 1.85;
+}
+
+.profileInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.profileInfoGrid span,
+.profileInfoGrid a {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 5.2rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem;
+}
+
+.profileInfoGrid small {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.profileInfoGrid strong {
+  color: rgba(238, 245, 242, 0.86);
+  font-size: 0.98rem;
 }
 
 .tagCloud {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
-  margin-top: 2rem;
+  margin-top: 1.6rem;
 }
 
 .tagCloud span {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(66, 216, 196, 0.34);
   border-radius: 8px;
-  color: var(--accent-2);
+  background: rgba(66, 216, 196, 0.07);
+  color: var(--accent);
   padding: 0.65rem 0.75rem;
   font-weight: 800;
 }
@@ -609,12 +670,17 @@ a {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
+  perspective: 1200px;
 }
 
 .metricCard {
-  min-height: 10rem;
+  height: 100%;
+  min-height: 8.5rem;
   padding: 1.2rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(66, 216, 196, 0.12), transparent 12rem),
+    rgba(16, 34, 43, 0.78);
 }
 
 .metricCard strong,
@@ -624,7 +690,7 @@ a {
 
 .metricCard strong {
   color: var(--text);
-  font-size: clamp(2rem, 3vw, 4rem);
+  font-size: clamp(1.9rem, 2.8vw, 3.3rem);
   line-height: 1;
 }
 
@@ -632,6 +698,50 @@ a {
   margin-top: 1rem;
   color: var(--muted);
   font-weight: 700;
+}
+
+.profilePath {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  max-width: var(--max);
+  margin: 2rem auto 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+.profilePath article {
+  position: relative;
+  padding: 2rem 1.2rem 0;
+}
+
+.profilePath article::before {
+  content: "";
+  position: absolute;
+  top: -0.38rem;
+  left: 1.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 1.4rem rgba(66, 216, 196, 0.48);
+}
+
+.profilePath strong {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.profilePath h3 {
+  margin: 0.75rem 0 0;
+  font-size: 1.05rem;
+}
+
+.profilePath p {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.7;
 }
 
 .timelineSection {
@@ -648,25 +758,27 @@ a {
 }
 
 .careerScroller {
+  position: relative;
   max-width: var(--max);
   margin: 0 auto;
   overflow-x: auto;
-  padding: 3rem clamp(1.25rem, 3vw, 3rem) 2.4rem;
-  scrollbar-color: rgba(66, 216, 196, 0.55) rgba(255, 255, 255, 0.08);
+  padding: 3rem clamp(1.25rem, 3vw, 3rem) 3.1rem;
+  scrollbar-color: rgba(66, 216, 196, 0.72) rgba(255, 255, 255, 0.1);
   scrollbar-width: thin;
-  scroll-snap-type: x mandatory;
 }
 
 .careerScroller::-webkit-scrollbar {
-  height: 0.65rem;
+  height: 0.55rem;
 }
 
 .careerScroller::-webkit-scrollbar-track {
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
 }
 
 .careerScroller::-webkit-scrollbar-thumb {
-  background: rgba(66, 216, 196, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(66, 216, 196, 0.95), rgba(168, 199, 255, 0.55));
 }
 
 .careerTrack {
@@ -674,6 +786,11 @@ a {
   width: max-content;
   gap: clamp(2rem, 4vw, 4rem);
   padding-right: 15vw;
+  animation: career-auto-scroll 34s linear infinite;
+}
+
+.careerScroller:hover .careerTrack {
+  animation-play-state: paused;
 }
 
 .careerCard {
@@ -681,7 +798,6 @@ a {
   position: relative;
   width: min(76vw, 36rem);
   flex: 0 0 auto;
-  scroll-snap-align: start;
   padding-top: 3.2rem;
 }
 
@@ -690,12 +806,12 @@ a {
   top: 0;
   left: -0.25rem;
   z-index: 2;
-  color: #ffd91e;
+  color: var(--accent);
   font-size: clamp(5rem, 8vw, 8.5rem);
   font-weight: 900;
   line-height: 0.78;
   letter-spacing: 0;
-  text-shadow: 0 0 2rem rgba(255, 217, 30, 0.3);
+  text-shadow: 0 0 2rem rgba(66, 216, 196, 0.28);
 }
 
 .careerCard img {
@@ -724,6 +840,16 @@ a {
   color: var(--muted);
   font-size: 1rem;
   line-height: 1.75;
+}
+
+@keyframes career-auto-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .projectGrid {
@@ -842,7 +968,7 @@ a {
 
 .contactInner {
   width: 100%;
-  max-width: 1180px;
+  max-width: var(--max);
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -938,6 +1064,64 @@ a {
   font-weight: 900;
 }
 
+.partnerLogoSection {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 78% 12%, rgba(66, 216, 196, 0.1), transparent 28rem),
+    linear-gradient(180deg, #050607, #030404);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: clamp(2.3rem, 4vw, 3.5rem) 0;
+}
+
+.partnerLogoSection .logoloop {
+  max-width: 100%;
+}
+
+.partnerLogoMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9.6rem;
+  height: var(--logoloop-logoHeight);
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(238, 245, 242, 0.76);
+  font-size: 0.9rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0.45rem 1.1rem;
+  white-space: nowrap;
+}
+
+.partnerLogoMark img {
+  display: block;
+  max-width: 8.4rem;
+  height: calc(var(--logoloop-logoHeight) - 0.8rem);
+  filter: drop-shadow(0 0.18rem 0.5rem rgba(0, 0, 0, 0.26));
+  object-fit: contain;
+}
+
+.partnerLogoMark img:not(.logoLoadFailed) + .partnerLogoFallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.partnerLogoMark img.logoLoadFailed {
+  display: none;
+}
+
+.partnerLogoFallback {
+  color: rgba(238, 245, 242, 0.74);
+}
+
 @media (max-width: 1100px) {
   .topNav,
   .profileGrid,
@@ -953,7 +1137,8 @@ a {
 
   .metricGrid,
   .projectGrid,
-  .worksGrid {
+  .worksGrid,
+  .profilePath {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -966,7 +1151,7 @@ a {
 
 @media (max-width: 720px) {
   .hero h1 {
-    font-size: clamp(2.4rem, 11vw, 3.6rem);
+    font-size: clamp(1.85rem, 8.5vw, 2.9rem);
   }
 
   .navLinks {
@@ -976,8 +1161,14 @@ a {
   .profileGrid,
   .metricGrid,
   .projectGrid,
-  .worksGrid {
+  .worksGrid,
+  .profileInfoGrid,
+  .profilePath {
     grid-template-columns: 1fr;
+  }
+
+  .portraitCard img {
+    min-height: 24rem;
   }
 
   .topNav {
@@ -995,6 +1186,11 @@ a {
 
   .contactInner h2 {
     font-size: clamp(2.8rem, 13vw, 4.5rem);
+  }
+
+  .partnerLogoMark {
+    min-width: 7.4rem;
+    font-size: 0.82rem;
   }
 
   .finalContact {
