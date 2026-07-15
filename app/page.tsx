@@ -17,13 +17,24 @@ import BorderGlow from "./components/BorderGlow";
 import LogoLoop from "./components/LogoLoop";
 import ShinyText from "./components/ShinyText";
 import SoftAurora from "./components/SoftAurora";
+import TextType from "./components/TextType";
 import TiltedCard from "./components/TiltedCard";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
-const featuredVideos = Array.from({ length: 12 }, (_, index) => ({
-  title: `${index + 1}`,
-  src: ["/videos/kjx/183-set-1.mp4", "/videos/kjx/183-set-2.mp4", "/videos/kjx/183-set-3.mp4", "/videos/home/hero.mp4"][index % 4],
-}));
+const featuredVideos = [
+  { title: "炫迈妹子", src: "/videos/featured/01-xuanmai.mp4" },
+  { title: "一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4" },
+  { title: "沐言开心酱", src: "/videos/featured/03-muyan.mp4" },
+  { title: "尹木木", src: "/videos/featured/04-yinmumu.mp4" },
+  { title: "是啵儿宝啊", src: "/videos/featured/05-boerbao.mp4" },
+  { title: "林阿木木", src: "/videos/featured/06-linamumu.mp4" },
+  { title: "嗷嗷待哺小十一", src: "/videos/featured/07-xiaoshiyi.mp4" },
+  { title: "多宝小圆子", src: "/videos/featured/08-duobao.mp4" },
+  { title: "雪球", src: "/videos/featured/09-xueqiu.mp4" },
+  { title: "吴允博-球球", src: "/videos/featured/10-qiuqiu.mp4" },
+  { title: "营养师辣妈小惠", src: "/videos/featured/11-xiaohui.mp4" },
+  { title: "宁小雪", src: "/videos/featured/12-ningxiaoxue.mp4" },
+];
 const partnerBrands = [
   { title: "a2奶粉", src: "/images/partners/transparent/a2.png" },
   { title: "隔壁刘奶奶", src: "/images/partners/transparent/gebiliunainai.png" },
@@ -32,7 +43,6 @@ const partnerBrands = [
   { title: "卡乐比", src: "/images/partners/transparent/calbee.png" },
   { title: "bebebus", src: "/images/partners/transparent/bebebus.png" },
   { title: "皮帕熊", src: "/images/partners/transparent/pepa.png" },
-  { title: "青衫渡", src: "/images/partners/transparent/qingshandu.png" },
   { title: "穗丰", src: "/images/partners/transparent/suifeng.png" },
   { title: "国台酒", src: "/images/partners/transparent/guotai.png" },
   { title: "百年糊涂", src: "/images/partners/transparent/bainianhututu.png" },
@@ -62,10 +72,10 @@ const copy = {
     role: "兴趣电商资深运营",
     nav: [
       ["首页", "#home"],
-      ["个人履历", "#profile"],
+      ["个人简介", "#profile"],
+      ["个人技能", "#works"],
       ["项目经历", "#projects"],
-      ["个人作品", "#works"],
-      ["联系", "#contact"],
+      ["取得联系", "#contact"],
     ],
     lang: "EN",
     heroTitle: "AI正在改变世界",
@@ -73,7 +83,7 @@ const copy = {
       "8年抖音电商 / 3年微信小店运营 / 1年快手电商经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
     heroPrimary: "查看项目",
     heroSecondary: "联系沟通",
-    profileTitle: "个人履历",
+    profileTitle: "个人简介",
     profileBody:
       "我更像一个经营型运营：既能拆GMV、ROI、货盘和人群，也能落到直播间脚本、素材生产、投放模型和团队执行。现在重点补强AI工具能力，用自动化、内容生成和数据分析提高运营效率。",
     contact: ["13424243016", "844387279@qq.com", "深圳"],
@@ -134,7 +144,7 @@ const copy = {
         visual: "Founder Project",
       },
     ],
-    worksTitle: "个人作品",
+    worksTitle: "个人技能",
     worksLead: "",
     works: [
       ["AI内容工作流", "用AI辅助选题、脚本、标题、卖点拆解和批量素材变体，提高短视频内容迭代速度。"],
@@ -153,9 +163,9 @@ const copy = {
     role: "Senior Interest E-commerce Operator",
     nav: [
       ["Home", "#home"],
-      ["Profile", "#profile"],
+      ["Intro", "#profile"],
+      ["Skills", "#works"],
       ["Projects", "#projects"],
-      ["Works", "#works"],
       ["Contact", "#contact"],
     ],
     lang: "中",
@@ -259,7 +269,16 @@ export default function Home() {
   const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
-  const timelineImages = ["/images/avatar.jpg", "/og.png", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg", "/og.png", "/images/avatar.jpg"];
+  const timelineImages = [
+    "/images/timeline/2015-design.svg",
+    "/images/timeline/2018-short-video.svg",
+    "/images/timeline/2019-ip.svg",
+    "/images/timeline/2020-education.svg",
+    "/images/timeline/2022-liquor.svg",
+    "/images/timeline/2024-3c.svg",
+    "/images/timeline/2025-content.svg",
+    "/images/timeline/2026-ai-ops.svg",
+  ];
 
   useEffect(() => {
     let progress = 50;
@@ -380,7 +399,19 @@ export default function Home() {
 
         <div className="heroInner">
           <h1>
-            <ShinyText text={t.heroTitle} speed={2.6} color="#eef5f2" shineColor="#ffffff" spread={115} className="heroShinyTitle" />
+            <TextType
+              key={t.heroTitle}
+              text={t.heroTitle}
+              typingSpeed={70}
+              initialDelay={280}
+              pauseDuration={3600}
+              deletingSpeed={36}
+              loop={false}
+              showCursor
+              cursorCharacter="|"
+              className="heroShinyTitle"
+              as="span"
+            />
           </h1>
           <p className="heroText">
             <ShinyText
@@ -396,8 +427,8 @@ export default function Home() {
 
         <div className="featuredVideoRail" aria-label="代表作视频">
           {[...featuredVideos, ...featuredVideos].map((video, index) => (
-            <button className="featuredVideoCard" type="button" key={`${video.title}-${index}`} onClick={() => setActiveVideo(video)}>
-              <strong>{video.title}</strong>
+            <button className="featuredVideoCard" type="button" key={`${video.title}-${index}`} onClick={() => setActiveVideo(video)} aria-label={`播放${video.title}`}>
+              <span>{video.title}</span>
             </button>
           ))}
         </div>
@@ -416,7 +447,7 @@ export default function Home() {
 
       <section className="section profileSection" id="profile">
         <div className="sectionHead">
-          <span>{locale === "zh" ? "01/个人履历" : "01/Profile"}</span>
+          <span>{locale === "zh" ? "01/个人简介" : "01/Intro"}</span>
           <h2 className="srOnly">{t.profileTitle}</h2>
         </div>
 
@@ -440,9 +471,9 @@ export default function Home() {
           </BorderGlow>
 
           <TiltedCard containerHeight="auto" containerWidth="100%" imageHeight="auto" imageWidth="100%" rotateAmplitude={5} scaleOnHover={1.025} className="contentTilt">
-            <BorderGlow className="profileCopy" animated={false}>
-              <span className="profileEyebrow">{locale === "zh" ? "关于我" : "ABOUT ME"}</span>
-              <h3>{locale === "zh" ? "您好，" : "Hello,"}</h3>
+              <BorderGlow className="profileCopy" animated={false}>
+                <span className="profileEyebrow">{locale === "zh" ? "关于我" : "ABOUT ME"}</span>
+              <h3>{locale === "zh" ? "您好，我是黄伊阳" : "Hello, I am Eayon"}</h3>
               <p>{t.profileBody}</p>
               <div className="profileInfoGrid">
                 <span>
@@ -501,7 +532,7 @@ export default function Home() {
         </div>
         <div className="careerScroller" aria-label={t.timelineTitle}>
           <div className="careerTrack">
-            {[...t.timeline, ...t.timeline].map(([year, title, body], index) => (
+            {t.timeline.map(([year, title, body], index) => (
               <article className="careerCard" key={`${year}-${title}-${index}`}>
                 <strong>{displayTimelineYear(year)}</strong>
                 <img src={timelineImages[index % timelineImages.length]} alt={title} />
@@ -513,9 +544,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section worksSection" id="works">
+        <div className="sectionHead wide">
+          <span>{locale === "zh" ? "03/个人技能" : "03/Skills"}</span>
+          <h2 className="srOnly">{t.worksTitle}</h2>
+          {t.worksLead ? <p>{t.worksLead}</p> : null}
+        </div>
+
+        <div className="worksGrid">
+          {t.works.map(([title, body], index) => {
+            const Icon = workIcons[index];
+            return (
+              <BorderGlow className="abilityCard" key={title} animated={false}>
+                <Icon size={24} aria-hidden="true" />
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </BorderGlow>
+            );
+          })}
+        </div>
+      </section>
+
       <section className="section" id="projects">
         <div className="sectionHead wide">
-          <span>{locale === "zh" ? "03/项目经历" : "03/Projects"}</span>
+          <span>{locale === "zh" ? "04/项目经历" : "04/Projects"}</span>
           <h2 className="srOnly">{t.projectsTitle}</h2>
           {t.projectsLead ? <p>{t.projectsLead}</p> : null}
         </div>
@@ -537,32 +589,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section worksSection" id="works">
-        <div className="sectionHead wide">
-          <span>{locale === "zh" ? "04/个人作品" : "04/Works"}</span>
-          <h2 className="srOnly">{t.worksTitle}</h2>
-          {t.worksLead ? <p>{t.worksLead}</p> : null}
-        </div>
-
-        <div className="worksGrid">
-          {t.works.map(([title, body], index) => {
-            const Icon = workIcons[index];
-            return (
-              <BorderGlow className="abilityCard" key={title} animated={false}>
-                <Icon size={24} aria-hidden="true" />
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </BorderGlow>
-            );
-          })}
-        </div>
-      </section>
-
       <section className="contactPage" id="contact">
         <BorderGlow className="contactInner noGlow" animated={false}>
           <p className="signal">
             <ScanLine size={16} aria-hidden="true" />
-            Contact
+            {locale === "zh" ? "取得联系" : "Contact"}
           </p>
           <h2>{t.contactTitle}</h2>
 

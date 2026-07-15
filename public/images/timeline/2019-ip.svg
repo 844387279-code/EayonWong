@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="2019 IP运营">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#070b0c"/>
+      <stop offset="1" stop-color="#102d3a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="34" fill="url(#bg)"/>
+  <circle cx="600" cy="346" r="210" fill="none" stroke="#42d8c4" stroke-width="3" opacity=".55"/>
+  <circle cx="600" cy="346" r="132" fill="#42d8c4" opacity=".12"/>
+  <circle cx="600" cy="346" r="18" fill="#42d8c4"/>
+  <g fill="#eef5f2" opacity=".82">
+    <circle cx="358" cy="216" r="18"/><circle cx="828" cy="206" r="14"/><circle cx="286" cy="486" r="12"/><circle cx="902" cy="478" r="20"/>
+  </g>
+  <path d="M600 346L358 216M600 346l228-140M600 346 286 486M600 346l302 132" stroke="#42d8c4" stroke-width="2" opacity=".34"/>
+  <text x="86" y="138" fill="#42d8c4" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="900" letter-spacing="4">IP POSITIONING</text>
+  <text x="82" y="642" fill="#eef5f2" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="900">账号内容定位</text>
+</svg>

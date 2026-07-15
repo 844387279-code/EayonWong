@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="2015 动漫设计与制作">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dcecff"/>
+      <stop offset="1" stop-color="#f7fbff"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#42d8c4"/>
+      <stop offset="1" stop-color="#0d2740"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="34" fill="url(#bg)"/>
+  <path d="M170 568C245 422 338 342 451 328c115-15 190 48 305 8 77-26 150-92 218-199" fill="none" stroke="url(#line)" stroke-width="8" opacity=".42"/>
+  <path d="M196 586h808" stroke="#0d2740" stroke-width="2" opacity=".12"/>
+  <circle cx="304" cy="430" r="72" fill="#42d8c4" opacity=".18"/>
+  <rect x="625" y="178" width="72" height="314" rx="18" fill="#42d8c4" opacity=".18"/>
+  <rect x="720" y="128" width="72" height="364" rx="18" fill="#f07167" opacity=".2"/>
+  <rect x="815" y="234" width="72" height="258" rx="18" fill="#0d2740" opacity=".18"/>
+  <text x="96" y="154" fill="#0d2740" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="900" letter-spacing="4">VISUAL FOUNDATION</text>
+  <text x="94" y="236" fill="#0d2740" font-family="Inter, Arial, sans-serif" font-size="96" font-weight="900">动漫设计</text>
+  <text x="100" y="650" fill="#0d2740" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" opacity=".68">Design / Motion / Aesthetic Foundation</text>
+</svg>

@@ -94,6 +94,7 @@ a {
   opacity: 1;
   visibility: visible;
   transition: opacity 680ms ease, visibility 680ms ease;
+  animation: intro-loader-fallback 1ms linear 1.45s forwards;
 }
 
 .introLoaderDone {
@@ -143,6 +144,14 @@ a {
   line-height: 0.96;
   letter-spacing: 0;
   text-shadow: 0 0 1.8rem rgba(66, 216, 196, 0.18);
+}
+
+@keyframes intro-loader-fallback {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .hero {
@@ -354,7 +363,7 @@ a {
 .featuredVideoCard {
   position: relative;
   display: grid;
-  align-content: end;
+  place-items: end center;
   width: clamp(6.2rem, 8vw, 7.8rem);
   aspect-ratio: 4 / 5;
   flex: 0 0 auto;
@@ -391,18 +400,29 @@ a {
     linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.48));
 }
 
-.featuredVideoCard strong {
+.featuredVideoCard span {
   position: relative;
   z-index: 1;
+  max-width: 100%;
+  padding: 0.38rem 0.52rem;
+  border: 1px solid rgba(66, 216, 196, 0.34);
+  border-radius: 999px;
+  background: rgba(5, 12, 14, 0.58);
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1.15;
   text-align: center;
+  opacity: 0;
+  transform: translateY(0.55rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+  white-space: nowrap;
 }
 
-.featuredVideoCard strong {
-  margin: auto;
-  color: var(--text);
-  font-size: clamp(2.1rem, 3.2vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1;
+.featuredVideoCard:hover span,
+.featuredVideoCard:focus-visible span {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes featuredLoop {
@@ -759,6 +779,8 @@ a {
 
 .careerScroller {
   position: relative;
+  box-sizing: border-box;
+  width: calc(100% - clamp(2.5rem, 6vw, 6rem));
   max-width: var(--max);
   margin: 0 auto;
   overflow-x: auto;
@@ -786,11 +808,6 @@ a {
   width: max-content;
   gap: clamp(2rem, 4vw, 4rem);
   padding-right: 15vw;
-  animation: career-auto-scroll 34s linear infinite;
-}
-
-.careerScroller:hover .careerTrack {
-  animation-play-state: paused;
 }
 
 .careerCard {
@@ -840,16 +857,6 @@ a {
   color: var(--muted);
   font-size: 1rem;
   line-height: 1.75;
-}
-
-@keyframes career-auto-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
 }
 
 .projectGrid {
