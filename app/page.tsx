@@ -22,18 +22,18 @@ import TiltedCard from "./components/TiltedCard";
 
 const HERO_VIDEO_URL = "/videos/home/hero.mp4";
 const featuredVideos = [
-  { title: "炫迈妹子", src: "/videos/featured/01-xuanmai.mp4" },
-  { title: "一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4" },
-  { title: "沐言开心酱", src: "/videos/featured/03-muyan.mp4" },
-  { title: "尹木木", src: "/videos/featured/04-yinmumu.mp4" },
-  { title: "是啵儿宝啊", src: "/videos/featured/05-boerbao.mp4" },
-  { title: "林阿木木", src: "/videos/featured/06-linamumu.mp4" },
-  { title: "嗷嗷待哺小十一", src: "/videos/featured/07-xiaoshiyi.mp4" },
-  { title: "多宝小圆子", src: "/videos/featured/08-duobao.mp4" },
-  { title: "雪球", src: "/videos/featured/09-xueqiu.mp4" },
-  { title: "吴允博-球球", src: "/videos/featured/10-qiuqiu.mp4" },
-  { title: "营养师辣妈小惠", src: "/videos/featured/11-xiaohui.mp4" },
-  { title: "宁小雪", src: "/videos/featured/12-ningxiaoxue.mp4" },
+  { title: "@炫迈妹子", src: "/videos/featured/01-xuanmai.mp4", thumb: "/images/featured-thumbs/01-xuanmai.jpg" },
+  { title: "@一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4", thumb: "/images/featured-thumbs/02-rouwanzi.jpg" },
+  { title: "@沐言开心酱", src: "/videos/featured/03-muyan.mp4", thumb: "/images/featured-thumbs/03-muyan.jpg" },
+  { title: "@尹木木", src: "/videos/featured/04-yinmumu.mp4", thumb: "/images/featured-thumbs/04-yinmumu.jpg" },
+  { title: "@是啵儿宝啊", src: "/videos/featured/05-boerbao.mp4", thumb: "/images/featured-thumbs/05-boerbao.jpg" },
+  { title: "@林阿木木", src: "/videos/featured/06-linamumu.mp4", thumb: "/images/featured-thumbs/06-linamumu.jpg" },
+  { title: "@嗷嗷待哺小十一", src: "/videos/featured/07-xiaoshiyi.mp4", thumb: "/images/featured-thumbs/07-xiaoshiyi.jpg" },
+  { title: "@多宝小圆子", src: "/videos/featured/08-duobao.mp4", thumb: "/images/featured-thumbs/08-duobao.jpg" },
+  { title: "@雪球", src: "/videos/featured/09-xueqiu.mp4", thumb: "/images/featured-thumbs/09-xueqiu.jpg" },
+  { title: "@吴允博-球球", src: "/videos/featured/10-qiuqiu.mp4", thumb: "/images/featured-thumbs/10-qiuqiu.jpg" },
+  { title: "@营养师辣妈小惠", src: "/videos/featured/11-xiaohui.mp4", thumb: "/images/featured-thumbs/11-xiaohui.jpg" },
+  { title: "@宁小雪", src: "/videos/featured/12-ningxiaoxue.mp4", thumb: "/images/featured-thumbs/12-ningxiaoxue.jpg" },
 ];
 const partnerBrands = [
   { title: "a2奶粉", src: "/images/partners/transparent/a2.png" },
@@ -265,6 +265,7 @@ export default function Home() {
   const [loadProgress, setLoadProgress] = useState(50);
   const [introDone, setIntroDone] = useState(false);
   const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
+  const [videoHover, setVideoHover] = useState<{ title: string; x: number; y: number } | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
   const timelineImages = [
@@ -425,11 +426,25 @@ export default function Home() {
 
         <div className="featuredVideoRail" aria-label="代表作视频">
           {[...featuredVideos, ...featuredVideos].map((video, index) => (
-            <button className="featuredVideoCard" type="button" key={`${video.title}-${index}`} onClick={() => setActiveVideo(video)} aria-label={`播放${video.title}`}>
-              <span>{video.title}</span>
+            <button
+              className="featuredVideoCard"
+              type="button"
+              key={`${video.title}-${index}`}
+              onClick={() => setActiveVideo(video)}
+              onMouseMove={(event) => setVideoHover({ title: video.title, x: event.clientX, y: event.clientY })}
+              onMouseLeave={() => setVideoHover(null)}
+              onFocus={() => setVideoHover(null)}
+              aria-label={`播放${video.title}`}
+            >
+              <img src={video.thumb} alt="" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
+        {videoHover ? (
+          <div className="featuredVideoTooltip" style={{ "--tooltip-x": `${videoHover.x}px`, "--tooltip-y": `${videoHover.y}px` } as CSSProperties}>
+            {videoHover.title}
+          </div>
+        ) : null}
       </section>
 
       {activeVideo ? (
@@ -611,7 +626,7 @@ export default function Home() {
               </a>
             </div>
             <div className="qrBox">
-              <img src="/images/wechat-qr.jpg" alt={locale === "zh" ? "微信二维码" : "WeChat QR code"} />
+              <img src="/images/wechat-qr-green.png" alt={locale === "zh" ? "微信二维码" : "WeChat QR code"} />
             </div>
           </div>
         </BorderGlow>

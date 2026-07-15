@@ -373,11 +373,9 @@ a {
   scroll-snap-align: center;
   border: 1px solid rgba(238, 245, 242, 0.22);
   border-radius: 14px;
-  background:
-    linear-gradient(145deg, rgba(238, 245, 242, 0.08), rgba(66, 216, 196, 0.055)),
-    rgba(8, 12, 14, 0.46);
+  background: rgba(8, 12, 14, 0.46);
   color: var(--text);
-  padding: 0.85rem;
+  padding: 0;
   cursor: pointer;
   box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, 0.24);
   transform: rotate(-1deg);
@@ -393,38 +391,51 @@ a {
   transform: translateY(-0.35rem) rotate(0deg);
 }
 
+.featuredVideoCard img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.94) brightness(0.78);
+  transform: scale(1.02);
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.featuredVideoCard:hover img {
+  filter: saturate(1.06) brightness(0.96);
+  transform: scale(1.07);
+}
+
 .featuredVideoCard::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 28%, rgba(66, 216, 196, 0.22), transparent 42%),
-    linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.48));
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), transparent 46%, rgba(0, 0, 0, 0.52)),
+    radial-gradient(circle at 50% 78%, rgba(66, 216, 196, 0.16), transparent 52%);
 }
 
 .featuredVideoCard span {
-  position: relative;
-  z-index: 1;
-  max-width: 100%;
-  padding: 0.38rem 0.52rem;
-  border: 1px solid rgba(66, 216, 196, 0.34);
-  border-radius: 999px;
-  background: rgba(5, 12, 14, 0.58);
-  color: var(--accent);
-  font-size: 0.76rem;
-  font-weight: 900;
-  line-height: 1.15;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(0.55rem);
-  transition: opacity 180ms ease, transform 180ms ease;
-  white-space: nowrap;
+  display: none;
 }
 
-.featuredVideoCard:hover span,
-.featuredVideoCard:focus-visible span {
-  opacity: 1;
-  transform: translateY(0);
+.featuredVideoTooltip {
+  position: fixed;
+  left: var(--tooltip-x);
+  top: var(--tooltip-y);
+  z-index: 20;
+  pointer-events: none;
+  transform: translate(14px, 14px);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #07100f;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.42rem 0.68rem;
+  box-shadow: 0 0.7rem 1.8rem rgba(0, 0, 0, 0.24);
+  white-space: nowrap;
 }
 
 @keyframes featuredLoop {
@@ -463,19 +474,21 @@ a {
 }
 
 .videoModalFrame {
-  width: min(86vw, 78rem);
-  aspect-ratio: 16 / 9;
+  width: min(46vh, 92vw, 28rem);
+  max-height: 86vh;
   overflow: hidden;
   border: 1px solid rgba(238, 245, 242, 0.16);
   border-radius: 18px;
-  background: #000;
+  background: transparent;
   box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.5);
 }
 
 .videoModalFrame video {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  max-height: 86vh;
+  display: block;
+  object-fit: cover;
 }
 
 .solidButton,
@@ -787,23 +800,45 @@ a {
   max-width: var(--max);
   margin: 0 auto;
   overflow-x: auto;
-  padding: 3rem clamp(1.25rem, 3vw, 3rem) 3.1rem;
+  padding: 3rem clamp(1.25rem, 3vw, 3rem) 3.6rem;
   scrollbar-color: rgba(66, 216, 196, 0.72) rgba(255, 255, 255, 0.1);
   scrollbar-width: thin;
 }
 
+.careerScroller::after {
+  content: "左右滑动查看更多";
+  position: sticky;
+  left: 50%;
+  bottom: 0.6rem;
+  z-index: 2;
+  display: inline-flex;
+  width: max-content;
+  transform: translateX(-50%);
+  border: 1px solid rgba(66, 216, 196, 0.32);
+  border-radius: 999px;
+  background: rgba(238, 245, 242, 0.9);
+  color: #07100f;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.38rem 0.72rem;
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.26);
+}
+
 .careerScroller::-webkit-scrollbar {
-  height: 0.55rem;
+  height: 0.72rem;
 }
 
 .careerScroller::-webkit-scrollbar-track {
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(238, 245, 242, 0.08);
 }
 
 .careerScroller::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(7, 16, 15, 0.72);
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(66, 216, 196, 0.95), rgba(168, 199, 255, 0.55));
+  background: linear-gradient(90deg, #42d8c4, rgba(238, 245, 242, 0.86), #42d8c4);
+  box-shadow: 0 0 1.2rem rgba(66, 216, 196, 0.38);
 }
 
 .careerTrack {
@@ -1034,20 +1069,21 @@ a {
 
 .qrBox {
   display: grid;
-  width: 10rem;
+  width: 8.6rem;
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid var(--line-strong);
   border-radius: 16px;
-  background: #07100f;
+  background: rgba(238, 245, 242, 0.94);
   color: #07100f;
+  justify-self: center;
 }
 
 .qrBox img {
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  object-fit: cover;
+  width: 88%;
+  height: 88%;
+  border-radius: 10px;
+  object-fit: contain;
 }
 
 .finalLinks {
