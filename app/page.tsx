@@ -156,7 +156,6 @@ const copy = {
     ],
     contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
     contactLead: "联系我，一起把内容、数据和 AI 变成增长系统。",
-    qr: "微信二维码待上传",
   },
   en: {
     brand: "Eayon Wong",
@@ -247,7 +246,6 @@ const copy = {
     ],
     contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
     contactLead: "Let content, data, and AI become a stronger growth system.",
-    qr: "WeChat QR to upload",
   },
 } as const;
 
