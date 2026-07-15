@@ -1338,12 +1338,102 @@ a {
 }
 
 @media (max-width: 720px) {
-  .hero h1 {
-    font-size: clamp(1.85rem, 8.5vw, 2.9rem);
+  :root {
+    --mobile-pad: clamp(0.9rem, 4vw, 1.1rem);
+  }
+
+  html {
+    scroll-padding-top: 8.8rem;
+  }
+
+  .hero {
+    min-height: 100svh;
+    padding: 0 var(--mobile-pad) 1rem;
+  }
+
+  .heroVideo {
+    height: 100%;
+    object-position: center center;
+  }
+
+  .heroShade {
+    background:
+      linear-gradient(180deg, rgba(5, 6, 7, 0.68), rgba(5, 6, 7, 0.18) 44%, rgba(5, 6, 7, 0.72)),
+      linear-gradient(90deg, rgba(5, 6, 7, 0.42), rgba(5, 6, 7, 0.12) 50%, rgba(5, 6, 7, 0.42));
+  }
+
+  .topNav {
+    top: max(0.65rem, env(safe-area-inset-top));
+    left: var(--mobile-pad);
+    right: var(--mobile-pad);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.62rem 0.75rem;
+    padding: 0.72rem;
+    border-radius: 13px;
+  }
+
+  .identity {
+    gap: 0.62rem;
+  }
+
+  .identity img {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 7px;
+  }
+
+  .identity strong {
+    font-size: 0.94rem;
+  }
+
+  .identity small {
+    font-size: 0.72rem;
+  }
+
+  .langButton {
+    justify-self: end;
+    gap: 0.35rem;
+    padding: 0.58rem 0.66rem;
+    font-size: 0.84rem;
   }
 
   .navLinks {
-    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0.18rem;
+    overflow-x: auto;
+    padding-bottom: 0.05rem;
+    scrollbar-width: none;
+  }
+
+  .navLinks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navLinks a {
+    flex: 0 0 auto;
+    padding: 0.5rem 0.55rem;
+    font-size: clamp(0.78rem, 3.3vw, 0.9rem);
+  }
+
+  .heroInner {
+    padding-top: clamp(10.8rem, 25svh, 12.8rem);
+  }
+
+  .hero h1 {
+    font-size: clamp(1.78rem, 8vw, 2.55rem);
+    max-width: calc(100vw - (var(--mobile-pad) * 2));
+    overflow: hidden;
+    text-overflow: clip;
+  }
+
+  .heroText {
+    max-width: 15rem;
+    margin-top: 0.55rem;
+    font-size: clamp(0.86rem, 3.5vw, 0.98rem);
   }
 
   .profileGrid,
@@ -1355,25 +1445,101 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .section,
+  .contactPage {
+    padding: 4rem var(--mobile-pad);
+  }
+
+  .sectionHead {
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .sectionHead.wide {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHead span {
+    font-size: clamp(1.32rem, 6vw, 1.75rem);
+  }
+
   .portraitCard img {
     min-height: 24rem;
   }
 
-  .topNav {
-    top: 0.75rem;
+  .portraitCard .border-glow-inner {
+    min-height: min(112vw, 28rem);
+  }
+
+  .profileCopy {
+    padding: 1.15rem;
+  }
+
+  .profileCopy h3 {
+    font-size: clamp(2rem, 10vw, 3.1rem);
+  }
+
+  .profileCopy p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .profileInfoGrid span,
+  .profileInfoGrid a {
+    min-height: auto;
+    padding: 0.82rem;
+  }
+
+  .tagCloud {
+    gap: 0.52rem;
+  }
+
+  .tagCloud span {
+    padding: 0.52rem 0.62rem;
+    font-size: 0.84rem;
+  }
+
+  .metricCard {
+    min-height: 7.2rem;
+  }
+
+  .projectVisual {
+    min-height: 14rem;
+  }
+
+  .abilityCard {
+    min-height: 13.5rem;
+  }
+
+  .abilityCard h3 {
+    margin-top: 3.2rem;
   }
 
   .featuredVideoRail {
-    bottom: 2rem;
+    bottom: max(0.9rem, env(safe-area-inset-bottom));
+    gap: 0.55rem;
+    padding: 0.6rem 0;
     animation-duration: 24s;
   }
 
   .featuredVideoCard {
-    width: 5.8rem;
+    width: clamp(4.7rem, 22vw, 6.1rem);
+    border-radius: 12px;
   }
 
   .contactInner h2 {
-    font-size: clamp(2.8rem, 13vw, 4.5rem);
+    max-width: 9ch;
+    font-size: clamp(2.35rem, 12vw, 3.9rem);
+  }
+
+  .contactInner {
+    padding: 0;
+  }
+
+  .contactInner .border-glow-inner {
+    gap: 1.2rem;
+    min-height: auto;
+    justify-content: stretch;
   }
 
   .partnerLogoMark {
@@ -1384,26 +1550,82 @@ a {
   .finalContact {
     grid-template-columns: 1fr;
     width: 100%;
+    padding: 1rem;
+    border-radius: 18px;
   }
 
   .qrBox {
-    width: 7rem;
+    width: 6.35rem;
+    order: -1;
+  }
+
+  .finalLinks a {
+    padding: 0.68rem 0;
+  }
+
+  .finalLinks strong {
+    overflow-wrap: anywhere;
+  }
+
+  .timelineSection {
+    scroll-margin-top: 8.8rem;
+    padding: 4rem 0;
+  }
+
+  .timelineHead {
+    padding-inline: var(--mobile-pad);
+  }
+
+  .careerScroller {
+    width: 100%;
+    max-width: 100%;
+    padding: 2rem var(--mobile-pad) 2.4rem;
+  }
+
+  .careerTrack {
+    gap: 1.1rem;
+    padding-right: var(--mobile-pad);
   }
 
   .careerCard {
-    width: min(82vw, 24rem);
+    width: min(82vw, 21rem);
+    padding-top: 2.45rem;
   }
 
   .careerCard strong {
-    font-size: clamp(4rem, 18vw, 6rem);
+    font-size: clamp(3.35rem, 17vw, 5.2rem);
+  }
+
+  .careerCard h3 {
+    margin-top: 1rem;
+    font-size: clamp(1.15rem, 5.2vw, 1.55rem);
+  }
+
+  .careerCard p {
+    font-size: 0.9rem;
+    line-height: 1.62;
   }
 
   .timelineModalFrameSingle {
     grid-template-columns: 1fr;
+    width: min(100vw - 1rem, 34rem);
+    max-height: 86svh;
+    border-radius: 14px;
   }
 
   .timelineSingleStage {
-    min-height: 58vh;
+    max-height: 86svh;
+    min-height: auto;
+  }
+
+  .timelineModalFrameSingle.is-portrait .timelineSingleStage {
+    height: min(82svh, 42rem);
+    max-width: calc(min(82svh, 42rem) * 0.5625);
+  }
+
+  .timelineSingleStage img,
+  .timelineSingleStage video {
+    max-height: 86svh;
   }
 
   .timelineModalCopy {
@@ -1413,5 +1635,65 @@ a {
   .timelineNavButton {
     width: 2.7rem;
     height: 2.7rem;
+  }
+
+  .videoModalFrame {
+    width: min(100vw - 1rem, 28rem);
+    height: min(88svh, 42rem);
+    aspect-ratio: auto;
+  }
+
+  .videoModalFrame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 430px) {
+  .topNav {
+    padding: 0.66rem;
+  }
+
+  .navLinks a {
+    padding-inline: 0.48rem;
+  }
+
+  .heroInner {
+    padding-top: clamp(10.2rem, 24svh, 12rem);
+  }
+
+  .featuredVideoCard {
+    width: clamp(4.35rem, 21vw, 5.35rem);
+  }
+
+  .careerCard {
+    width: 84vw;
+  }
+
+  .contactInner h2 {
+    font-size: clamp(2.15rem, 11vw, 3.2rem);
+  }
+}
+
+@media (max-width: 375px) {
+  .identity small {
+    display: none;
+  }
+
+  .navLinks a {
+    font-size: 0.76rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.55rem, 7.7vw, 2.05rem);
+  }
+
+  .heroText {
+    font-size: 0.84rem;
+  }
+
+  .featuredVideoCard {
+    width: 4.05rem;
   }
 }
