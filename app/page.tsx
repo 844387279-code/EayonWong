@@ -33,6 +33,11 @@ type TimelineMedia = {
   items: TimelineMediaItem[];
 };
 
+type VideoPreview = {
+  title: string;
+  videos: readonly string[];
+};
+
 const featuredVideos = [
   { title: "@炫迈妹子", src: "/videos/featured/01-xuanmai.mp4", thumb: "/images/featured-thumbs/01-xuanmai.jpg" },
   { title: "@一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4", thumb: "/images/featured-thumbs/02-rouwanzi.jpg" },
@@ -47,6 +52,42 @@ const featuredVideos = [
   { title: "@营养师辣妈小惠", src: "/videos/featured/11-xiaohui.mp4", thumb: "/images/featured-thumbs/11-xiaohui.jpg" },
   { title: "@宁小雪", src: "/videos/featured/12-ningxiaoxue.mp4", thumb: "/images/featured-thumbs/12-ningxiaoxue.jpg" },
 ];
+
+const projectShowcase = [
+  {
+    brand: { zh: "隔壁刘奶奶", en: "Gebiliunainai" },
+    title: { zh: "抖音话题 #隔壁刘奶奶自然有答案", en: "Douyin Topic · Nature Has the Answer" },
+    image: "/images/project-covers/gebiliunainai.jpg",
+    videos: [
+      "/videos/projects/gebiliunainai/01.mp4",
+      "/videos/projects/gebiliunainai/02.mp4",
+      "/videos/projects/gebiliunainai/03.mp4",
+      "/videos/projects/gebiliunainai/04.mp4",
+    ],
+    layout: "projectMasonryCardTop",
+  },
+  {
+    brand: { zh: "Pepa", en: "Pepa" },
+    title: { zh: "抖音话题 #皮帕熊金银花面霜", en: "Douyin Topic · PEPA Honeysuckle Cream" },
+    image: "/images/project-covers/pepa.jpg",
+    videos: ["/videos/featured/07-xiaoshiyi.mp4"],
+    layout: "projectMasonryCardBottom",
+  },
+  {
+    brand: { zh: "客家小子", en: "Kejia Xiaozi" },
+    title: { zh: "个人短视频ip账号", en: "Personal Short-video IP Account" },
+    image: "/images/project-covers/kejiaxiaozi.jpg",
+    videos: [
+      "/videos/projects/kejiaxiaozi/01.mp4",
+      "/videos/projects/kejiaxiaozi/02.mp4",
+      "/videos/projects/kejiaxiaozi/03.mp4",
+      "/videos/projects/kejiaxiaozi/04.mp4",
+      "/videos/projects/kejiaxiaozi/05.mp4",
+      "/videos/projects/kejiaxiaozi/06.mp4",
+    ],
+    layout: "projectMasonryCardTall",
+  },
+] as const;
 const partnerBrands = [
   { title: "a2奶粉", src: "/images/partners/transparent/a2.png" },
   { title: "隔壁刘奶奶", src: "/images/partners/transparent/gebiliunainai.png" },
@@ -97,15 +138,15 @@ const copy = {
     heroSecondary: "联系沟通",
     profileTitle: "个人简介",
     profileBody:
-      "我更像一个经营型运营：既能拆GMV、ROI、货盘和人群，也能落到直播间脚本、素材生产、投放模型和团队执行。现在重点补强AI工具能力，用自动化、内容生成和数据分析提高运营效率。",
+      "个人擅长：创意内容创作+爆款素材跑量+ip人设账号起号，熟练使用Codex、Chat gpt、Gemini、即梦、可灵、小云雀等国内外ai工具；8年多平台直播运营(0-1起号，1-10经营放大)",
     contact: ["13424243016", "844387279@qq.com", "深圳"],
     metrics: [
-      ["11年", "总工作经验"],
+      ["8年", "多平台运营经验"],
       ["1亿+", "酒水项目年度GMV"],
       ["64.71%", "PEPA品牌GSV增长"],
-      ["16人", "跨职能团队管理"],
+      ["17人", "跨职能团队管理"],
     ],
-    profileTags: ["抖音电商", "视频号", "快手", "千川投放", "达人种草", "AI辅助运营"],
+    profileTags: ["抖音电商", "微信小店", "快手电商", "千川投放", "达人种草", "内容策划", "AI成片"],
     profileMilestones: [
       ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
       ["2019", "IP运营", "围绕垂类IP做内容定位、粉丝互动和商业转化尝试，建立账号运营方法。"],
@@ -115,13 +156,14 @@ const copy = {
     timelineTitle: "年份经历",
     timelineLead: "",
     timeline: [
-      ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
-      ["2019", "名酒中国行", "百年糊涂&名酒中国行纪录片"],
-      ["2020", "深大教育", "在深大教育相关业务中接触课程产品、用户转化和私域运营链路。"],
-      ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
-      ["2022-2024", "3C品牌抖音运营", "从0搭建抖音与视频号运营体系，全年销售额1000万+。"],
-      ["2024-2025", "内容运营升级", "参与隔壁刘奶奶话题策划，累计播放量1亿+，推动内容与商业转化联动。"],
-      ["2025-2026", "兴趣电商运营总监", "操盘PEPA品牌，GSV从170万稳定到280万+，综合ROI提升至2.3，并将AI工具融入运营决策。"],
+      ["2018", "摄影作品集", "2016-2018年摄影作品集锦，含盖人像、风景、纪实、美食等"],
+      ["2019", "有毒的沙雕", "负责此账号的IP定位，内容策划，拍摄、剪辑、特效制作、商业合作等。"],
+      ["2020", "深圳大学/本科", "视觉传达艺术设计-高等教育自学考试"],
+      ["2021", "名酒中国行", "百年糊涂&名酒中国行纪录片总导演，负责统筹策划，协助拍摄等。"],
+      ["2020-2022", "微牛电商/直播运营", "代运营国台、百年糊涂、金沙古酒等酒水品牌，主要负责直播间板块。"],
+      ["2022-2024", "Xtour/抖音运营总监", "从 0-1 负责搭建品牌运营体系，统筹管理直播、短视频、BD 团队。"],
+      ["2024-2025", "隔壁刘奶奶/内容运营", "负责官方账号、ip账号、koc达人挂车kol星图种草等内容输出。"],
+      ["2025-2026", "Pepa/兴趣电商总监", "Pepa品牌兴趣电商操盘手，带领团队实现GSV从170w拉升到280W+"],
     ],
     projectsTitle: "项目经历",
     projectsLead: "",
@@ -186,15 +228,15 @@ const copy = {
     heroSecondary: "Contact",
     profileTitle: "Profile",
     profileBody:
-      "I operate as a business-minded growth operator: breaking down GMV, ROI, product structure, and audience strategy while staying close to livestream scripts, content production, ad models, and team execution. My current focus is applying AI tools to content, analysis, and decisions.",
+      "I specialize in creative content, performance creatives, and launching personality-led IP accounts. I use Codex, ChatGPT, Gemini, Jimeng, Kling, Xiaoyunque, and other AI tools, backed by 8 years of multi-platform livestream operations from 0-to-1 launches to scaled growth.",
     contact: ["13424243016", "844387279@qq.com", "Shenzhen"],
     metrics: [
-      ["11 yrs", "Work experience"],
+      ["8 yrs", "Multi-platform operations"],
       ["100M+", "Annual liquor GMV"],
       ["64.71%", "PEPA GSV growth"],
-      ["16", "Team members"],
+      ["17", "Team members"],
     ],
-    profileTags: ["Douyin", "WeChat Channels", "Kuaishou", "Qianchuan Ads", "Creator Seeding", "AI Ops"],
+    profileTags: ["Douyin E-commerce", "WeChat Shop", "Kuaishou E-commerce", "Qianchuan Ads", "Creator Seeding", "Content Strategy", "AI Video"],
     profileMilestones: [
       ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
       ["2019", "IP Operations", "Worked on vertical IP positioning, audience engagement, and commercial conversion experiments."],
@@ -205,12 +247,13 @@ const copy = {
     timelineLead: "",
     timeline: [
       ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
-      ["2019", "Famous Wine China Tour", "Bainian Hutu & Famous Wine China Tour documentary."],
+      ["2019", "Youdu Comedy IP", "Owned IP positioning, content planning, shooting, editing, effects, and commercial partnerships."],
       ["2020", "Shenzhen University Education", "Explored course products, user conversion, and private traffic operations."],
-      ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
-      ["2022-2024", "3C Douyin Operations", "Built Douyin and WeChat Channels operations from scratch; annual sales exceeded RMB 10M."],
-      ["2024-2025", "Content Operations", "Worked on Gebiliunainai topic planning with 100M+ cumulative views and commercial conversion."],
-      ["2025-2026", "Operations Director", "Led PEPA operations, growing GSV from RMB 1.7M to 2.8M+, improving ROI to 2.3, and integrating AI into decisions."],
+      ["2021", "Famous Wine China Tour", "Directed the Bainian Hutu & Famous Wine China Tour documentary, leading planning and coordination while assisting filming."],
+      ["2020-2022", "Liquor Livestream Ops", "Operated Guotai, Bainian Hutu, Jinsha Gujiu, and other liquor brands, focusing on livestream operations."],
+      ["2022-2024", "3C Douyin Operations", "Built the brand operations system from 0 to 1 and led livestream, short-video, and BD teams."],
+      ["2024-2025", "Content Operations", "Produced content for official and IP accounts, KOC commerce creators, and KOL Xingtu seeding."],
+      ["2025-2026", "Operations Director", "Led PEPA interest e-commerce operations and grew GSV from RMB 1.7M to 2.8M+."],
     ],
     projectsTitle: "Project Experience",
     projectsLead: "",
@@ -273,17 +316,25 @@ const timelineMediaByYear: Record<string, TimelineMedia> = {
     ],
   },
   "2019": {
+    items: [
+      { type: "video", src: "/timeline-media/2019-toxic/youdu-01.mp4", title: "摆地摊" },
+      { type: "video", src: "/timeline-media/2019-toxic/youdu-02.mp4", title: "天台决斗面膜" },
+      { type: "video", src: "/timeline-media/2019-toxic/youdu-03.mp4", title: "工地战场" },
+      { type: "video", src: "/timeline-media/2019-toxic/youdu-04.mp4", title: "烈日追杀" },
+    ],
+  },
+  "2021": {
     items: [{ type: "video", src: "/timeline-media/2019/mingjiu-china-tour.mp4", title: "名酒中国行" }],
   },
   "2022": {
-    items: Array.from({ length: 8 }, (_, index) => ({
+    items: Array.from({ length: 4 }, (_, index) => ({
       type: "video" as const,
       src: `/timeline-media/2022/guotai-${String(index + 1).padStart(2, "0")}.mp4`,
       title: `国台酒直播运营 ${index + 1}`,
     })),
   },
   "2024": {
-    items: Array.from({ length: 11 }, (_, index) => ({
+    items: Array.from({ length: 3 }, (_, index) => ({
       type: "video" as const,
       src: `/timeline-media/2024/xtour-${String(index + 1).padStart(2, "0")}.mp4`,
       title: `Xtour 短视频 ${index + 1}`,
@@ -311,8 +362,10 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const [loadProgress, setLoadProgress] = useState(50);
   const [introDone, setIntroDone] = useState(false);
-  const [activeVideo, setActiveVideo] = useState<(typeof featuredVideos)[number] | null>(null);
+  const [activeVideo, setActiveVideo] = useState<VideoPreview | null>(null);
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [videoHover, setVideoHover] = useState<{ title: string; x: number; y: number } | null>(null);
+  const [projectHover, setProjectHover] = useState<{ x: number; y: number } | null>(null);
   const [activeTimeline, setActiveTimeline] = useState<{
     year: string;
     title: string;
@@ -326,16 +379,24 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const t = copy[locale];
   const timelineImages = [
-    "/images/timeline/2018-short-video.svg",
-    "/images/timeline/2019-ip.svg",
-    "/images/timeline/2020-education.svg",
-    "/images/timeline/2022-liquor.svg",
-    "/images/timeline/2024-3c.svg",
-    "/images/timeline/2025-content.svg",
-    "/images/timeline/2026-ai-ops.svg",
+    "/images/timeline-covers/2018.png",
+    "/images/timeline-covers/2019.png",
+    "/images/timeline-covers/2020.png",
+    "/images/timeline-covers/2021.png",
+    "/images/timeline-covers/2022.png",
+    "/images/timeline-covers/2024.png",
+    "/images/timeline-covers/2025.png",
+    "/images/timeline-covers/2026.png",
   ];
   const activeTimelineItem = activeTimeline?.media.items[activeTimelineIndex];
   const activeTimelineCount = activeTimeline?.media.items.length ?? 0;
+  const activeVideoSrc = activeVideo?.videos[activeVideoIndex];
+  const activeVideoCount = activeVideo?.videos.length ?? 0;
+
+  const shiftActiveVideo = (step: number) => {
+    if (!activeVideoCount) return;
+    setActiveVideoIndex((current) => (current + step + activeVideoCount) % activeVideoCount);
+  };
 
   const shiftTimelineItem = (step: number) => {
     if (!activeTimelineCount) return;
@@ -388,7 +449,7 @@ export default function Home() {
 
   useEffect(() => {
     const revealTargets = document.querySelectorAll(
-      ".heroInner, .sectionHead, .profileGrid, .projectCard, .abilityCard",
+      ".heroInner, .sectionHead, .profileGrid, .projectMasonryCard, .abilityCard",
     );
 
     const observer = new IntersectionObserver(
@@ -506,7 +567,10 @@ export default function Home() {
               className="featuredVideoCard"
               type="button"
               key={`${video.title}-${index}`}
-              onClick={() => setActiveVideo(video)}
+              onClick={() => {
+                setActiveVideoIndex(0);
+                setActiveVideo({ title: video.title, videos: [video.src] });
+              }}
               onMouseMove={(event) => setVideoHover({ title: video.title, x: event.clientX, y: event.clientY })}
               onMouseLeave={() => setVideoHover(null)}
               onFocus={() => setVideoHover(null)}
@@ -523,13 +587,24 @@ export default function Home() {
         ) : null}
       </section>
 
-      {activeVideo ? (
+      {activeVideo && activeVideoSrc ? (
         <div className="videoModal" role="dialog" aria-modal="true" aria-label={activeVideo.title}>
           <button className="videoModalClose" type="button" onClick={() => setActiveVideo(null)} aria-label="关闭视频">
             <X size={28} aria-hidden="true" />
           </button>
           <div className="videoModalFrame">
-            <video src={activeVideo.src} controls autoPlay playsInline />
+            <video key={activeVideoSrc} src={activeVideoSrc} controls autoPlay playsInline />
+            {activeVideoCount > 1 ? (
+              <>
+                <button className="timelineNavButton timelineNavButtonPrev" type="button" onClick={() => shiftActiveVideo(-1)} aria-label={locale === "zh" ? "上一个视频" : "Previous video"}>
+                  <ChevronLeft size={30} aria-hidden="true" />
+                </button>
+                <button className="timelineNavButton timelineNavButtonNext" type="button" onClick={() => shiftActiveVideo(1)} aria-label={locale === "zh" ? "下一个视频" : "Next video"}>
+                  <ChevronRight size={30} aria-hidden="true" />
+                </button>
+                <span className="videoModalCounter">{activeVideoIndex + 1} / {activeVideoCount}</span>
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -543,7 +618,7 @@ export default function Home() {
         <div className="profileGrid">
           <BorderGlow className="portraitCard" animated={false}>
             <TiltedCard
-              imageSrc="/images/avatar.jpg"
+              imageSrc="/images/profile-suit-gray.png"
               hoverImageSrc="/images/life-photo.jpg"
               altText={t.brand}
               captionText={t.brand}
@@ -602,15 +677,6 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="profilePath">
-          {t.profileMilestones.map(([year, title, body]) => (
-            <article key={`${year}-${title}`}>
-              <strong>{year}</strong>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </article>
-          ))}
-        </div>
       </section>
 
       <section className="timelineSection" id="timeline">
@@ -700,18 +766,51 @@ export default function Home() {
       ) : null}
 
       <section className="section worksSection" id="works">
-        <div className="sectionHead wide">
+        <div className="sectionHead wide worksHead">
           <span>{locale === "zh" ? "03/个人技能" : "03/Skills"}</span>
           <h2 className="srOnly">{t.worksTitle}</h2>
           {t.worksLead ? <p>{t.worksLead}</p> : null}
         </div>
 
-        <div className="worksGrid">
-          {t.works.map(([title, body], index) => {
+        <div className="skillShowcase">
+          {t.works.slice(0, 2).map(([title, body], index) => {
             const Icon = workIcons[index];
             return (
-              <BorderGlow className="abilityCard" key={title} animated={false}>
-                <Icon size={24} aria-hidden="true" />
+              <BorderGlow className={`skillPanel ${index === 1 ? "isActive" : ""}`} key={title} animated={false}>
+                <div className="skillPanelTop">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <Icon size={24} aria-hidden="true" />
+                </div>
+                <div className="skillGlowOrb" aria-hidden="true" />
+                <div className="skillPanelCopy">
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                  <div className="skillTags">
+                    {(index === 0
+                      ? locale === "zh"
+                        ? ["选题", "脚本", "标题", "素材变体"]
+                        : ["Topics", "Scripts", "Hooks", "Variants"]
+                      : locale === "zh"
+                        ? ["GMV", "ROI", "CTR", "复盘看板"]
+                        : ["GMV", "ROI", "CTR", "Review Board"]
+                    ).map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </BorderGlow>
+            );
+          })}
+        </div>
+
+        <div className="skillMiniGrid">
+          {t.works.slice(2).map(([title, body], index) => {
+            const Icon = workIcons[index + 2];
+            return (
+              <BorderGlow className="skillMiniCard" key={title} animated={false}>
+                <div className="skillMiniIcon">
+                  <Icon size={18} aria-hidden="true" />
+                </div>
                 <h3>{title}</h3>
                 <p>{body}</p>
               </BorderGlow>
@@ -720,28 +819,60 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" id="projects">
+      <section className="section projectsSection" id="projects">
         <div className="sectionHead wide">
           <span>{locale === "zh" ? "04/项目经历" : "04/Projects"}</span>
           <h2 className="srOnly">{t.projectsTitle}</h2>
           {t.projectsLead ? <p>{t.projectsLead}</p> : null}
         </div>
 
-        <div className="projectGrid">
-          {t.projects.map((project, index) => (
-            <BorderGlow className="projectCard" key={project.title} animated={false}>
-              <div className={`projectVisual visual${index + 1}`}>
-                <span>{project.visual}</span>
-              </div>
-              <div className="projectContent">
-                <p>{project.meta}</p>
-                <h3>{project.title}</h3>
-                <strong>{project.result}</strong>
-                <span>{project.body}</span>
-              </div>
-            </BorderGlow>
-          ))}
+        <div className="projectMasonry" aria-label={t.projectsTitle}>
+          {projectShowcase.map((project, index) => {
+            const brand = project.brand[locale];
+            const title = project.title[locale];
+            return (
+              <button
+                className={`projectMasonryCard ${project.layout}`}
+                type="button"
+                key={brand}
+                onClick={() => {
+                  setProjectHover(null);
+                  setActiveVideoIndex(0);
+                  setActiveVideo({ title: `${brand} · ${title}`, videos: project.videos });
+                }}
+                onMouseMove={(event) => {
+                  const bounds = event.currentTarget.getBoundingClientRect();
+                  const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
+                  const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
+                  event.currentTarget.style.setProperty("--project-image-x", `${x}px`);
+                  event.currentTarget.style.setProperty("--project-image-y", `${y}px`);
+                  setProjectHover({ x: event.clientX, y: event.clientY });
+                }}
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.setProperty("--project-image-x", "0px");
+                  event.currentTarget.style.setProperty("--project-image-y", "0px");
+                  setProjectHover(null);
+                }}
+                onFocus={() => setProjectHover(null)}
+                aria-label={`${locale === "zh" ? "点击查看" : "Click to view"} ${brand} ${title}`}
+                style={{ "--project-order": index } as CSSProperties}
+              >
+                <img src={project.image} alt="" loading="lazy" decoding="async" />
+                <span className="projectMasonryShade" aria-hidden="true" />
+                <span className="projectMasonryCopy">
+                  <small>{brand}</small>
+                  <strong>{title}</strong>
+                </span>
+                <span className="projectMasonryNumber" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              </button>
+            );
+          })}
         </div>
+        {projectHover ? (
+          <div className="projectPointerTooltip" style={{ "--tooltip-x": `${projectHover.x}px`, "--tooltip-y": `${projectHover.y}px` } as CSSProperties}>
+            {locale === "zh" ? "点击查看" : "Click to view"}
+          </div>
+        ) : null}
       </section>
 
       <section className="contactPage" id="contact">

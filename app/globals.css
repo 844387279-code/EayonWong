@@ -480,6 +480,7 @@ a {
 }
 
 .videoModalFrame {
+  position: relative;
   width: min(46vh, 92vw, 28rem);
   max-height: 86vh;
   overflow: hidden;
@@ -495,6 +496,22 @@ a {
   max-height: 86vh;
   display: block;
   object-fit: cover;
+}
+
+.videoModalCounter {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 3;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(3, 5, 5, 0.72);
+  color: #fff;
+  padding: 0.45rem 0.68rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  transform: translateX(-50%);
+  backdrop-filter: blur(10px);
 }
 
 .solidButton,
@@ -531,6 +548,7 @@ a {
 .profileGrid,
 .metricGrid,
 .projectGrid,
+.projectMasonry,
 .worksGrid,
 .contactInner {
   max-width: var(--max);
@@ -1038,107 +1056,418 @@ a {
   line-height: 1.8;
 }
 
-.projectGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.projectCard {
+.projectsSection {
+  position: relative;
   overflow: hidden;
-}
-
-.projectVisual {
-  display: grid;
-  min-height: 24rem;
-  place-items: end start;
-  padding: 1.4rem;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 35%),
-    linear-gradient(160deg, #122523, #07100f);
+    radial-gradient(circle at 86% 10%, rgba(66, 216, 196, 0.09), transparent 26rem),
+    linear-gradient(180deg, #050707, #030404);
 }
 
-.projectVisual span {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.36);
-  color: var(--text);
-  padding: 0.65rem 0.8rem;
-  font-size: 1.3rem;
+.projectMasonry {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.95fr);
+  grid-template-rows: repeat(2, minmax(15rem, 1fr));
+  gap: clamp(0.8rem, 1.4vw, 1.2rem);
+  min-height: clamp(36rem, 50vw, 52rem);
+}
+
+.projectMasonryCard {
+  --project-image-x: 0px;
+  --project-image-y: 0px;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: clamp(14px, 1.5vw, 24px);
+  padding: 0;
+  background: #0a0d0e;
+  color: #fff;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  text-align: left;
+}
+
+.projectMasonryCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 1px solid rgba(66, 216, 196, 0.88);
+  border-radius: inherit;
+  clip-path: inset(0 100% 0 0 round clamp(14px, 1.5vw, 24px));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    clip-path 820ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms ease;
+  transition-delay: calc(var(--project-order, 0) * 110ms + 180ms);
+}
+
+.projectMasonryCard.reveal.is-visible::after {
+  clip-path: inset(0 0 0 0 round clamp(14px, 1.5vw, 24px));
+  opacity: 1;
+}
+
+.projectMasonryCardTop {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.projectMasonryCardBottom {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.projectMasonryCardTall {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.projectMasonryCard img {
+  position: absolute;
+  inset: -2%;
+  z-index: -2;
+  width: 104%;
+  height: 104%;
+  object-fit: cover;
+  transform: translate3d(var(--project-image-x), var(--project-image-y), 0) scale(1.04);
+  filter: saturate(0.88) contrast(1.04) brightness(0.9);
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms ease;
+  will-change: transform;
+}
+
+.projectMasonryCardTop img {
+  object-position: center 42%;
+}
+
+.projectMasonryCardBottom img {
+  object-position: center 38%;
+}
+
+.projectMasonryCardTall img {
+  object-position: center center;
+}
+
+.projectMasonryCard:hover img,
+.projectMasonryCard:focus-visible img {
+  transform: translate3d(var(--project-image-x), var(--project-image-y), 0) scale(1.1);
+  filter: saturate(1) contrast(1.06) brightness(0.96);
+}
+
+.projectMasonryShade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(3, 5, 5, 0.08) 20%, rgba(3, 5, 5, 0.2) 48%, rgba(3, 5, 5, 0.9) 100%),
+    linear-gradient(90deg, rgba(3, 5, 5, 0.2), transparent 60%);
+  transition: background 360ms ease;
+}
+
+.projectMasonryCard:hover .projectMasonryShade,
+.projectMasonryCard:focus-visible .projectMasonryShade {
+  background:
+    linear-gradient(180deg, rgba(3, 5, 5, 0.02) 20%, rgba(3, 5, 5, 0.16) 48%, rgba(3, 5, 5, 0.86) 100%),
+    linear-gradient(90deg, rgba(3, 5, 5, 0.12), transparent 60%);
+}
+
+.projectMasonryCopy {
+  position: absolute;
+  left: clamp(1.15rem, 2.2vw, 2.2rem);
+  right: clamp(1.15rem, 2.2vw, 2.2rem);
+  bottom: clamp(1.15rem, 2.2vw, 2.2rem);
+  z-index: 2;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.projectMasonryCopy small {
+  color: #fff;
+  font-size: clamp(1.35rem, 2.25vw, 2.55rem);
   font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-shadow: 0 0.16rem 1rem rgba(0, 0, 0, 0.56);
 }
 
-.visual2 {
-  background:
-    linear-gradient(135deg, rgba(168, 199, 255, 0.2), transparent 34%),
-    linear-gradient(160deg, #1a2034, #07080d);
+.projectMasonryCopy strong {
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(0.82rem, 1.1vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.5;
+  text-shadow: 0 0.12rem 0.8rem rgba(0, 0, 0, 0.72);
 }
 
-.visual3 {
-  background:
-    linear-gradient(135deg, rgba(223, 179, 110, 0.2), transparent 34%),
-    linear-gradient(160deg, #2c2217, #080706);
+.projectMasonryNumber {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
-.visual4 {
-  background:
-    linear-gradient(135deg, rgba(66, 216, 196, 0.18), transparent 34%),
-    linear-gradient(160deg, #1b2431, #09090a);
-}
-
-.projectContent {
-  display: grid;
-  gap: 0.85rem;
-  padding: 1.4rem;
-}
-
-.projectContent p,
-.projectContent span {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.projectContent h3 {
-  margin: 0;
-  font-size: clamp(1.6rem, 2.4vw, 2.8rem);
-  line-height: 1.1;
-}
-
-.projectContent strong {
-  color: var(--accent);
+.projectPointerTooltip {
+  position: fixed;
+  top: var(--tooltip-y);
+  left: var(--tooltip-x);
+  z-index: 90;
+  border-radius: 999px;
+  background: #fff;
+  color: #050607;
+  padding: 0.58rem 0.82rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  transform: translate(16px, 16px);
+  box-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.3);
 }
 
 .worksSection {
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 80% 20%, rgba(66, 216, 196, 0.08), transparent 30rem),
-    #070909;
+    radial-gradient(circle at 74% 20%, rgba(66, 216, 196, 0.16), transparent 24rem),
+    radial-gradient(circle at 20% 88%, rgba(122, 92, 255, 0.14), transparent 28rem),
+    linear-gradient(135deg, #060909 0%, #081011 50%, #040405 100%);
 }
 
-.worksGrid {
+.worksSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+  background-size: 6rem 6rem;
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 84%, transparent);
+}
+
+.worksHead {
+  position: relative;
+  z-index: 1;
+  animation: skillTitleRise 720ms ease both;
+}
+
+.skillShowcase {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   gap: 1rem;
 }
 
-.abilityCard {
-  min-height: 20rem;
-  padding: 1.4rem;
+.skillPanel,
+.skillMiniCard {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(196, 229, 255, 0.16);
+  background:
+    linear-gradient(145deg, rgba(16, 25, 28, 0.86), rgba(5, 9, 10, 0.74)),
+    rgba(255, 255, 255, 0.03);
+  box-shadow: 0 1.4rem 3.8rem rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+  animation: skillCardEnter 760ms ease both;
 }
 
-.abilityCard svg {
+.skillPanel {
+  min-height: 19rem;
+  padding: clamp(1.1rem, 1.8vw, 1.6rem);
+}
+
+.skillPanel:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.skillPanel.isActive {
+  border-color: rgba(66, 216, 196, 0.72);
+  background:
+    radial-gradient(circle at 82% 24%, rgba(66, 216, 196, 0.36), transparent 13rem),
+    linear-gradient(145deg, rgba(184, 255, 72, 0.84), rgba(111, 236, 186, 0.76));
+  box-shadow: 0 1.8rem 4.8rem rgba(66, 216, 196, 0.18);
+}
+
+.skillPanel.isActive,
+.skillPanel.isActive p,
+.skillPanel.isActive .skillPanelTop {
+  color: #061011;
+}
+
+.skillPanelTop,
+.skillMiniIcon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
 }
 
-.abilityCard h3 {
-  margin: 5rem 0 0;
-  font-size: 1.35rem;
+.skillPanelCopy {
+  position: relative;
+  z-index: 2;
+  max-width: 31rem;
+  margin-top: clamp(4.8rem, 7vw, 7rem);
 }
 
-.abilityCard p {
+.skillPanel h3,
+.skillMiniCard h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  line-height: 1.1;
+}
+
+.skillPanel.isActive h3 {
+  color: #061011;
+}
+
+.skillPanel p,
+.skillMiniCard p {
   margin: 1rem 0 0;
   color: var(--muted);
   line-height: 1.75;
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+  margin-top: 1.35rem;
+  opacity: 0;
+  transform: translateY(0.7rem);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+.skillPanel:hover .skillTags,
+.skillPanel.isActive .skillTags {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skillTags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.85rem;
+  padding: 0 0.72rem;
+  border-radius: 999px;
+  background: rgba(6, 16, 17, 0.82);
+  color: #eafffb;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.skillPanel.isActive .skillTags span {
+  background: rgba(6, 16, 17, 0.9);
+}
+
+.skillGlowOrb {
+  position: absolute;
+  right: clamp(1rem, 2vw, 1.7rem);
+  bottom: clamp(1rem, 2vw, 1.7rem);
+  width: clamp(4.7rem, 8vw, 7rem);
+  aspect-ratio: 1;
+  border-radius: 28% 72% 38% 62%;
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.78), transparent 18%),
+    linear-gradient(135deg, rgba(66, 216, 196, 0.95), rgba(183, 255, 67, 0.85));
+  filter: blur(0.2px) drop-shadow(0 0 2.2rem rgba(66, 216, 196, 0.46));
+  opacity: 0.55;
+  transform: rotate(-18deg);
+  animation: skillOrbFloat 5.4s ease-in-out infinite;
+}
+
+.skillPanel.isActive .skillGlowOrb {
+  opacity: 0.78;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.8), transparent 18%),
+    linear-gradient(135deg, rgba(6, 16, 17, 0.92), rgba(66, 216, 196, 0.72));
+}
+
+.skillMiniGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.skillMiniCard {
+  min-height: 15rem;
+  padding: clamp(1rem, 1.7vw, 1.35rem);
+}
+
+.skillMiniCard:nth-child(1) {
+  animation-delay: 180ms;
+}
+
+.skillMiniCard:nth-child(2) {
+  animation-delay: 260ms;
+}
+
+.skillMiniCard:nth-child(3) {
+  animation-delay: 340ms;
+}
+
+.skillMiniCard:nth-child(4) {
+  animation-delay: 420ms;
+}
+
+.skillMiniCard h3 {
+  margin-top: clamp(3rem, 5.4vw, 5rem);
+  font-size: clamp(1.08rem, 1.45vw, 1.3rem);
+}
+
+.skillMiniCard:hover {
+  border-color: rgba(66, 216, 196, 0.7);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(66, 216, 196, 0.22), transparent 10rem),
+    linear-gradient(145deg, rgba(16, 29, 31, 0.92), rgba(5, 9, 10, 0.78));
+  transform: translateY(-0.18rem);
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+@keyframes skillTitleRise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes skillCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes skillOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-18deg);
+  }
+  50% {
+    transform: translate3d(-0.4rem, -0.55rem, 0) rotate(-8deg);
+  }
 }
 
 .contactPage {
@@ -1326,8 +1655,13 @@ a {
   .metricGrid,
   .projectGrid,
   .worksGrid,
+  .skillMiniGrid,
   .profilePath {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skillShowcase {
+    grid-template-columns: 1fr;
   }
 
   .finalContact {
@@ -1440,9 +1774,35 @@ a {
   .metricGrid,
   .projectGrid,
   .worksGrid,
+  .skillShowcase,
+  .skillMiniGrid,
   .profileInfoGrid,
   .profilePath {
     grid-template-columns: 1fr;
+  }
+
+  .projectMasonry {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    min-height: 0;
+  }
+
+  .projectMasonryCardTop,
+  .projectMasonryCardBottom,
+  .projectMasonryCardTall {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .projectMasonryCardTop,
+  .projectMasonryCardBottom {
+    min-height: 15rem;
+    aspect-ratio: 16 / 10;
+  }
+
+  .projectMasonryCardTall {
+    min-height: 28rem;
+    aspect-ratio: 4 / 5;
   }
 
   .section,
@@ -1513,6 +1873,22 @@ a {
 
   .abilityCard h3 {
     margin-top: 3.2rem;
+  }
+
+  .skillPanel {
+    min-height: 17rem;
+  }
+
+  .skillPanelCopy {
+    margin-top: 4rem;
+  }
+
+  .skillMiniCard {
+    min-height: 12.5rem;
+  }
+
+  .skillMiniCard h3 {
+    margin-top: 2.6rem;
   }
 
   .featuredVideoRail {
