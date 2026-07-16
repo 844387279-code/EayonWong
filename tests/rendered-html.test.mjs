@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, open, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -85,4 +85,23 @@ test("uses browser-compatible, user-started preview videos", async () => {
     access(new URL("../public/timeline-media/2026/pepa-01.mp4", import.meta.url)),
     access(new URL("../public/videos/projects/pepa/09.mp4", import.meta.url)),
   ]);
+});
+
+test("keeps every timeline video web-streamable", async () => {
+  const root = new URL("../public/timeline-media/", import.meta.url);
+  const names = (await readdir(root, { recursive: true })).filter((name) => name.endsWith(".mp4"));
+
+  for (const name of names) {
+    const handle = await open(new URL(name, root), "r");
+    const probe = Buffer.alloc(512 * 1024);
+    const { bytesRead } = await handle.read(probe, 0, probe.length, 0);
+    await handle.close();
+    const head = probe.subarray(0, bytesRead);
+    const moov = head.indexOf(Buffer.from("moov"));
+    const mdat = head.indexOf(Buffer.from("mdat"));
+
+    assert.ok(moov > 0 && mdat > moov, `${name} must place its moov index before media data`);
+    assert.ok(head.indexOf(Buffer.from("avc1")) > 0, `${name} must use browser-compatible H.264 video`);
+    assert.equal(head.indexOf(Buffer.from("hvc1")), -1, `${name} must not use HEVC video`);
+  }
 });
