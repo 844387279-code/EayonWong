@@ -122,7 +122,7 @@ type Locale = "zh" | "en";
 const copy = {
   zh: {
     brand: "黄伊阳",
-    role: "兴趣电商资深运营",
+    role: "兴趣电商运营总监",
     nav: [
       ["首页", "#home"],
       ["个人简介", "#profile"],
@@ -138,7 +138,7 @@ const copy = {
     contact: ["13424243016", "844387279@qq.com", "深圳"],
     metrics: [
       ["8年", "多平台运营经验"],
-      ["1亿+", "酒水项目年度GMV"],
+      ["1亿+", "隔壁刘奶奶话题曝光量"],
       ["64.71%", "PEPA品牌GSV增长"],
       ["17人", "跨职能团队管理"],
     ],
@@ -158,17 +158,17 @@ const copy = {
     worksTitle: "个人技能",
     works: [
       ["AI内容工作流", "用AI辅助选题、脚本、标题、卖点拆解和批量素材变体，提高短视频内容迭代速度。"],
-      ["数据复盘系统", "围绕GMV、GSV、ROI、CTR、CVR、停留、互动等指标搭建复盘逻辑和经营看板。"],
+      ["数据复盘", "围绕GMV、GSV、ROI、CTR、CVR、停留、互动等指标搭建复盘逻辑和经营看板。"],
       ["直播间增长模型", "从人货场、话术、排品、投放和复购设计直播间诊断与增长方案。"],
       ["达人种草策略", "输出达人brief、脚本建议、内容方向与效果追踪，联动自然流和付费流量。"],
       ["投放与素材测试", "使用千川、DOU+、小店随心推、种草通、星图热推等工具做预算和素材优化。"],
       ["团队协同机制", "建立主播、内容、BD、品牌等岗位职责、培训机制、绩效指标和复盘节奏。"],
     ],
-    contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
+    contactTitle: "如果您欣赏我的作品集\n可以添加我的微信",
   },
   en: {
     brand: "Eayon Wong",
-    role: "Senior Interest E-commerce Operator",
+    role: "Interest E-commerce Operations Director",
     nav: [
       ["Home", "#home"],
       ["Intro", "#profile"],
@@ -184,7 +184,7 @@ const copy = {
     contact: ["13424243016", "844387279@qq.com", "Shenzhen"],
     metrics: [
       ["8 yrs", "Multi-platform operations"],
-      ["100M+", "Annual liquor GMV"],
+      ["100M+", "Gebiliunainai topic views"],
       ["64.71%", "PEPA GSV growth"],
       ["17", "Team members"],
     ],
@@ -204,13 +204,13 @@ const copy = {
     worksTitle: "Selected Capabilities",
     works: [
       ["AI Content Workflow", "Use AI for topics, scripts, titles, selling points, and content variants to accelerate iteration."],
-      ["Data Review System", "Build review logic around GMV, GSV, ROI, CTR, CVR, retention, engagement, and operating dashboards."],
+      ["Data Review", "Build review logic around GMV, GSV, ROI, CTR, CVR, retention, engagement, and operating dashboards."],
       ["Livestream Growth Model", "Diagnose and improve livestream rooms through people, products, scenes, scripts, pricing, ads, and retention."],
       ["Creator Seeding Strategy", "Create briefs, script suggestions, creative directions, and performance tracking across creators."],
       ["Ads and Creative Testing", "Optimize budgets, targeting, creative assets, and plans across Qianchuan, DOU+, and related tools."],
       ["Team Collaboration", "Set up roles, training, performance indicators, and review rhythms across host, content, BD, and brand teams."],
     ],
-    contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
+    contactTitle: "IF YOU ENJOY MY PORTFOLIO\nADD ME ON WECHAT",
   },
 } as const;
 
@@ -258,6 +258,16 @@ const timelineMediaByYear: Record<string, TimelineMedia> = {
       src: `/timeline-media/2025/gebiliunainai-${String(index + 1).padStart(2, "0")}.mp4`,
       title: `隔壁刘奶奶 ${index + 1}`,
     })),
+  },
+  "2026": {
+    items: [
+      { type: "video", src: "/timeline-media/2026/pepa-01.m4v", title: "尹木木" },
+      { type: "video", src: "/timeline-media/2026/pepa-02.m4v", title: "是啵儿宝啊" },
+      { type: "video", src: "/timeline-media/2026/pepa-03.m4v", title: "多宝小圆子" },
+      { type: "video", src: "/timeline-media/2026/pepa-04.m4v", title: "雪球" },
+      { type: "video", src: "/timeline-media/2026/pepa-05.m4v", title: "营养师辣妈小惠" },
+      { type: "video", src: "/timeline-media/2026/pepa-06.m4v", title: "小满奶奶带娃记" },
+    ],
   },
 };
 
@@ -505,7 +515,16 @@ export default function Home() {
             <X size={28} aria-hidden="true" />
           </button>
           <div className="videoModalFrame">
-            <video key={activeVideoSrc} src={activeVideoSrc} controls autoPlay playsInline />
+            <video
+              key={activeVideoSrc}
+              src={activeVideoSrc}
+              controls
+              autoPlay
+              playsInline
+              onEnded={() => {
+                if (activeVideoCount > 1) shiftActiveVideo(1);
+              }}
+            />
             {activeVideoCount > 1 ? (
               <>
                 <button className="timelineNavButton timelineNavButtonPrev" type="button" onClick={() => shiftActiveVideo(-1)} aria-label={locale === "zh" ? "上一个视频" : "Previous video"}>
@@ -610,6 +629,13 @@ export default function Home() {
                   key={`${year}-${title}-${index}`}
                   onClick={() => {
                     if (media) {
+                      const videos = media.items.filter((item) => item.type === "video").map((item) => item.src);
+                      if (videos.length === media.items.length) {
+                        setTimelineHover(null);
+                        setActiveVideoIndex(0);
+                        setActiveVideo({ title: `${displayYear} · ${title}`, videos });
+                        return;
+                      }
                       setActiveTimelineIndex(0);
                       setActiveTimeline({ year: displayYear, title, body, image, media });
                     }
