@@ -538,7 +538,10 @@ export default function Home() {
               src={activeVideoSrc}
               controls
               autoPlay
+              muted
               playsInline
+              preload="metadata"
+              onLoadedData={(event) => playQuietly(event.currentTarget)}
               onEnded={() => {
                 if (activeVideoCount > 1) shiftActiveVideo(1);
               }}
