@@ -35,6 +35,12 @@
   transition: opacity 0.75s ease-in-out;
 }
 
+.border-glow-card.noGlow::before,
+.border-glow-card.noGlow::after,
+.border-glow-card.noGlow > .edge-light {
+  display: none;
+}
+
 .border-glow-card::before {
   border: 1px solid transparent;
   background:
