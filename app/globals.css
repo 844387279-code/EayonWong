@@ -1119,7 +1119,7 @@ a {
   position: absolute;
   inset: 0;
   z-index: 4;
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: inherit;
   clip-path: inset(0 100% 0 0 round clamp(14px, 1.5vw, 24px));
   opacity: 0;
@@ -1221,9 +1221,9 @@ a {
 
 .projectMasonryCopy strong {
   max-width: 38rem;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.76);
   font-size: clamp(0.82rem, 1.1vw, 1.05rem);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.5;
   text-shadow: 0 0.12rem 0.8rem rgba(0, 0, 0, 0.72);
 }
@@ -1517,21 +1517,35 @@ a {
 
 .contactInner .border-glow-inner {
   display: grid;
-  grid-template-columns: minmax(18rem, 0.82fr) minmax(22rem, 0.78fr);
-  align-items: start;
-  gap: clamp(2rem, 3.6vw, 3.6rem);
+  grid-template-areas:
+    "signal signal"
+    "headline details";
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 2.4vw, 2.2rem) clamp(2rem, 4vw, 4rem);
   min-height: 42vh;
-  justify-content: center;
+}
+
+.contactInner .signal {
+  grid-area: signal;
+  justify-self: start;
+  margin: 0;
 }
 
 .contactInner h2 {
-  max-width: 13ch;
-  margin: 1rem 0 0;
-  font-family: "Noto Serif SC", "PingFang SC", system-ui, sans-serif;
-  font-size: clamp(2.8rem, 4.1vw, 4.8rem);
-  font-weight: 700;
-  line-height: 1.16;
-  white-space: pre-line;
+  grid-area: headline;
+  max-width: none;
+  margin: 0;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: clamp(2.35rem, 3.7vw, 4.15rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+}
+
+.contactInner h2 span {
+  display: block;
 }
 
 .contactInner > p:not(.signal),
@@ -1545,13 +1559,13 @@ a {
 
 .finalContact {
   display: grid;
-  grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-area: details;
   grid-template-columns: minmax(0, 1fr) 8rem;
   align-items: center;
   gap: 1.2rem;
-  justify-self: end;
-  width: min(100%, 31rem);
+  justify-self: stretch;
+  width: 100%;
+  min-height: 15rem;
   margin-top: 0;
   border: 1px solid rgba(238, 245, 242, 0.13);
   border-radius: 22px;
@@ -1667,9 +1681,17 @@ a {
 @media (max-width: 1100px) {
   .topNav,
   .profileGrid,
-  .sectionHead.wide,
+  .sectionHead.wide {
+    grid-template-columns: 1fr;
+  }
+
   .contactInner .border-glow-inner {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "signal"
+      "headline"
+      "details";
+    grid-template-rows: auto;
   }
 
   .navLinks,
@@ -1690,9 +1712,7 @@ a {
   }
 
   .finalContact {
-    grid-column: auto;
-    grid-row: auto;
-    justify-self: start;
+    justify-self: stretch;
   }
 }
 
@@ -1929,8 +1949,8 @@ a {
   }
 
   .contactInner h2 {
-    max-width: 13ch;
-    font-size: clamp(2.35rem, 12vw, 3.9rem);
+    max-width: none;
+    font-size: clamp(1.9rem, 8vw, 2.9rem);
   }
 
   .contactInner {

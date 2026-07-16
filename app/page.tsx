@@ -427,12 +427,7 @@ export default function Home() {
         </div>
       </div>
 
-      <main>
-      <section className="hero" id="home">
-        <video ref={videoRef} className="heroVideo" src={HERO_VIDEO_URL} muted autoPlay loop playsInline preload="auto" />
-        <div className="heroShade" />
-
-        <nav className="topNav" aria-label="主导航">
+      <nav className="topNav" aria-label="主导航">
           <a className="identity" href="#home" aria-label={t.brand}>
             <img src="/images/avatar.jpg" alt={t.brand} />
             <span>
@@ -453,7 +448,12 @@ export default function Home() {
             <Languages size={17} aria-hidden="true" />
             {t.lang}
           </button>
-        </nav>
+      </nav>
+
+      <main>
+      <section className="hero" id="home">
+        <video ref={videoRef} className="heroVideo" src={HERO_VIDEO_URL} muted autoPlay loop playsInline preload="auto" />
+        <div className="heroShade" />
 
         <div className="heroInner">
           <h1>
@@ -816,7 +816,11 @@ export default function Home() {
             <ScanLine size={16} aria-hidden="true" />
             {locale === "zh" ? "取得联系" : "Contact"}
           </p>
-          <h2>{t.contactTitle}</h2>
+          <h2>
+            {t.contactTitle.split("\n").map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </h2>
 
           <div className="finalContact">
             <div className="finalLinks">
