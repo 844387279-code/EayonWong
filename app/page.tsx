@@ -19,6 +19,7 @@ import BorderGlow from "./components/BorderGlow";
 import LogoLoop from "./components/LogoLoop";
 import ShinyText from "./components/ShinyText";
 import SoftAurora from "./components/SoftAurora";
+import SpecularButton from "./components/SpecularButton";
 import TextType from "./components/TextType";
 import TiltedCard from "./components/TiltedCard";
 
@@ -70,7 +71,12 @@ const projectShowcase = [
     brand: { zh: "Pepa", en: "Pepa" },
     title: { zh: "抖音话题 #皮帕熊金银花面霜", en: "Douyin Topic · PEPA Honeysuckle Cream" },
     image: "/images/project-covers/pepa.jpg",
-    videos: ["/videos/featured/07-xiaoshiyi.mp4"],
+    videos: [
+      "/videos/projects/pepa/09.m4v",
+      "/videos/projects/pepa/10.m4v",
+      "/videos/projects/pepa/11.m4v",
+      "/videos/projects/pepa/12.m4v",
+    ],
     layout: "projectMasonryCardBottom",
   },
   {
@@ -298,7 +304,10 @@ export default function Home() {
   const [activeTimelineIndex, setActiveTimelineIndex] = useState(0);
   const [timelineMediaShape, setTimelineMediaShape] = useState<"portrait" | "landscape" | "square">("portrait");
   const [timelineHover, setTimelineHover] = useState<{ x: number; y: number } | null>(null);
+  const [timelineProgress, setTimelineProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const timelineScrollerRef = useRef<HTMLDivElement | null>(null);
+  const timelineDragRef = useRef({ active: false, moved: false, pointerId: -1, startX: 0, scrollLeft: 0 });
   const t = copy[locale];
   const timelineImages = [
     "/images/timeline-covers/2018.png",
@@ -322,6 +331,7 @@ export default function Home() {
 
   const shiftTimelineItem = (step: number) => {
     if (!activeTimelineCount) return;
+    setTimelineMediaShape("portrait");
     setActiveTimelineIndex((current) => (current + step + activeTimelineCount) % activeTimelineCount);
   };
 
@@ -366,12 +376,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setTimelineMediaShape("portrait");
-  }, [activeTimelineItem?.src]);
+    const updateProgress = () => {
+      const scroller = timelineScrollerRef.current;
+      if (!scroller) return;
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      setTimelineProgress(maxScroll > 0 ? scroller.scrollLeft / maxScroll : 0);
+    };
+    updateProgress();
+    window.addEventListener("resize", updateProgress);
+    return () => window.removeEventListener("resize", updateProgress);
+  }, []);
 
   useEffect(() => {
     const revealTargets = document.querySelectorAll(
-      ".heroInner, .sectionHead, .profileGrid, .projectMasonryCard, .abilityCard",
+      ".heroInner, .sectionHead, .profileGrid, .projectMasonryCard, .abilityCard, .careerCard, .contactInner",
     );
 
     const observer = new IntersectionObserver(
@@ -600,10 +618,28 @@ export default function Home() {
         <div className="metricGrid">
           {t.metrics.map(([value, label]) => (
             <TiltedCard containerHeight="auto" containerWidth="100%" imageHeight="auto" imageWidth="100%" rotateAmplitude={7} scaleOnHover={1.04} className="metricTilt" key={label}>
-              <BorderGlow className="metricCard noGlow" animated={false}>
+              <SpecularButton
+                as="div"
+                size="lg"
+                radius={8}
+                tint="#ffffff"
+                tintOpacity={0.015}
+                textColor="#eef5f2"
+                lineColor="#42d8c4"
+                baseColor="#394348"
+                intensity={1.1}
+                shineSize={10}
+                shineFade={40}
+                thickness={1}
+                speed={0.35}
+                followMouse
+                proximity={250}
+                autoAnimate={false}
+                className="metricCard metricSpecular"
+              >
                 <strong>{value}</strong>
                 <span>{label}</span>
-              </BorderGlow>
+              </SpecularButton>
             </TiltedCard>
           ))}
         </div>
@@ -615,7 +651,55 @@ export default function Home() {
           <span>{locale === "zh" ? "02/年份总结" : "02/Timeline"}</span>
           <h2 className="srOnly">{t.timelineTitle}</h2>
         </div>
-        <div className="careerScroller" aria-label={t.timelineTitle}>
+        <div
+          ref={timelineScrollerRef}
+          className="careerScroller"
+          aria-label={t.timelineTitle}
+          onScroll={(event) => {
+            const scroller = event.currentTarget;
+            const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+            setTimelineProgress(maxScroll > 0 ? scroller.scrollLeft / maxScroll : 0);
+          }}
+          onPointerDown={(event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) return;
+            timelineDragRef.current = {
+              active: true,
+              moved: false,
+              pointerId: event.pointerId,
+              startX: event.clientX,
+              scrollLeft: event.currentTarget.scrollLeft,
+            };
+            event.currentTarget.setPointerCapture(event.pointerId);
+            event.currentTarget.classList.add("isDragging");
+          }}
+          onPointerMove={(event) => {
+            const drag = timelineDragRef.current;
+            if (!drag.active || drag.pointerId !== event.pointerId) return;
+            const delta = event.clientX - drag.startX;
+            if (Math.abs(delta) > 5) drag.moved = true;
+            event.currentTarget.scrollLeft = drag.scrollLeft - delta;
+          }}
+          onPointerUp={(event) => {
+            const drag = timelineDragRef.current;
+            if (drag.pointerId === event.pointerId) {
+              drag.active = false;
+              event.currentTarget.classList.remove("isDragging");
+              if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+          }}
+          onPointerCancel={(event) => {
+            timelineDragRef.current.active = false;
+            timelineDragRef.current.moved = false;
+            event.currentTarget.classList.remove("isDragging");
+          }}
+          onClickCapture={(event) => {
+            if (timelineDragRef.current.moved) {
+              event.preventDefault();
+              event.stopPropagation();
+              timelineDragRef.current.moved = false;
+            }
+          }}
+        >
           <div className="careerTrack">
             {t.timeline.map(([year, title, body], index) => {
               const image = timelineImages[index % timelineImages.length];
@@ -636,6 +720,7 @@ export default function Home() {
                         setActiveVideo({ title: `${displayYear} · ${title}`, videos });
                         return;
                       }
+                      setTimelineMediaShape("portrait");
                       setActiveTimelineIndex(0);
                       setActiveTimeline({ year: displayYear, title, body, image, media });
                     }
@@ -648,13 +733,16 @@ export default function Home() {
                   aria-label={canPreview ? `${locale === "zh" ? "查看" : "View"} ${title}` : title}
                 >
                   <strong>{displayYear}</strong>
-                  <img src={image} alt={title} />
+                  <img src={image} alt={title} draggable={false} />
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </button>
               );
             })}
           </div>
+        </div>
+        <div className="timelineScrollProgress" aria-hidden="true">
+          <span style={{ width: `${12 + timelineProgress * 88}%` }} />
         </div>
         {timelineHover ? (
           <div className="featuredVideoTooltip" style={{ "--tooltip-x": `${timelineHover.x}px`, "--tooltip-y": `${timelineHover.y}px` } as CSSProperties}>

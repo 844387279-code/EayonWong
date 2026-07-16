@@ -84,6 +84,10 @@ a {
   .featuredVideoCard img {
     animation: none;
   }
+
+  .featuredVideoRail {
+    animation: none;
+  }
 }
 
 .introLoader {
@@ -460,11 +464,31 @@ a {
 }
 
 @keyframes featuredLoop {
-  from {
+  0% {
     transform: translateX(0);
   }
 
-  to {
+  23% {
+    transform: translateX(-13%);
+  }
+
+  28% {
+    transform: translateX(-11.5%);
+  }
+
+  50% {
+    transform: translateX(-25%);
+  }
+
+  73% {
+    transform: translateX(-38%);
+  }
+
+  78% {
+    transform: translateX(-36.5%);
+  }
+
+  100% {
     transform: translateX(calc(-50% - clamp(0.45rem, 0.75vw, 0.675rem)));
   }
 }
@@ -784,6 +808,26 @@ a {
   font-weight: 700;
 }
 
+.metricSpecular {
+  width: 100%;
+  cursor: default;
+  padding: 1.2rem;
+}
+
+.metricSpecular:active {
+  transform: none;
+}
+
+.metricSpecular .specular-button__label {
+  display: flex;
+  width: 100%;
+  min-height: 6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: left;
+}
+
 .profilePath {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -850,25 +894,20 @@ a {
   margin: 0 auto;
   overflow-x: auto;
   padding: 3rem clamp(1.25rem, 3vw, 3rem) 3.6rem;
-  scrollbar-color: rgba(66, 216, 196, 0.72) rgba(255, 255, 255, 0.1);
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .careerScroller::-webkit-scrollbar {
-  height: 0.72rem;
+  display: none;
 }
 
-.careerScroller::-webkit-scrollbar-track {
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 0 0 1px rgba(238, 245, 242, 0.08);
-}
-
-.careerScroller::-webkit-scrollbar-thumb {
-  border: 2px solid rgba(7, 16, 15, 0.72);
-  border-radius: 999px;
-  background: linear-gradient(90deg, #42d8c4, rgba(238, 245, 242, 0.86), #42d8c4);
-  box-shadow: 0 0 1.2rem rgba(66, 216, 196, 0.38);
+.careerScroller.isDragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 
 .careerTrack {
@@ -889,6 +928,7 @@ a {
   padding-top: 3.2rem;
   text-align: left;
   cursor: pointer;
+  scroll-snap-align: center;
 }
 
 .careerCard.isStatic {
@@ -945,6 +985,26 @@ a {
   color: var(--muted);
   font-size: 1rem;
   line-height: 1.75;
+}
+
+.timelineScrollProgress {
+  position: relative;
+  width: min(28rem, calc(100% - 4rem));
+  height: 4px;
+  overflow: hidden;
+  margin: -1.2rem auto 0;
+  border-radius: 999px;
+  background: rgba(238, 245, 242, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(238, 245, 242, 0.04);
+}
+
+.timelineScrollProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(66, 216, 196, 0.48), #42d8c4, rgba(238, 245, 242, 0.92));
+  box-shadow: 0 0 1rem rgba(66, 216, 196, 0.58);
+  transition: width 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .timelineModalFrame {
