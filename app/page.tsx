@@ -132,10 +132,6 @@ const copy = {
     ],
     lang: "EN",
     heroTitle: "AI正在改变世界",
-    heroText:
-      "8年抖音电商 / 3年微信小店运营 / 1年快手电商经验。擅长品牌自播、达人种草、短视频内容、千川投放、商城运营、团队管理，并将AI用于内容生产、数据复盘和经营决策。",
-    heroPrimary: "查看项目",
-    heroSecondary: "联系沟通",
     profileTitle: "个人简介",
     profileBody:
       "个人擅长：创意内容创作+爆款素材跑量+ip人设账号起号，熟练使用Codex、Chat gpt、Gemini、即梦、可灵、小云雀等国内外ai工具；8年多平台直播运营(0-1起号，1-10经营放大)",
@@ -147,14 +143,7 @@ const copy = {
       ["17人", "跨职能团队管理"],
     ],
     profileTags: ["抖音电商", "微信小店", "快手电商", "千川投放", "达人种草", "内容策划", "AI成片"],
-    profileMilestones: [
-      ["2018", "短视频运营", "进入短视频内容运营，参与账号内容选题、脚本拆解和基础流量复盘。"],
-      ["2019", "IP运营", "围绕垂类IP做内容定位、粉丝互动和商业转化尝试，建立账号运营方法。"],
-      ["2020", "深大教育", "在深大教育相关业务中接触课程产品、用户转化和私域运营链路。"],
-      ["2020-2022", "酒水直播运营", "完成直播间冷启动、排品、投放、主播培训与复盘，年度GMV超1亿。"],
-    ],
     timelineTitle: "年份经历",
-    timelineLead: "",
     timeline: [
       ["2018", "摄影作品集", "2016-2018年摄影作品集锦，含盖人像、风景、纪实、美食等"],
       ["2019", "有毒的沙雕", "负责此账号的IP定位，内容策划，拍摄、剪辑、特效制作、商业合作等。"],
@@ -166,39 +155,7 @@ const copy = {
       ["2025-2026", "Pepa/兴趣电商总监", "Pepa品牌兴趣电商操盘手，带领团队实现GSV从170w拉升到280W+"],
     ],
     projectsTitle: "项目经历",
-    projectsLead: "",
-    projects: [
-      {
-        title: "PEPA品牌兴趣电商",
-        meta: "2025-至今 / 兴趣电商运营总监",
-        result: "GSV 170万 → 280万+，ROI 1.89 → 2.3",
-        body: "统筹抖音自播、短视频、达人种草、商城运营和节点活动，管理品牌、直播、内容、BD等16人团队。",
-        visual: "GSV +64.71%",
-      },
-      {
-        title: "开放式耳机3C项目",
-        meta: "2022-2024 / 抖音运营总监",
-        result: "年销售额1000万+，客单价约1199元",
-        body: "从0搭建抖音及视频号运营体系，形成内容生产、直播转化、投放复盘和达人种草闭环。",
-        visual: "3C / AOV 1199",
-      },
-      {
-        title: "酒水品牌直播冷启动",
-        meta: "2020-2022 / 直播运营",
-        result: "年度GMV超1亿，酒水爆款榜TOP 5",
-        body: "代运营国台、百年糊涂、钓鱼台、金沙古酒等品牌，完成冷启动、排品、投放、主播培训与复盘。",
-        visual: "GMV 100M+",
-      },
-      {
-        title: "客家米粉工厂",
-        meta: "2025-至今 / 自主创业项目",
-        result: "年销售额400万+，单月峰值100万+",
-        body: "负责店铺定位、内容选题、直播/短视频运营、货盘设计和商业变现，沉淀个人账号内容资产。",
-        visual: "Founder Project",
-      },
-    ],
     worksTitle: "个人技能",
-    worksLead: "",
     works: [
       ["AI内容工作流", "用AI辅助选题、脚本、标题、卖点拆解和批量素材变体，提高短视频内容迭代速度。"],
       ["数据复盘系统", "围绕GMV、GSV、ROI、CTR、CVR、停留、互动等指标搭建复盘逻辑和经营看板。"],
@@ -208,7 +165,6 @@ const copy = {
       ["团队协同机制", "建立主播、内容、BD、品牌等岗位职责、培训机制、绩效指标和复盘节奏。"],
     ],
     contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
-    contactLead: "联系我，一起把内容、数据和 AI 变成增长系统。",
   },
   en: {
     brand: "Eayon Wong",
@@ -222,10 +178,6 @@ const copy = {
     ],
     lang: "中",
     heroTitle: "AI is changing the world",
-    heroText:
-      "8 years in Douyin e-commerce / 3 years in WeChat Shop operations / 1 year in Kuaishou e-commerce. I connect brand livestreaming, creator seeding, short video content, paid traffic, store operations, team management, and AI-assisted workflows.",
-    heroPrimary: "View projects",
-    heroSecondary: "Contact",
     profileTitle: "Profile",
     profileBody:
       "I specialize in creative content, performance creatives, and launching personality-led IP accounts. I use Codex, ChatGPT, Gemini, Jimeng, Kling, Xiaoyunque, and other AI tools, backed by 8 years of multi-platform livestream operations from 0-to-1 launches to scaled growth.",
@@ -237,14 +189,7 @@ const copy = {
       ["17", "Team members"],
     ],
     profileTags: ["Douyin E-commerce", "WeChat Shop", "Kuaishou E-commerce", "Qianchuan Ads", "Creator Seeding", "Content Strategy", "AI Video"],
-    profileMilestones: [
-      ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
-      ["2019", "IP Operations", "Worked on vertical IP positioning, audience engagement, and commercial conversion experiments."],
-      ["2020", "Shenzhen University Education", "Explored course products, user conversion, and private traffic operations."],
-      ["2020-2022", "Liquor Livestream Ops", "Led cold starts, product planning, paid traffic, host training, and reviews; annual GMV exceeded RMB 100M."],
-    ],
     timelineTitle: "Timeline",
-    timelineLead: "",
     timeline: [
       ["2018", "Short Video Operations", "Entered short video content operations, covering topics, scripts, and traffic review."],
       ["2019", "Youdu Comedy IP", "Owned IP positioning, content planning, shooting, editing, effects, and commercial partnerships."],
@@ -256,39 +201,7 @@ const copy = {
       ["2025-2026", "Operations Director", "Led PEPA interest e-commerce operations and grew GSV from RMB 1.7M to 2.8M+."],
     ],
     projectsTitle: "Project Experience",
-    projectsLead: "",
-    projects: [
-      {
-        title: "PEPA Interest E-commerce",
-        meta: "2025-Present / Operations Director",
-        result: "GSV RMB 1.7M → 2.8M+, ROI 1.89 → 2.3",
-        body: "Led Douyin livestreaming, short videos, creator seeding, store operations, campaigns, and a 16-person cross-functional team.",
-        visual: "GSV +64.71%",
-      },
-      {
-        title: "Open-ear Headphone 3C Project",
-        meta: "2022-2024 / Douyin Operations Director",
-        result: "RMB 10M+ annual sales, AOV around RMB 1,199",
-        body: "Built Douyin and WeChat Channels operations from scratch, connecting content, livestream conversion, ads, and creators.",
-        visual: "3C / AOV 1199",
-      },
-      {
-        title: "Liquor Brand Livestream Launches",
-        meta: "2020-2022 / Livestream Operations",
-        result: "RMB 100M+ annual GMV, TOP 5 liquor product list",
-        body: "Operated brands including Guotai, Bainian Hututu, Diaoyutai, and Jinsha Gujiu across launch, product planning, ads, training, and review.",
-        visual: "GMV 100M+",
-      },
-      {
-        title: "Kejia Rice Noodle Factory",
-        meta: "2025-Present / Founder Project",
-        result: "RMB 4M+ annual sales, RMB 1M+ monthly peak",
-        body: "Owned positioning, content planning, livestream and short video operations, product structure, and commercial conversion.",
-        visual: "Founder Project",
-      },
-    ],
     worksTitle: "Selected Capabilities",
-    worksLead: "",
     works: [
       ["AI Content Workflow", "Use AI for topics, scripts, titles, selling points, and content variants to accelerate iteration."],
       ["Data Review System", "Build review logic around GMV, GSV, ROI, CTR, CVR, retention, engagement, and operating dashboards."],
@@ -298,7 +211,6 @@ const copy = {
       ["Team Collaboration", "Set up roles, training, performance indicators, and review rhythms across host, content, BD, and brand teams."],
     ],
     contactTitle: "LET'S BUILD BETTER GROWTH SYSTEMS",
-    contactLead: "Let content, data, and AI become a stronger growth system.",
   },
 } as const;
 
@@ -683,7 +595,6 @@ export default function Home() {
         <div className="sectionHead wide timelineHead">
           <span>{locale === "zh" ? "02/年份总结" : "02/Timeline"}</span>
           <h2 className="srOnly">{t.timelineTitle}</h2>
-          {t.timelineLead ? <p>{t.timelineLead}</p> : null}
         </div>
         <div className="careerScroller" aria-label={t.timelineTitle}>
           <div className="careerTrack">
@@ -769,7 +680,6 @@ export default function Home() {
         <div className="sectionHead wide worksHead">
           <span>{locale === "zh" ? "03/个人技能" : "03/Skills"}</span>
           <h2 className="srOnly">{t.worksTitle}</h2>
-          {t.worksLead ? <p>{t.worksLead}</p> : null}
         </div>
 
         <div className="skillShowcase">
@@ -823,7 +733,6 @@ export default function Home() {
         <div className="sectionHead wide">
           <span>{locale === "zh" ? "04/项目经历" : "04/Projects"}</span>
           <h2 className="srOnly">{t.projectsTitle}</h2>
-          {t.projectsLead ? <p>{t.projectsLead}</p> : null}
         </div>
 
         <div className="projectMasonry" aria-label={t.projectsTitle}>

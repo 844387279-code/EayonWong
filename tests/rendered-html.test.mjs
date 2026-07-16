@@ -36,9 +36,10 @@ test("server-renders the portfolio homepage", async () => {
   assert.match(html, /取得联系/);
   assert.match(html, /炫迈妹子/);
   assert.match(html, /宁小雪/);
-  assert.match(html, /PEPA品牌兴趣电商/);
+  assert.match(html, /隔壁刘奶奶/);
+  assert.match(html, /客家小子/);
   assert.match(html, /AI内容工作流/);
-  assert.match(html, /\/images\/timeline\/2026-ai-ops\.svg/);
+  assert.match(html, /\/images\/timeline-covers\/2026\.png/);
   assert.match(html, /13424243016/);
   assert.doesNotMatch(html, /青衫渡/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton/);
