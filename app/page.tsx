@@ -72,10 +72,10 @@ const projectShowcase = [
     title: { zh: "抖音话题 #皮帕熊金银花面霜", en: "Douyin Topic · PEPA Honeysuckle Cream" },
     image: "/images/project-covers/pepa.jpg",
     videos: [
-      "/videos/projects/pepa/09.m4v",
-      "/videos/projects/pepa/10.m4v",
-      "/videos/projects/pepa/11.m4v",
-      "/videos/projects/pepa/12.m4v",
+      "/videos/projects/pepa/09.mp4",
+      "/videos/projects/pepa/10.mp4",
+      "/videos/projects/pepa/11.mp4",
+      "/videos/projects/pepa/12.mp4",
     ],
     layout: "projectMasonryCardBottom",
   },
@@ -267,12 +267,12 @@ const timelineMediaByYear: Record<string, TimelineMedia> = {
   },
   "2026": {
     items: [
-      { type: "video", src: "/timeline-media/2026/pepa-01.m4v", title: "尹木木" },
-      { type: "video", src: "/timeline-media/2026/pepa-02.m4v", title: "是啵儿宝啊" },
-      { type: "video", src: "/timeline-media/2026/pepa-03.m4v", title: "多宝小圆子" },
-      { type: "video", src: "/timeline-media/2026/pepa-04.m4v", title: "雪球" },
-      { type: "video", src: "/timeline-media/2026/pepa-05.m4v", title: "营养师辣妈小惠" },
-      { type: "video", src: "/timeline-media/2026/pepa-06.m4v", title: "小满奶奶带娃记" },
+      { type: "video", src: "/timeline-media/2026/pepa-01.mp4", title: "尹木木" },
+      { type: "video", src: "/timeline-media/2026/pepa-02.mp4", title: "是啵儿宝啊" },
+      { type: "video", src: "/timeline-media/2026/pepa-03.mp4", title: "多宝小圆子" },
+      { type: "video", src: "/timeline-media/2026/pepa-04.mp4", title: "雪球" },
+      { type: "video", src: "/timeline-media/2026/pepa-05.mp4", title: "营养师辣妈小惠" },
+      { type: "video", src: "/timeline-media/2026/pepa-06.mp4", title: "小满奶奶带娃记" },
     ],
   },
 };
@@ -292,6 +292,7 @@ export default function Home() {
   const [introDone, setIntroDone] = useState(false);
   const [activeVideo, setActiveVideo] = useState<VideoPreview | null>(null);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const [videoNeedsPlay, setVideoNeedsPlay] = useState(false);
   const [videoHover, setVideoHover] = useState<{ title: string; x: number; y: number } | null>(null);
   const [projectHover, setProjectHover] = useState<{ x: number; y: number } | null>(null);
   const [activeTimeline, setActiveTimeline] = useState<{
@@ -306,6 +307,7 @@ export default function Home() {
   const [timelineHover, setTimelineHover] = useState<{ x: number; y: number } | null>(null);
   const [timelineProgress, setTimelineProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
   const timelineScrollerRef = useRef<HTMLDivElement | null>(null);
   const timelineDragRef = useRef({ active: false, moved: false, pointerId: -1, startX: 0, scrollLeft: 0 });
   const t = copy[locale];
@@ -324,9 +326,28 @@ export default function Home() {
   const activeVideoSrc = activeVideo?.videos[activeVideoIndex];
   const activeVideoCount = activeVideo?.videos.length ?? 0;
 
+  const playPreviewWithSound = () => {
+    const video = previewVideoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.volume = 1;
+    setVideoNeedsPlay(false);
+    void video.play().catch((error: DOMException) => {
+      console.error("[video-preview]", error.name, error.message);
+      setVideoNeedsPlay(true);
+    });
+  };
+
+  const openVideoPreview = (title: string, videos: readonly string[]) => {
+    setActiveVideoIndex(0);
+    setActiveVideo({ title, videos });
+    setVideoNeedsPlay(true);
+  };
+
   const shiftActiveVideo = (step: number) => {
     if (!activeVideoCount) return;
     setActiveVideoIndex((current) => (current + step + activeVideoCount) % activeVideoCount);
+    setVideoNeedsPlay(true);
   };
 
   const shiftTimelineItem = (step: number) => {
@@ -508,8 +529,7 @@ export default function Home() {
               type="button"
               key={`${video.title}-${index}`}
               onClick={() => {
-                setActiveVideoIndex(0);
-                setActiveVideo({ title: video.title, videos: [video.src] });
+                openVideoPreview(video.title, [video.src]);
               }}
               onMouseMove={(event) => setVideoHover({ title: video.title, x: event.clientX, y: event.clientY })}
               onMouseLeave={() => setVideoHover(null)}
@@ -534,18 +554,22 @@ export default function Home() {
           </button>
           <div className="videoModalFrame">
             <video
+              ref={previewVideoRef}
               key={activeVideoSrc}
               src={activeVideoSrc}
               controls
-              autoPlay
-              muted
               playsInline
-              preload="metadata"
-              onLoadedData={(event) => playQuietly(event.currentTarget)}
+              preload="auto"
+              onPlay={() => setVideoNeedsPlay(false)}
               onEnded={() => {
                 if (activeVideoCount > 1) shiftActiveVideo(1);
               }}
             />
+            {videoNeedsPlay ? (
+              <button className="videoStartButton" type="button" onClick={playPreviewWithSound}>
+                {locale === "zh" ? "播放视频" : "Play video"}
+              </button>
+            ) : null}
             {activeVideoCount > 1 ? (
               <>
                 <button className="timelineNavButton timelineNavButtonPrev" type="button" onClick={() => shiftActiveVideo(-1)} aria-label={locale === "zh" ? "上一个视频" : "Previous video"}>
@@ -719,8 +743,7 @@ export default function Home() {
                       const videos = media.items.filter((item) => item.type === "video").map((item) => item.src);
                       if (videos.length === media.items.length) {
                         setTimelineHover(null);
-                        setActiveVideoIndex(0);
-                        setActiveVideo({ title: `${displayYear} · ${title}`, videos });
+                        openVideoPreview(`${displayYear} · ${title}`, videos);
                         return;
                       }
                       setTimelineMediaShape("portrait");
@@ -863,8 +886,7 @@ export default function Home() {
                 key={brand}
                 onClick={() => {
                   setProjectHover(null);
-                  setActiveVideoIndex(0);
-                  setActiveVideo({ title: `${brand} · ${title}`, videos: project.videos });
+                  openVideoPreview(`${brand} · ${title}`, project.videos);
                 }}
                 onMouseMove={(event) => {
                   const bounds = event.currentTarget.getBoundingClientRect();

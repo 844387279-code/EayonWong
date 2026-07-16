@@ -73,3 +73,16 @@ test("includes the featured video assets", async () => {
     access(new URL("../public/videos/featured/12-ningxiaoxue.mp4", import.meta.url)),
   ]);
 });
+
+test("uses browser-compatible, user-started preview videos", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  assert.doesNotMatch(page, /\.m4v/);
+  assert.match(page, /className="videoStartButton"/);
+  assert.doesNotMatch(page, /ref=\{previewVideoRef\}[\s\S]{0,220}\bmuted\b/);
+
+  await Promise.all([
+    access(new URL("../public/timeline-media/2026/pepa-01.mp4", import.meta.url)),
+    access(new URL("../public/videos/projects/pepa/09.mp4", import.meta.url)),
+  ]);
+});

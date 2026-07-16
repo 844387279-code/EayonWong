@@ -547,6 +547,24 @@ a {
   object-fit: cover;
 }
 
+.videoStartButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #050607;
+  padding: 0.8rem 1.15rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.38);
+  transform: translate(-50%, -50%);
+}
+
 .videoModalCounter {
   position: absolute;
   left: 50%;
