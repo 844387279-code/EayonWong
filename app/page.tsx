@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import BorderGlow from "./components/BorderGlow";
 import LogoLoop from "./components/LogoLoop";
 import ShinyText from "./components/ShinyText";
@@ -339,15 +340,27 @@ export default function Home() {
   };
 
   const openVideoPreview = (title: string, videos: readonly string[]) => {
-    setActiveVideoIndex(0);
-    setActiveVideo({ title, videos });
-    setVideoNeedsPlay(true);
+    if (!videos.length) return;
+
+    flushSync(() => {
+      setActiveVideoIndex(0);
+      setActiveVideo({ title, videos });
+      setVideoNeedsPlay(false);
+    });
+
+    playPreviewWithSound();
   };
 
   const shiftActiveVideo = (step: number) => {
     if (!activeVideoCount) return;
-    setActiveVideoIndex((current) => (current + step + activeVideoCount) % activeVideoCount);
-    setVideoNeedsPlay(true);
+    const nextIndex = (activeVideoIndex + step + activeVideoCount) % activeVideoCount;
+
+    flushSync(() => {
+      setActiveVideoIndex(nextIndex);
+      setVideoNeedsPlay(false);
+    });
+
+    playPreviewWithSound();
   };
 
   const shiftTimelineItem = (step: number) => {
@@ -696,14 +709,20 @@ export default function Home() {
               startX: event.clientX,
               scrollLeft: event.currentTarget.scrollLeft,
             };
-            event.currentTarget.setPointerCapture(event.pointerId);
-            event.currentTarget.classList.add("isDragging");
           }}
           onPointerMove={(event) => {
             const drag = timelineDragRef.current;
             if (!drag.active || drag.pointerId !== event.pointerId) return;
             const delta = event.clientX - drag.startX;
-            if (Math.abs(delta) > 5) drag.moved = true;
+
+            if (!drag.moved) {
+              if (Math.abs(delta) < 12) return;
+              drag.moved = true;
+              event.currentTarget.setPointerCapture(event.pointerId);
+              event.currentTarget.classList.add("isDragging");
+            }
+
+            event.preventDefault();
             event.currentTarget.scrollLeft = drag.scrollLeft - delta;
           }}
           onPointerUp={(event) => {

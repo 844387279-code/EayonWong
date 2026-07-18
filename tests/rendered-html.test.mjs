@@ -79,12 +79,24 @@ test("uses browser-compatible, user-started preview videos", async () => {
 
   assert.doesNotMatch(page, /\.m4v/);
   assert.match(page, /className="videoStartButton"/);
+  assert.match(page, /flushSync\(\(\) => \{[\s\S]{0,220}setActiveVideo\(\{ title, videos \}\)/);
+  assert.match(page, /setActiveVideo\(\{ title, videos \}\)[\s\S]{0,220}playPreviewWithSound\(\)/);
   assert.doesNotMatch(page, /ref=\{previewVideoRef\}[\s\S]{0,220}\bmuted\b/);
 
   await Promise.all([
     access(new URL("../public/timeline-media/2026/pepa-01.mp4", import.meta.url)),
     access(new URL("../public/videos/projects/pepa/09.mp4", import.meta.url)),
   ]);
+});
+
+test("keeps timeline taps separate from horizontal drags", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const pointerDown = page.slice(page.indexOf("onPointerDown="), page.indexOf("onPointerMove="));
+  const pointerMove = page.slice(page.indexOf("onPointerMove="), page.indexOf("onPointerUp="));
+
+  assert.doesNotMatch(pointerDown, /setPointerCapture/);
+  assert.match(pointerMove, /Math\.abs\(delta\) < 12/);
+  assert.match(pointerMove, /setPointerCapture/);
 });
 
 test("keeps every timeline video web-streamable", async () => {
