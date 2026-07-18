@@ -59,9 +59,9 @@ test("removes starter preview scaffolding from source", async () => {
 
 test("includes the featured video assets", async () => {
   await Promise.all([
-    access(new URL("../public/videos/featured/01-xuanmai.mp4", import.meta.url)),
-    access(new URL("../public/videos/featured/02-rouwanzi.mp4", import.meta.url)),
-    access(new URL("../public/videos/featured/03-muyan.mp4", import.meta.url)),
+    access(new URL("../public/videos/projects/gebiliunainai/03.mp4", import.meta.url)),
+    access(new URL("../public/videos/projects/gebiliunainai/01.mp4", import.meta.url)),
+    access(new URL("../public/videos/projects/gebiliunainai/04.mp4", import.meta.url)),
     access(new URL("../public/videos/featured/04-yinmumu.mp4", import.meta.url)),
     access(new URL("../public/videos/featured/05-boerbao.mp4", import.meta.url)),
     access(new URL("../public/videos/featured/06-linamumu.mp4", import.meta.url)),
@@ -70,7 +70,7 @@ test("includes the featured video assets", async () => {
     access(new URL("../public/videos/featured/09-xueqiu.mp4", import.meta.url)),
     access(new URL("../public/videos/featured/10-qiuqiu.mp4", import.meta.url)),
     access(new URL("../public/videos/featured/11-xiaohui.mp4", import.meta.url)),
-    access(new URL("../public/videos/featured/12-ningxiaoxue.mp4", import.meta.url)),
+    access(new URL("../public/videos/projects/gebiliunainai/02.mp4", import.meta.url)),
   ]);
 });
 
@@ -99,22 +99,29 @@ test("keeps timeline taps separate from horizontal drags", async () => {
   assert.match(pointerMove, /setPointerCapture/);
 });
 
-test("keeps every timeline video web-streamable", async () => {
-  const root = new URL("../public/timeline-media/", import.meta.url);
-  const names = (await readdir(root, { recursive: true })).filter((name) => name.endsWith(".mp4"));
+test("keeps every site video web-streamable", async () => {
+  const roots = [
+    new URL("../public/timeline-media/", import.meta.url),
+    new URL("../public/videos/", import.meta.url),
+  ];
 
-  for (const name of names) {
-    const handle = await open(new URL(name, root), "r");
-    const probe = Buffer.alloc(512 * 1024);
-    const { bytesRead } = await handle.read(probe, 0, probe.length, 0);
-    await handle.close();
-    const head = probe.subarray(0, bytesRead);
-    const moov = head.indexOf(Buffer.from("moov"));
-    const mdat = head.indexOf(Buffer.from("mdat"));
+  for (const root of roots) {
+    const names = (await readdir(root, { recursive: true })).filter((name) => name.endsWith(".mp4"));
 
-    assert.ok(moov > 0 && mdat > moov, `${name} must place its moov index before media data`);
-    assert.ok(head.indexOf(Buffer.from("avc1")) > 0, `${name} must use browser-compatible H.264 video`);
-    assert.equal(head.indexOf(Buffer.from("hvc1")), -1, `${name} must not use HEVC video`);
+    for (const name of names) {
+      const handle = await open(new URL(name, root), "r");
+      const probe = Buffer.alloc(512 * 1024);
+      const { bytesRead } = await handle.read(probe, 0, probe.length, 0);
+      await handle.close();
+      const head = probe.subarray(0, bytesRead);
+      const moov = head.indexOf(Buffer.from("moov"));
+      const mdat = head.indexOf(Buffer.from("mdat"));
+      const label = `${root.pathname.split("/").filter(Boolean).at(-1)}/${name}`;
+
+      assert.ok(moov > 0 && mdat > moov, `${label} must place its moov index before media data`);
+      assert.ok(head.indexOf(Buffer.from("avc1")) > 0, `${label} must use browser-compatible H.264 video`);
+      assert.equal(head.indexOf(Buffer.from("hvc1")), -1, `${label} must not use HEVC video`);
+    }
   }
 });
 

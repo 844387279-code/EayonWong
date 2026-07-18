@@ -41,9 +41,9 @@ type VideoPreview = {
 };
 
 const featuredVideos = [
-  { title: "@炫迈妹子", src: "/videos/featured/01-xuanmai.mp4", thumb: "/images/featured-thumbs/01-xuanmai.jpg" },
-  { title: "@一颗肉丸子", src: "/videos/featured/02-rouwanzi.mp4", thumb: "/images/featured-thumbs/02-rouwanzi.jpg" },
-  { title: "@沐言开心酱", src: "/videos/featured/03-muyan.mp4", thumb: "/images/featured-thumbs/03-muyan.jpg" },
+  { title: "@炫迈妹子", src: "/videos/projects/gebiliunainai/03.mp4", thumb: "/images/featured-thumbs/01-xuanmai.jpg" },
+  { title: "@一颗肉丸子", src: "/videos/projects/gebiliunainai/01.mp4", thumb: "/images/featured-thumbs/02-rouwanzi.jpg" },
+  { title: "@沐言开心酱", src: "/videos/projects/gebiliunainai/04.mp4", thumb: "/images/featured-thumbs/03-muyan.jpg" },
   { title: "@尹木木", src: "/videos/featured/04-yinmumu.mp4", thumb: "/images/featured-thumbs/04-yinmumu.jpg" },
   { title: "@是啵儿宝啊", src: "/videos/featured/05-boerbao.mp4", thumb: "/images/featured-thumbs/05-boerbao.jpg" },
   { title: "@林阿木木", src: "/videos/featured/06-linamumu.mp4", thumb: "/images/featured-thumbs/06-linamumu.jpg" },
@@ -52,7 +52,7 @@ const featuredVideos = [
   { title: "@雪球", src: "/videos/featured/09-xueqiu.mp4", thumb: "/images/featured-thumbs/09-xueqiu.jpg" },
   { title: "@吴允博-球球", src: "/videos/featured/10-qiuqiu.mp4", thumb: "/images/featured-thumbs/10-qiuqiu.jpg" },
   { title: "@营养师辣妈小惠", src: "/videos/featured/11-xiaohui.mp4", thumb: "/images/featured-thumbs/11-xiaohui.jpg" },
-  { title: "@宁小雪", src: "/videos/featured/12-ningxiaoxue.mp4", thumb: "/images/featured-thumbs/12-ningxiaoxue.jpg" },
+  { title: "@宁小雪", src: "/videos/projects/gebiliunainai/02.mp4", thumb: "/images/featured-thumbs/12-ningxiaoxue.jpg" },
 ];
 
 const projectShowcase = [
@@ -291,6 +291,7 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
   const [loadProgress, setLoadProgress] = useState(50);
   const [introDone, setIntroDone] = useState(false);
+  const [introMounted, setIntroMounted] = useState(true);
   const [activeVideo, setActiveVideo] = useState<VideoPreview | null>(null);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [videoNeedsPlay, setVideoNeedsPlay] = useState(false);
@@ -399,6 +400,30 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (!introDone) return undefined;
+    const unmountTimer = window.setTimeout(() => setIntroMounted(false), 720);
+    return () => window.clearTimeout(unmountTimer);
+  }, [introDone]);
+
+  useEffect(() => {
+    if (!activeVideo && !activeTimeline) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closePreview = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setActiveVideo(null);
+      setActiveTimeline(null);
+    };
+    window.addEventListener("keydown", closePreview);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closePreview);
+    };
+  }, [activeTimeline, activeVideo]);
+
+  useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
@@ -449,35 +474,37 @@ export default function Home() {
 
   return (
     <>
-      <div
-        className={`introLoader${introDone ? " introLoaderDone" : ""}`}
-        role="status"
-        aria-label="页面载入进度"
-        style={{ "--intro-progress": `${loadProgress}%` } as CSSProperties}
-      >
-        <div className="introAurora" aria-hidden="true">
-          <SoftAurora
-            speed={0.45}
-            scale={1.45}
-            brightness={0.78}
-            color1="#eef5f2"
-            color2="#42d8c4"
-            noiseFrequency={2.4}
-            noiseAmplitude={1}
-            bandHeight={0.5}
-            bandSpread={0.9}
-            octaveDecay={0.12}
-            layerOffset={0.08}
-            colorSpeed={0.7}
-            enableMouseInteraction={false}
-            mouseInfluence={0}
-          />
+      {introMounted ? (
+        <div
+          className={`introLoader${introDone ? " introLoaderDone" : ""}`}
+          role="status"
+          aria-label="页面载入进度"
+          style={{ "--intro-progress": `${loadProgress}%` } as CSSProperties}
+        >
+          <div className="introAurora" aria-hidden="true">
+            <SoftAurora
+              speed={0.45}
+              scale={1.45}
+              brightness={0.78}
+              color1="#eef5f2"
+              color2="#42d8c4"
+              noiseFrequency={2.4}
+              noiseAmplitude={1}
+              bandHeight={0.5}
+              bandSpread={0.9}
+              octaveDecay={0.12}
+              layerOffset={0.08}
+              colorSpeed={0.7}
+              enableMouseInteraction={false}
+              mouseInfluence={0}
+            />
+          </div>
+          <div className="introLoaderInner">
+            <span className="introLoaderLabel">Loading Portfolio</span>
+            <strong>{loadProgress}%</strong>
+          </div>
         </div>
-        <div className="introLoaderInner">
-          <span className="introLoaderLabel">Loading Portfolio</span>
-          <strong>{loadProgress}%</strong>
-        </div>
-      </div>
+      ) : null}
 
       <nav className="topNav" aria-label="主导航">
           <a className="identity" href="#home" aria-label={t.brand}>
@@ -541,13 +568,15 @@ export default function Home() {
               className="featuredVideoCard"
               type="button"
               key={`${video.title}-${index}`}
+              aria-hidden={index >= featuredVideos.length || undefined}
+              tabIndex={index >= featuredVideos.length ? -1 : undefined}
               onClick={() => {
                 openVideoPreview(video.title, [video.src]);
               }}
               onMouseMove={(event) => setVideoHover({ title: video.title, x: event.clientX, y: event.clientY })}
               onMouseLeave={() => setVideoHover(null)}
               onFocus={() => setVideoHover(null)}
-              aria-label={`播放${video.title}`}
+              aria-label={index < featuredVideos.length ? `播放${video.title}` : undefined}
             >
               <img src={video.thumb} alt="" loading="lazy" decoding="async" />
             </button>
@@ -778,7 +807,7 @@ export default function Home() {
                   aria-label={canPreview ? `${locale === "zh" ? "查看" : "View"} ${title}` : title}
                 >
                   <strong>{displayYear}</strong>
-                  <img src={image} alt={title} draggable={false} />
+                  <img src={image} alt={title} draggable={false} loading="lazy" decoding="async" />
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </button>

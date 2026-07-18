@@ -17,7 +17,6 @@ export default function TextType({
   cursorClassName = "",
   textColors = [],
   variableSpeed,
-  startOnVisible = false,
   ...props
 }) {
   const [displayedText, setDisplayedText] = useState("");

@@ -59,7 +59,7 @@ export default function BorderGlow({
   glowRadius = 34,
   glowIntensity = 1,
   coneSpread = 24,
-  animated: _animated = false,
+  animated = false,
   colors = ["#42d8c4", "#a8c7ff", "#dfb36e"],
   fillOpacity = 0.34,
 }: BorderGlowProps) {
@@ -89,6 +89,7 @@ export default function BorderGlow({
       ref={cardRef}
       onPointerMove={handlePointerMove}
       className={`border-glow-card ${className}`}
+      data-animated={animated || undefined}
       style={{
         "--card-bg": backgroundColor,
         "--edge-sensitivity": edgeSensitivity,
