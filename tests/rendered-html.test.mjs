@@ -117,3 +117,36 @@ test("keeps every timeline video web-streamable", async () => {
     assert.equal(head.indexOf(Buffer.from("hvc1")), -1, `${name} must not use HEVC video`);
   }
 });
+
+test("serves video byte ranges for reliable browser playback", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("range-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+  const source = Buffer.from("0123456789");
+
+  const response = await worker.fetch(
+    new Request("http://localhost/timeline-media/2026/pepa-01.mp4", {
+      headers: { range: "bytes=2-5" },
+    }),
+    {
+      ASSETS: {
+        fetch: async () => new Response(source, {
+          headers: {
+            "content-length": String(source.length),
+            "content-type": "video/mp4",
+          },
+        }),
+      },
+    },
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get("accept-ranges"), "bytes");
+  assert.equal(response.headers.get("content-range"), "bytes 2-5/10");
+  assert.equal(response.headers.get("content-length"), "4");
+  assert.equal(await response.text(), "2345");
+});
