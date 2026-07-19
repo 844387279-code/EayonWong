@@ -1,12 +1,16 @@
 "use client";
 
 import {
+  ArrowUpRight,
   BrainCircuit,
   ChevronLeft,
   ChevronRight,
   Clapperboard,
   DatabaseZap,
   Languages,
+  Mail,
+  MessageCircle,
+  Phone,
   ScanLine,
   Store,
   Target,
@@ -21,6 +25,7 @@ import LogoLoop from "./components/LogoLoop";
 import ShinyText from "./components/ShinyText";
 import SoftAurora from "./components/SoftAurora";
 import SpecularButton from "./components/SpecularButton";
+import SpotlightCard from "./components/SpotlightCard";
 import TextType from "./components/TextType";
 import TiltedCard from "./components/TiltedCard";
 
@@ -508,7 +513,7 @@ export default function Home() {
 
       <nav className="topNav" aria-label="主导航">
           <a className="identity" href="#home" aria-label={t.brand}>
-            <img src="/images/avatar.jpg" alt={t.brand} />
+            <img src="/images/avatar-small.png" alt={t.brand} />
             <span>
               <strong>{t.brand}</strong>
               <small>{t.role}</small>
@@ -636,7 +641,7 @@ export default function Home() {
         <div className="profileGrid">
           <BorderGlow className="portraitCard" animated={false}>
             <TiltedCard
-              imageSrc="/images/profile-suit-gray.png"
+              imageSrc="/images/avatar-small.png"
               hoverImageSrc="/images/life-photo.jpg"
               altText={t.brand}
               captionText={t.brand}
@@ -905,13 +910,17 @@ export default function Home() {
           {t.works.slice(2).map(([title, body], index) => {
             const Icon = workIcons[index + 2];
             return (
-              <BorderGlow className="skillMiniCard" key={title} animated={false}>
+              <SpotlightCard
+                className="skillMiniCard"
+                key={title}
+                spotlightColor="rgba(66, 216, 196, 0.24)"
+              >
                 <div className="skillMiniIcon">
                   <Icon size={18} aria-hidden="true" />
                 </div>
                 <h3>{title}</h3>
                 <p>{body}</p>
-              </BorderGlow>
+              </SpotlightCard>
             );
           })}
         </div>
@@ -972,35 +981,103 @@ export default function Home() {
       </section>
 
       <section className="contactPage" id="contact">
-        <BorderGlow className="contactInner noGlow" animated={false}>
-          <p className="signal">
-            <ScanLine size={16} aria-hidden="true" />
-            {locale === "zh" ? "取得联系" : "Contact"}
-          </p>
-          <h2>
-            {t.contactTitle.split("\n").map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </h2>
+        <BorderGlow
+          className="contactInner"
+          animated
+          edgeSensitivity={28}
+          borderRadius={30}
+          backgroundColor="rgba(8, 14, 15, 0.9)"
+          glowColor="174 68 55"
+          glowRadius={42}
+          glowIntensity={0.9}
+          coneSpread={26}
+          colors={["#42d8c4", "#a8c7ff", "#b8ff43"]}
+          fillOpacity={0.16}
+        >
+          <div className="contactIntro">
+            <div className="contactTopline">
+              <p className="signal">
+                <ScanLine size={16} aria-hidden="true" />
+                {locale === "zh" ? "取得联系" : "Contact"}
+              </p>
+              <span className="contactStatus">
+                <i aria-hidden="true" />
+                {locale === "zh" ? "期待新的合作机会" : "Open to opportunities"}
+              </span>
+            </div>
+            <h2>
+              {t.contactTitle.split("\n").map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </h2>
+            <p className="contactLead">
+              {locale === "zh"
+                ? "如果你正在寻找兼具内容创意与经营思维的运营伙伴，欢迎和我聊聊。"
+                : "Looking for an operator who combines creative content with commercial thinking? Let’s talk."}
+            </p>
+          </div>
 
-          <div className="finalContact">
+          <div className="contactDetails">
             <div className="finalLinks">
               <a href="tel:13424243016">
-                <span>{locale === "zh" ? "手机" : "Phone"}</span>
-                <strong>13424243016</strong>
+                <span className="contactLinkIcon"><Phone size={18} aria-hidden="true" /></span>
+                <span className="contactLinkCopy">
+                  <small>{locale === "zh" ? "手机" : "Phone"}</small>
+                  <strong>13424243016</strong>
+                </span>
+                <ArrowUpRight className="contactLinkAction" size={17} aria-hidden="true" />
               </a>
               <a href="mailto:844387279@qq.com">
-                <span>{locale === "zh" ? "邮箱" : "Email"}</span>
-                <strong>844387279@qq.com</strong>
+                <span className="contactLinkIcon"><Mail size={18} aria-hidden="true" /></span>
+                <span className="contactLinkCopy">
+                  <small>{locale === "zh" ? "邮箱" : "Email"}</small>
+                  <strong>844387279@qq.com</strong>
+                </span>
+                <ArrowUpRight className="contactLinkAction" size={17} aria-hidden="true" />
               </a>
-              <a href="#contact">
-                <span>{locale === "zh" ? "微信号" : "WeChat"}</span>
-                <strong>Eayon-Wong</strong>
-              </a>
+              <div className="contactLinkItem">
+                <span className="contactLinkIcon"><MessageCircle size={18} aria-hidden="true" /></span>
+                <span className="contactLinkCopy">
+                  <small>{locale === "zh" ? "微信号" : "WeChat"}</small>
+                  <strong>Eayon-Wong</strong>
+                </span>
+              </div>
             </div>
-            <div className="qrBox">
-              <img src="/images/wechat-qr-green.png" alt={locale === "zh" ? "微信二维码" : "WeChat QR code"} />
-            </div>
+
+            <SpecularButton
+              as="div"
+              size="lg"
+              radius={18}
+              tint="#42d8c4"
+              tintOpacity={0.025}
+              blur={0}
+              textColor="#eef5f2"
+              lineColor="#42d8c4"
+              baseColor="#294844"
+              intensity={1.2}
+              shineSize={12}
+              shineFade={44}
+              thickness={1.1}
+              speed={0.35}
+              followMouse
+              proximity={260}
+              autoAnimate={false}
+              className="contactQrCard contactQrSpecular"
+            >
+              <span className="contactQrTitle">{locale === "zh" ? "微信" : "WECHAT"}</span>
+              <span className="qrBox">
+                <img src="/images/wechat-qr-green.png" alt={locale === "zh" ? "微信二维码" : "WeChat QR code"} />
+              </span>
+              <span className="contactQrCopy">
+                <strong>{locale === "zh" ? "扫码添加微信" : "Scan to connect"}</strong>
+                <small>Eayon-Wong</small>
+              </span>
+            </SpecularButton>
+          </div>
+
+          <div className="contactFooter" aria-hidden="true">
+            <span>SHENZHEN · CHINA</span>
+            <span>CONTENT · COMMERCE · AI</span>
           </div>
         </BorderGlow>
       </section>

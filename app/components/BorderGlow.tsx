@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useRef } from "react";
 import "./BorderGlow.css";
 
 type BorderGlowProps = {
@@ -28,11 +28,16 @@ function parseHSL(hslStr: string) {
 function buildGlowVars(glowColor: string, intensity: number) {
   const { h, s, l } = parseHSL(glowColor);
   const base = `${h}deg ${s}% ${l}%`;
-  return {
-    "--glow-color": `hsl(${base} / ${Math.min(100 * intensity, 100)}%)`,
-    "--glow-color-40": `hsl(${base} / ${Math.min(40 * intensity, 100)}%)`,
-    "--glow-color-20": `hsl(${base} / ${Math.min(20 * intensity, 100)}%)`,
-  };
+  const opacities = [100, 60, 50, 40, 30, 20, 10];
+  const suffixes = ["", "-60", "-50", "-40", "-30", "-20", "-10"];
+  const vars: Record<string, string> = {};
+
+  opacities.forEach((opacity, index) => {
+    vars[`--glow-color${suffixes[index]}`] =
+      `hsl(${base} / ${Math.min(opacity * intensity, 100)}%)`;
+  });
+
+  return vars;
 }
 
 const positions = ["80% 55%", "69% 34%", "8% 6%", "41% 38%", "86% 85%", "82% 18%", "51% 4%"];
@@ -65,6 +70,122 @@ export default function BorderGlow({
 }: BorderGlowProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!animated || !card) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const animationFrames = new Set<number>();
+    const timers = new Set<number>();
+    let hasAnimated = false;
+
+    const animateValue = ({
+      start = 0,
+      end = 100,
+      duration = 1000,
+      delay = 0,
+      ease,
+      onUpdate,
+      onEnd,
+    }: {
+      start?: number;
+      end?: number;
+      duration?: number;
+      delay?: number;
+      ease: (value: number) => number;
+      onUpdate: (value: number) => void;
+      onEnd?: () => void;
+    }) => {
+      const timer = window.setTimeout(() => {
+        timers.delete(timer);
+        const startedAt = performance.now();
+
+        const tick = (now: number) => {
+          const progress = Math.min((now - startedAt) / duration, 1);
+          onUpdate(start + (end - start) * ease(progress));
+
+          if (progress < 1) {
+            const frame = requestAnimationFrame(tick);
+            animationFrames.add(frame);
+          } else {
+            onEnd?.();
+          }
+        };
+
+        const frame = requestAnimationFrame(tick);
+        animationFrames.add(frame);
+      }, delay);
+
+      timers.add(timer);
+    };
+
+    const runSweep = () => {
+      if (hasAnimated) return;
+      hasAnimated = true;
+
+      const angleStart = 110;
+      const angleEnd = 465;
+      const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+      const easeInCubic = (value: number) => value * value * value;
+
+      card.classList.add("sweep-active");
+      card.style.setProperty("--cursor-angle", `${angleStart}deg`);
+
+      animateValue({
+        duration: 500,
+        ease: easeOutCubic,
+        onUpdate: (value) => card.style.setProperty("--edge-proximity", `${value}`),
+      });
+      animateValue({
+        duration: 1500,
+        ease: easeInCubic,
+        end: 50,
+        onUpdate: (value) => {
+          const angle = (angleEnd - angleStart) * (value / 100) + angleStart;
+          card.style.setProperty("--cursor-angle", `${angle}deg`);
+        },
+      });
+      animateValue({
+        start: 50,
+        end: 100,
+        delay: 1500,
+        duration: 2250,
+        ease: easeOutCubic,
+        onUpdate: (value) => {
+          const angle = (angleEnd - angleStart) * (value / 100) + angleStart;
+          card.style.setProperty("--cursor-angle", `${angle}deg`);
+        },
+      });
+      animateValue({
+        start: 100,
+        end: 0,
+        delay: 2500,
+        duration: 1500,
+        ease: easeInCubic,
+        onUpdate: (value) => card.style.setProperty("--edge-proximity", `${value}`),
+        onEnd: () => card.classList.remove("sweep-active"),
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        runSweep();
+      },
+      { threshold: 0.24 },
+    );
+
+    observer.observe(card);
+
+    return () => {
+      observer.disconnect();
+      timers.forEach((timer) => window.clearTimeout(timer));
+      animationFrames.forEach((frame) => cancelAnimationFrame(frame));
+      card.classList.remove("sweep-active");
+    };
+  }, [animated]);
+
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const card = cardRef.current;
     if (!card) return;
@@ -88,6 +209,7 @@ export default function BorderGlow({
     <div
       ref={cardRef}
       onPointerMove={handlePointerMove}
+      onPointerLeave={() => cardRef.current?.style.setProperty("--edge-proximity", "0")}
       className={`border-glow-card ${className}`}
       data-animated={animated || undefined}
       style={{
